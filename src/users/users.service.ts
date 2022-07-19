@@ -6,32 +6,15 @@ import { UpdateUsersDto } from './dto/update-users.dto';
 import { Users, UsersDocument } from './schema/users.schema';
 import { UsersRepository } from './users.repository';
 
-// This should be a real class/interface representing a user entity
-export type User = any;
-
 @Injectable()
 export class UsersService {
     constructor(
         private readonly usersRepository: UsersRepository,
-        @InjectModel(Users.name) private usersModule: Model<UsersDocument>,
+        @InjectModel(Users.name) private usersModel: Model<UsersDocument>,
     ) {}
 
-    // Database simulation
-    private readonly users = [
-        {
-            userId: 1,
-            username: 'john',
-            password: 'changeme',
-        },
-        {
-            userId: 2,
-            username: 'maria',
-            password: 'guess',
-        },
-    ];
-
     // Add a new user
-    async create(createUsersDto: CreateUsersDto) {
+    async create(createUsersDto: any | CreateUsersDto) {
         return await this.usersRepository.create(createUsersDto);
     }
     
@@ -39,20 +22,23 @@ export class UsersService {
         return await this.usersRepository.find({});
     }
 
-    async findOne(id: string) {
+    async findOneById(id: string) {
         return await this.usersRepository.findOne({ _id: id })
     }
     
     async update(id: string, updateUsersDto: UpdateUsersDto) {
-        return this.usersRepository.findOneAndUpdate({ _id: id }, updateUsersDto);
+        return await this.usersRepository.findOneAndUpdate({ _id: id }, updateUsersDto);
     }
     
-    async remove(id: string) {
-        return await this.usersRepository.remove( { _id: id})
+    async deleteOne(id: string) {
+        return await this.usersRepository.delete({ _id: id })
     }
 
-    // TODO: pendiente de adaptar
-    async findOneByUsername(username: string): Promise<User | undefined> {
-        return await this.users.find(user => user.username === username);
+    async findOneByNickname(nickname: string){
+        return await this.usersRepository.findOne( { nickname: nickname })
+    }
+
+    async findOneByEmail(email: string){
+        return await this.usersRepository.findOne( { email: email })
     }
 }

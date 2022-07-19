@@ -58,6 +58,20 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       return document;
     }
 
+    async delete(
+      filterQuery: FilterQuery<TDocument>,
+    ) {
+      
+      const document = await this.model.deleteOne(filterQuery, {  });
+
+      if (!document) {
+        this.logger.warn(`Document not found with filterQuery:`, filterQuery);
+        throw new NotFoundException('Document not found.');
+      }
+
+      
+    };
+
     async upsert(
         filterQuery: FilterQuery<TDocument>,
         document: Partial<TDocument>,
