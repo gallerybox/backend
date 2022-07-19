@@ -21,7 +21,7 @@ import { CollectibleModule } from './collectible/collectible.module';
         NESTJS_PORT: Joi.number().required(),
         NESTJS_DEBUG_PORT: Joi.number().required(),
 
-        // MongoDB Databas
+        // MongoDB Database
         
         MONGO_ROOT_USERNAME: Joi.string().required(),
         MONGO_ROOT_PASSWORD: Joi.string().required(),
