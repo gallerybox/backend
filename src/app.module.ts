@@ -5,9 +5,9 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import * as Joi from 'joi';
 import { AppController } from './app.controller';
-import { TematicSpaceModule } from './tematic-space/tematic-space.module';
 import { TematicSpacesModule } from './tematic-spaces/tematic-spaces.module';
 import { CollectibleModule } from './collectible/collectible.module';
+
 
 @Module({
   imports: [
@@ -34,11 +34,10 @@ import { CollectibleModule } from './collectible/collectible.module';
     DatabaseModule,
     AuthModule,
     UsersModule,
-    TematicSpaceModule,
     TematicSpacesModule,
     CollectibleModule
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}

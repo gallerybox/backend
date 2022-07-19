@@ -29,12 +29,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     //    2. Si todo OK en paso 1, invoca al método validate(), pasando el JSON decodificado
     //       como su único parámetro y garantizando que recibimos un token válido.
     async validate(payload: any) {
-        console.log("Entra em validate del jwt.strategy.ts");
         // La devolución es trivial.
         // Aquí se puede añadir más lógica, como:
         // - Hacer una búsqueda en base de datos (para extraer más info del usuario), 
         // dando una respuesta más enriquecida.
         // - Buscar un userId en una lista de tokens revocados
-        return { userId: payload.sub, username: payload.username };
+        return { userId: payload._id, username: payload.nickname };
     }
 }

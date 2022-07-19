@@ -11,7 +11,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
     // A diferencia de jwt.strategy.ts, no hace ninguna comprobación previa
     async validate(username: string, password: string): Promise<any> {
-        console.log("Entra");
         const user = await this.authService.validateUser(username, password);
         
         if (!user) {

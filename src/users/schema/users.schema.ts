@@ -23,7 +23,7 @@ export class Users extends AbstractDocument {
     password: string;
 
     @Prop()
-    isPrivate: boolean
+    isPrivate: boolean;
 
     /** Faltan:
      * Fecha nacimiento:        // Dato personal
@@ -31,7 +31,6 @@ export class Users extends AbstractDocument {
      * Espacios temáticos propios
      * Espacios temáticos en los que participa
      * Usuarios seguidos
-     * Perfil privado
      */
 }
 

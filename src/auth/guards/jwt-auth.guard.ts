@@ -13,6 +13,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     canActivate(context: ExecutionContext) {
         // Aquí podemos añadir nuestra autenticación personalizada.
         // Ejemplo: llamada a super.logIn(request) para establecer la sesión
+        // Ejemplo: analizar el rol del token (admin, manager, user, ...)
         return super.canActivate(context);
     }
     
