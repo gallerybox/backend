@@ -1,17 +1,17 @@
-import {DynamicType} from "./DynamicType";
+import {DynamicType, Value} from "./DynamicType";
 import {MultimediaRepresentation, Type} from "../../tematic-spaces/models/Type";
 
 export class Multimedia implements DynamicType {
 
     // Data associated with technical rules
-    Prop
-    resourceUrl: string;
+    value: string; // Resource Url
 
     //Representation
     representation: MultimediaRepresentation;
 
-    constructor(type: Type) {
+    constructor(type: Type, value: Value) {
         this.representation = type.representation as MultimediaRepresentation;
+        this.value = value as string;
     }
     represent(): MultimediaRepresentation{
         return this.representation;

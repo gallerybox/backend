@@ -1,10 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, Inject} from '@nestjs/common';
 import { CollectibleService } from './collectible.service';
 import { CreateCollectibleDto } from './dto/create-collectible.dto';
 import { UpdateCollectibleDto } from './dto/update-collectible.dto';
+import {Collectible} from "./models/Collectible";
+import {Template} from "../tematic-spaces/models/Template";
+import {ThematicSpaceRepository} from "../tematic-spaces/repositories/ThematicSpaceRepository";
+import {ThematicSpace} from "../tematic-spaces/models/ThematicSpace";
+import {CollectibleRepository} from "./repositories/CollectibleRepository";
 
 @Controller('collectible')
 export class CollectibleController {
+
+  @Inject()
+  thematicSpaceRepository: ThematicSpaceRepository;
+
+  @Inject()
+  collectibleRepository: CollectibleRepository;
+
+
   constructor(private readonly collectibleService: CollectibleService) {}
 
   @Post()
@@ -17,7 +30,7 @@ export class CollectibleController {
     return this.collectibleService.findAll();
   }
 
-  @Get(':id')
+  @Get('id/:id')
   findOne(@Param('id') id: string) {
     return this.collectibleService.findOne(+id);
   }
@@ -31,4 +44,21 @@ export class CollectibleController {
   remove(@Param('id') id: string) {
     return this.collectibleService.remove(+id);
   }
+
+  @Get('tests')
+  async tests() {
+
+    let space: ThematicSpace = (await this.thematicSpaceRepository.find({_id: "62d6fe269662876263ea3335"}))[0];
+    console.log(space);
+
+    let collectible: Collectible = new Collectible(space, {"My silly attribute TAG": "Valor dinámico de prueba"});
+
+    collectible = await this.collectibleRepository.add(collectible);
+
+    return collectible;
+
+
+  }
+
+
 }

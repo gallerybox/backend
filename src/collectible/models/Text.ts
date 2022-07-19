@@ -1,16 +1,17 @@
-import {DynamicType} from "./DynamicType";
+import {DynamicType, Value} from "./DynamicType";
 import {TextRepresentation, Type} from "../../tematic-spaces/models/Type";
 
 export class Text implements DynamicType {
 
     // Data associated with technical rules
-    textContent: string;
+    value: string; // The text itself
 
     //Representation
     representation: TextRepresentation;
 
-    constructor(type: Type) {
+    constructor(type: Type, value: Value) {
         this.representation = type.representation as TextRepresentation;
+        this.value = value as string;
     }
     represent(): TextRepresentation{
         return this.representation;

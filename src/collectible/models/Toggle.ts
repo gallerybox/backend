@@ -1,16 +1,17 @@
-import {DynamicType} from "./DynamicType";
+import {DynamicType, Value} from "./DynamicType";
 import {ToggleRepresentation, Type} from "../../tematic-spaces/models/Type";
 
 export class Toggle implements DynamicType {
 
     // Data associated with technical rules
-    activate: boolean;
+    value: boolean = false;
 
     //Representation
     representation: ToggleRepresentation;
 
-    constructor(type: Type) {
+    constructor(type: Type, value: Value) {
         this.representation = type.representation as ToggleRepresentation;
+        this.value = value as boolean;
     }
     represent(): ToggleRepresentation{
         return this.representation;

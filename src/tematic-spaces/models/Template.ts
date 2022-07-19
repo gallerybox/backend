@@ -7,11 +7,6 @@ export class Template {
     @Prop({ type: [AttributeSchema], default: [] })
     public  attributes: Array<Attribute> = [];
 
-    @Prop()
-    public name: string;
-
-    @Prop()
-    public description: string;
 }
 
 export const TemplateSchema = SchemaFactory.createForClass(Template);
