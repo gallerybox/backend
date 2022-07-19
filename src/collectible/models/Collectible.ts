@@ -1,7 +1,7 @@
 import {DynamicType} from "./DynamicType"
 import {Multimedia} from "./Multimedia"
 import {Template} from "../../tematic-spaces/models/Template";
-import {Prop, Schema} from "@nestjs/mongoose";
+import {Prop, Schema, raw} from "@nestjs/mongoose";
 import {Representation} from "../../tematic-spaces/models/Type";
 import * as mongoose from "mongoose"
 
@@ -15,7 +15,10 @@ export class Collectible {
     @Prop()
     name: String;
 
-    @Prop()
+    @Prop(raw({
+    type: Map,
+    of: mongoose.Schema.Types.Mixed
+    }))
     attributes: Map<string, DynamicType>;
 
 
@@ -44,7 +47,11 @@ export class Collectible {
         }
     }
     save(){
-
+        let repre: Array<any> = [];
+        for (let [key, value] of Array.from(this.attributes.entries())) {
+            repre.push({[key] : value.save()});
+        }
+        return repre;
     }
     represent(){
         let repre: Array<any> = [];

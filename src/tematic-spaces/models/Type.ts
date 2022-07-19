@@ -1,11 +1,12 @@
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import mongoose from "mongoose";
+import {AttributeSchema} from "./Attribute";
 
 
 export enum Category {
     Multimedia = "Multimedia",
     Text = "Text",
-    Toggle = "Toggle",
-    Relation = "Relation",
+    Toggle = "Toggle"
 }
 
 export interface Representation {
@@ -18,10 +19,10 @@ type Vector2D = [number, number]
 @Schema()
 export class MultimediaRepresentation implements Representation{
 
-    @Prop()
+    @Prop({ type: [Number], default: [20, 20] })
     dimensions: Vector2D;
 
-    @Prop()
+    @Prop({ type: [Number], default: [0, 0] })
     position: Vector2D;
 
 }
@@ -35,7 +36,7 @@ type Color = RGB | RGBA | HEX;
 @Schema()
 export class TextRepresentation implements Representation{
 
-    @Prop()
+    @Prop(String)
     color: Color;
 
     @Prop()
@@ -52,7 +53,6 @@ export class TextRepresentation implements Representation{
 
     @Prop()
     maxLength: number;
-
 
 }
 export const TextRepresentationSchema = SchemaFactory.createForClass(TextRepresentation);
@@ -72,10 +72,10 @@ export class ToggleRepresentation implements Representation {
     @Prop()
     icon?: string; // Means to be svg image, color could be change
 
-    @Prop()
+    @Prop(String)
     colorTrue: Color;
 
-    @Prop()
+    @Prop(String)
     colorFalse: Color;
 
 }
@@ -89,7 +89,7 @@ export class Type {
     @Prop({ type: String, enum: Category })
     category: Category;
 
-    @Prop() // TODO: No sé si funcionará con las distintas implementaciones de la interfaz
+    @Prop({type: mongoose.Schema.Types.Mixed}) // TODO: No sé si funcionará con las distintas implementaciones de la interfaz
     representation: Representation;
 
 }

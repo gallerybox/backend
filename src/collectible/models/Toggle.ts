@@ -1,33 +1,31 @@
 import {DynamicType} from "./DynamicType";
-import {MultimediaRepresentation, Type} from "../../tematic-spaces/models/Type";
+import {ToggleRepresentation, Type} from "../../tematic-spaces/models/Type";
 
-export class Multimedia implements DynamicType {
+export class Toggle implements DynamicType {
 
     // Data associated with technical rules
-    Prop
-    resourceUrl: string;
+    activate: boolean;
 
     //Representation
-    representation: MultimediaRepresentation;
+    representation: ToggleRepresentation;
 
     constructor(type: Type) {
-        this.representation = type.representation as MultimediaRepresentation;
+        this.representation = type.representation as ToggleRepresentation;
     }
-    represent(): MultimediaRepresentation{
+    represent(): ToggleRepresentation{
         return this.representation;
     }
 
-    save(): Multimedia {
+    save(): Toggle {
         // Do something with amazon S3, this method implementation should be inyected to be clean
         // Dicho de otra manera, esto hace las veces de interfaz, pero no contiene la implementación.
         // Algunos método deberían moverse a DynamicType
         return this;
     }
 
-    read(): Multimedia {
+    read(): Toggle {
 
         return this;
     }
-
 
 }
