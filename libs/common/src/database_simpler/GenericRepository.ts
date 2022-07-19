@@ -1,11 +1,10 @@
-import {InjectModel} from "@nestjs/mongoose";
-import {ShittyModel, ShittyModelDocument} from "../models/ShittyModel";
-import {Document, FilterQuery, Model, Types} from "mongoose";
+
+import {FilterQuery, Model, Types} from "mongoose";
 import {AbstractDocument} from "./AbstractDocument";
 
 export abstract class GenericRepository<M extends AbstractDocument> {
 
-    constructor( private readonly model: Model<M>) {
+    protected constructor( private readonly model: Model<M>) {
 
     }
 
@@ -13,18 +12,14 @@ export abstract class GenericRepository<M extends AbstractDocument> {
         return this.model.find(query).exec();
     }
 
-    async add(instance: M): Promise<M>{
-        console.log("DEBAAAAAAAAAAG")
-        console.log(instance._id)
+    add(instance: M): Promise<M>{
         if (instance._id == null) {
             instance._id = new Types.ObjectId();
-            console.log("DEBUUUUUUUG")
-            console.log(instance._id)
         }
         return this.model.findOneAndUpdate(
             { _id: instance._id },
             instance,
             { new: true, upsert: true }
-        );
+        ).exec();
     }
 }
