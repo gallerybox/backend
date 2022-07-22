@@ -1,7 +1,9 @@
 import {DynamicType, Value} from "./DynamicType";
-import {MultimediaRepresentation, Type} from "../../tematic-spaces/models/Type";
+import {Category, MultimediaRepresentation, Type} from "../../tematic-spaces/models/Type";
 
 export class Multimedia implements DynamicType {
+
+    readonly category: Category = Category.Multimedia;
 
     // Data associated with technical rules
     value: string; // Resource Url

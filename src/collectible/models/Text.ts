@@ -1,8 +1,9 @@
 import {DynamicType, Value} from "./DynamicType";
-import {TextRepresentation, Type} from "../../tematic-spaces/models/Type";
+import {Category, TextRepresentation, Type} from "../../tematic-spaces/models/Type";
 
 export class Text implements DynamicType {
 
+    readonly category: Category = Category.Text;
     // Data associated with technical rules
     value: string; // The text itself
 

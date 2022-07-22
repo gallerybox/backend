@@ -1,8 +1,9 @@
 import {DynamicType, Value} from "./DynamicType";
-import {ToggleRepresentation, Type} from "../../tematic-spaces/models/Type";
+import {Category, ToggleRepresentation, Type} from "../../tematic-spaces/models/Type";
 
 export class Toggle implements DynamicType {
 
+    readonly category: Category = Category.Toggle;
     // Data associated with technical rules
     value: boolean = false;
 
