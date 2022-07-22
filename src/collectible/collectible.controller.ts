@@ -45,10 +45,10 @@ export class CollectibleController {
     return this.collectibleService.remove(+id);
   }
 
-  @Get('tests')
-  async tests() {
+  @Get('tests/:tematicSpaceId')
+  async tests(@Param('tematicSpaceId') tematicSpaceId: string) {
 
-    let space: ThematicSpace = (await this.thematicSpaceRepository.find({_id: "62d6fe269662876263ea3335"}))[0];
+    let space: ThematicSpace = (await this.thematicSpaceRepository.find({_id: tematicSpaceId}))[0];
     console.log(space);
 
     let collectible: Collectible = new Collectible(space, {"My silly attribute TAG": "Valor dinámico de prueba"});
