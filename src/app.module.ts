@@ -4,7 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import * as Joi from 'joi';
-import { AppController } from './app.controller';
+import { AppController } from './app.controller'
+import { FilesModule as FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { AppController } from './app.controller';
     }),
     DatabaseModule,
     AuthModule,
-    UsersModule
+    UsersModule,
+    FilesModule
   ],
   controllers: [AppController],
   providers: [],
