@@ -4,10 +4,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import * as Joi from 'joi';
-import { AppController } from './app.controller';
 import { TematicSpacesModule } from './tematic-spaces/tematic-spaces.module';
 import { CollectibleModule } from './collectible/collectible.module';
-
+import { FilesModule as FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -35,7 +34,8 @@ import { CollectibleModule } from './collectible/collectible.module';
     AuthModule,
     UsersModule,
     TematicSpacesModule,
-    CollectibleModule
+    CollectibleModule,
+    FilesModule
   ],
   controllers: [],
   providers: [],
