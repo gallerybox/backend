@@ -10,6 +10,7 @@ export abstract class GenericRepository<M extends AbstractDocument> {
 
     find(query: FilterQuery<M>): Promise<M[]>{
         return this.model.find(query).exec();
+        this.model.aggregate()
     }
 
     add(instance: M): Promise<M>{

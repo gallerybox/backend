@@ -12,4 +12,6 @@ export class CollectibleRepository extends GenericRepository<Collectible>{
         super(thematicSpaceModel);
     }
 
+
+
 }

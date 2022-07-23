@@ -8,11 +8,14 @@ import {Representation} from "../../tematic-spaces/models/Type";
 import * as mongoose from "mongoose"
 import {AbstractDocument} from "@app/common/database_simpler/AbstractDocument";
 import {ThematicSpace} from "../../tematic-spaces/models/ThematicSpace";
+import {Users} from "../../users/schema/users.schema";
+import autoMockOn = jest.autoMockOn;
 
 @Schema()
 export class Collectible extends AbstractDocument{
+    @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Users'})
+    user: Users;
 
-    // TODO: revisar esto, parece que la documentación oficial de la relaciones podría no ser del todo correcta.
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ThematicSpace' })
     thematicSpace: ThematicSpace;
 
@@ -32,7 +35,7 @@ export class Collectible extends AbstractDocument{
         Toggle
     };
 
-    constructor(thematicSpace: ThematicSpace, values: { [tag: string]: Value }) {
+    constructor(user: Users,thematicSpace: ThematicSpace, values: { [tag: string]: Value }) {
         super();
         this.thematicSpace = thematicSpace;
         this.attributes = new Map<string, DynamicType>();
