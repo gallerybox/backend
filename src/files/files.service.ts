@@ -78,6 +78,8 @@ export class FilesService {
             }
         });
 
+
+
         return await Promise.all(params.map(async s3FileInfo => {
             return await s3.upload(s3FileInfo).promise()
                 .then(data => {
