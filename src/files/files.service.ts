@@ -33,20 +33,23 @@ export class FilesService {
 
     // Sube un fichero a AWS S3
     async uploadFile(file: Express.Multer.File) {
-        let result = null;
         const s3 = new S3();
 
-        // Subiendo el nuevo fichero al bucket
-        await s3.upload({
+        const params = {
             Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
             Body: file.buffer,
-            Key: `${uuid()}-${file.originalname}`// filename
-        })
+            Key: `${uuid()}-${file.originalname}`
+        }
+        // Subiendo el nuevo fichero al bucket
+        return await s3.upload(params)
         .promise()
         .then(data => {
-            // Guardamos la url en la base de datos y el nombre del fichero
-            result = data;
-            // console.log(data)
+            return {
+                Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
+                Key: `${uuid()}-${file.originalname}`,
+                Body: file.buffer,
+                FieldName: file.fieldname
+            }
         })
         .catch(err => {
             if (err.code === 'SignatureDoesNotMatch'){
@@ -54,35 +57,32 @@ export class FilesService {
             }
             console.log(err);
         });
-        
-        // Guardando el nombre del fichero y la ubicación en la base de datos
-        /**
-         * const newFile = this.myRepository.create({
-         *    key: uploadResult.Key,
-         *    url: uploadResult.Location
-         * });
-         * 
-         * return newFile;
-         */
-
-        return result;
     }
 
     async uploadFiles(files: Array<Express.Multer.File>) {
-        let result = null;
         const s3 = new S3();
 
         const params = files.map((file) => {
             return {
                 Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
                 Key: `${uuid()}-${file.originalname}`,
-                Body: file.buffer
+                Body: file.buffer,
+                FieldName: file.fieldname
             }
         });
 
-        return await Promise.all(params.map(s3FileInfo => {
-            return s3.upload(s3FileInfo).promise()
-            .then(data => data )
+        return await Promise.all(params.map(async s3FileInfo => {
+            return await s3.upload(s3FileInfo).promise()
+            .then(data => {
+                return {
+                    ETag: data.ETag,
+                    Fieldname: s3FileInfo.FieldName,
+                    Location: data.Location,
+                    key: data.Key,
+                    Key: data.Key,
+                    Bucket: data.Bucket
+                }
+            } )
             .catch(err => {
                 if (err.code === 'SignatureDoesNotMatch'){
                     throw new HttpException("Bad AWS S3 Credentials", HttpStatus.FORBIDDEN);
@@ -90,46 +90,16 @@ export class FilesService {
                 console.log(err);
             });;
         }));
-
-        return result;
-    }
-
-
-    // Sube un fichero a AWS S3
-    async uploadFile2(file: Express.Multer.File) {
-        let result = null;
-        const s3 = new S3();
-        
-        // Subiendo el nuevo fichero al bucket
-        await s3.upload({
-            Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
-            Body: file.buffer,
-            Key: `${uuid()}-${file.originalname}`// filename
-        })
-        .promise()
-        .then(data => {
-            // Guardamos la url en la base de datos y el nombre del fichero
-            result = data;
-            // console.log(data)
-        })
-        .catch(err => {
-            if (err.code === 'SignatureDoesNotMatch'){
-                throw new HttpException("Bad AWS S3 Credentials", HttpStatus.FORBIDDEN);
-            }
-            console.log(err);
-        });
-
-        return result;
     }
 
 
     // Borra un fichero en AWS S3
-    async deleteFile(filename: string) {
+    async deleteFile(fileUrl: string) {
         let result = null;
 
         let objectData = {
             Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
-            Key: filename // fileURL
+            Key: fileUrl // fileURL
         }
         
         const s3 = new S3();
