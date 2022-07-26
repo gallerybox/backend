@@ -33,30 +33,37 @@ export class FilesService {
 
     // Sube un fichero a AWS S3
     async uploadFile(file: Express.Multer.File) {
+        let result = [];
+
         const s3 = new S3();
 
-        const params = {
+        const s3FileInfo = {
             Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
+            Key: `${uuid()}-${file.originalname}`,
             Body: file.buffer,
-            Key: `${uuid()}-${file.originalname}`
+            FieldName: file.fieldname
         }
+        
         // Subiendo el nuevo fichero al bucket
-        return await s3.upload(params)
-        .promise()
-        .then(data => {
-            return {
-                Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
-                Key: `${uuid()}-${file.originalname}`,
-                Body: file.buffer,
-                FieldName: file.fieldname
-            }
-        })
-        .catch(err => {
-            if (err.code === 'SignatureDoesNotMatch'){
-                throw new HttpException("Bad AWS S3 Credentials", HttpStatus.FORBIDDEN);
-            }
-            console.log(err);
-        });
+        result.push(await s3.upload(s3FileInfo)
+            .promise()
+            .then(data => {
+                return {
+                    ETag: data.ETag,
+                    Fieldname: s3FileInfo.FieldName,
+                    Location: data.Location,
+                    key: data.Key,
+                    Key: data.Key,
+                    Bucket: data.Bucket
+                }
+            })
+            .catch(err => {
+                if (err.code === 'SignatureDoesNotMatch'){
+                    throw new HttpException("Bad AWS S3 Credentials", HttpStatus.FORBIDDEN);
+                }
+                console.log(err);
+            }));
+        return result;
     }
 
     async uploadFiles(files: Array<Express.Multer.File>) {
@@ -73,22 +80,22 @@ export class FilesService {
 
         return await Promise.all(params.map(async s3FileInfo => {
             return await s3.upload(s3FileInfo).promise()
-            .then(data => {
-                return {
-                    ETag: data.ETag,
-                    Fieldname: s3FileInfo.FieldName,
-                    Location: data.Location,
-                    key: data.Key,
-                    Key: data.Key,
-                    Bucket: data.Bucket
-                }
-            } )
-            .catch(err => {
-                if (err.code === 'SignatureDoesNotMatch'){
-                    throw new HttpException("Bad AWS S3 Credentials", HttpStatus.FORBIDDEN);
-                }
-                console.log(err);
-            });;
+                .then(data => {
+                    return {
+                        ETag: data.ETag,
+                        Fieldname: s3FileInfo.FieldName,
+                        Location: data.Location,
+                        key: data.Key,
+                        Key: data.Key,
+                        Bucket: data.Bucket
+                    }
+                } )
+                .catch(err => {
+                    if (err.code === 'SignatureDoesNotMatch'){
+                        throw new HttpException("Bad AWS S3 Credentials", HttpStatus.FORBIDDEN);
+                    }
+                    console.log(err);
+                });
         }));
     }
 
