@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import * as Joi from 'joi';
-import { TematicSpacesModule } from './tematic-spaces/tematic-spaces.module';
+import { ThematicSpacesModule } from './thematic-spaces/thematic-spaces.module';
 import { CollectibleModule } from './collectible/collectible.module';
 import { FilesModule as FilesModule } from './files/files.module';
 
@@ -33,7 +33,7 @@ import { FilesModule as FilesModule } from './files/files.module';
     DatabaseModule,
     AuthModule,
     UsersModule,
-    TematicSpacesModule,
+    ThematicSpacesModule,
     CollectibleModule,
     FilesModule
   ],

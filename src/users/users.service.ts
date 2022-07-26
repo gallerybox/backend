@@ -23,7 +23,7 @@ export class UsersService {
     }
 
     async findOneById(id: string) {
-        return await this.usersRepository.findOne({ _id: id })
+        return await this.usersRepository.findOne({ _id: id });
     }
     
     async update(id: string, updateUsersDto: UpdateUsersDto) {

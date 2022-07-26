@@ -8,7 +8,9 @@ import {ThematicSpace } from "../models/ThematicSpace";
 @Injectable()
 export class ThematicSpaceRepository extends GenericRepository<ThematicSpace>{
 
-    constructor(@InjectModel(ThematicSpace.name) private thematicSpaceModel: Model<ThematicSpace>) {
+    constructor(
+        @InjectModel(ThematicSpace.name) private thematicSpaceModel: Model<ThematicSpace>
+    ) {
         super(thematicSpaceModel);
     }
 

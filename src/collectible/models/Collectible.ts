@@ -2,12 +2,12 @@ import {DynamicType, Value} from "./DynamicType"
 import {Multimedia} from "./Multimedia"
 import {Text} from "./Text"
 import {Toggle} from "./Toggle"
-import {Template} from "../../tematic-spaces/models/Template";
+import {Template} from "../../thematic-spaces/models/Template";
 import {Prop, Schema, raw, SchemaFactory} from "@nestjs/mongoose";
-import {Representation} from "../../tematic-spaces/models/Type";
+import {Representation} from "../../thematic-spaces/models/Type";
 import * as mongoose from "mongoose"
 import {AbstractDocument} from "@app/common/database_simpler/AbstractDocument";
-import {ThematicSpace} from "../../tematic-spaces/models/ThematicSpace";
+import {ThematicSpace} from "../../thematic-spaces/models/ThematicSpace";
 import {Users} from "../../users/schema/users.schema";
 import autoMockOn = jest.autoMockOn;
 
