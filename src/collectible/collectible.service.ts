@@ -5,8 +5,7 @@ import { FilesService } from 'src/files/files.service';
 import { ThematicSpace } from 'src/thematic-spaces/models/ThematicSpace';
 import { ThematicSpacesService } from 'src/thematic-spaces/thematic-spaces.service';
 import { Users } from 'src/users/schema/users.schema';
-import { UsersService } from 'src/users/users.service';
-import { UpdateCollectibleDto } from './dto/update-collectible.dto';
+import { UsersService } from 'src/users/users.service'
 import { Collectible, CollectibleDocument } from './models/Collectible';
 import { CollectibleRepository } from './repositories/CollectibleRepository';
 
@@ -22,8 +21,7 @@ export class CollectibleService {
   ) {}
 
   async create(body: any, files: Express.Multer.File[]) {
-    let user: Users, thematicSpace: ThematicSpace;
-    let s3UploadedFiles;
+    let user: Users, thematicSpace: ThematicSpace, s3UploadedFiles;
     let userId: string, thematicSpaceId: string;
     let values: {[tag:string]: any} = {};
 
@@ -47,25 +45,32 @@ export class CollectibleService {
     user = await this.userService.findOneById(userId);
     thematicSpace = await this.thematicSpaceService.findOneById( thematicSpaceId );
     
-    let collectible: Collectible = new Collectible(user, thematicSpace, values);
+    let collectible: Coll
+    ectible = new Collectible(user, thematicSpace, values);
     collectible.name = "Test JUANCA";
     
-    return await this.collectibleRepository.add(collectible);
+    return await this.collectibleRepository.create(collectible);
   }
 
-  findAll() {
-    return `This action returns all collectible`;
+  async findAll() {
+    return await this.collectibleRepository.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} collectible`;
+  async findAllByThematicSpace(id: string) {
+    return await this.collectibleRepository.find({ thematicSpace: id })
   }
 
-  update(id: number, updateCollectibleDto: UpdateCollectibleDto) {
-    return `This action updates a #${id} collectible`;
+  async findOne(id: string) {
+    return await this.collectibleRepository.findOne( { _id: id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} collectible`;
+  // TODO: - collectibleService - Update
+  async update(id: string, /*updateCollectibleDto: UpdateCollectibleDto*/) {
+    // return await this.collectibleRepository.remove()
+  }
+
+  // TODO: - collectibleService - Remove
+  async remove(id: string) {
+    return await this.collectibleRepository.delete( { _id: id })
   }
 }

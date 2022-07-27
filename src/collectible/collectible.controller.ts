@@ -2,8 +2,6 @@ import {Controller, Get, Post, Body, Patch, Param, Delete, Req, UseInterceptors,
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { CollectibleService } from './collectible.service';
-import { CreateCollectibleDto } from './dto/create-collectible.dto';
-import { UpdateCollectibleDto } from './dto/update-collectible.dto';
 
 @Controller('collectible')
 export class CollectibleController {
@@ -19,23 +17,31 @@ export class CollectibleController {
   }
 
   @Get()
-  findAll() {
-    return this.collectibleService.findAll();
+  async findAll() {
+    return await this.collectibleService.findAll();
   }
 
+  // TODO (Este método no tiene mucho sentido)
   @Get('id/:id')
-  findOne(@Param('id') id: string) {
-    return this.collectibleService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.collectibleService.findOne(id);
   }
 
+  @Get('thematic-space/:thematicSpaceId')
+  async findAllByThematicSpace(@Param('thematicSpaceId') thematicSpaceId: string){
+    return await this.collectibleService.findAllByThematicSpace(thematicSpaceId);
+  }
+
+  // TODO: - collectibleController - Update
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCollectibleDto: UpdateCollectibleDto) {
-    return this.collectibleService.update(+id, updateCollectibleDto);
+  async update(@Param('id') id: string /*, @Body() updateCollectibleDto: UpdateCollectibleDto*/) {
+    return await this.collectibleService.update(id/*, updateCollectibleDto*/);
   }
 
+  // TODO: - collectibleController - Remvoe
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.collectibleService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.collectibleService.remove(id);
   }
 
   @Get('tests/:thematicSpaceId')

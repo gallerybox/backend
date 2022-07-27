@@ -14,6 +14,7 @@ export class ThematicSpacesController {
     private readonly thematicSpacesService: ThematicSpacesService
   ) {}
 
+  // TODO: - ThematicSpaceController - Create
   @Post()
   async create(@Req() request: Request) {
     // return await this.thematicSpacesService.create(request.body);

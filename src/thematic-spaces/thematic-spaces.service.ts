@@ -21,7 +21,7 @@ export class ThematicSpacesService {
   }
 
   async findOneById(id: string) {
-    return (await this.thematicSpaceRepository.find({ _id: id }))[0];
+    return await this.thematicSpaceRepository.findOne({ _id: id });
   }
 
   async update(id: string /**, Faltan los datos  */) {
@@ -29,6 +29,6 @@ export class ThematicSpacesService {
   }
 
   async remove(id: string) {
-    // return await this.thematicSpaceRepository.
+    return await this.thematicSpaceRepository.delete( { _id: id } );
   }
 }
