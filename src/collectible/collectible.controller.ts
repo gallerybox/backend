@@ -12,15 +12,10 @@ export class CollectibleController {
     private readonly collectibleService: CollectibleService
   ) {}
 
-  @Post('create-collectible')
+  @Post('create')
   @UseInterceptors(AnyFilesInterceptor())
   async createCollection(@Req() request: Request, @UploadedFiles() files: Array<Express.Multer.File>) {
-    await this.collectibleService.createCollection(request.body, files);
-  }
-
-  @Post()
-  create(@Body() createCollectibleDto: CreateCollectibleDto) {
-    return this.collectibleService.create(createCollectibleDto);
+    await this.collectibleService.create(request.body, files);
   }
 
   @Get()

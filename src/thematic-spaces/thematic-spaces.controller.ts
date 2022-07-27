@@ -1,12 +1,11 @@
-import {Body, Controller, Delete, Get, Inject, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Inject, Param, Patch, Post, Req} from '@nestjs/common';
 import {ThematicSpacesService} from './thematic-spaces.service';
-import {CreateThematicSpaceDto} from './dto/create-thematic-space.dto';
-import {UpdateThematicSpaceDto} from './dto/update-thematic-space.dto';
 import {ThematicSpace} from "./models/ThematicSpace";
 import {Template} from "./models/Template";
 import {Attribute} from "./models/Attribute";
 import {Category, TextRepresentation, Type} from "./models/Type";
 import {ThematicSpaceRepository} from "./repositories/ThematicSpaceRepository";
+import { Request } from 'express';
 
 @Controller('thematic-spaces')
 export class ThematicSpacesController {
@@ -16,28 +15,28 @@ export class ThematicSpacesController {
   ) {}
 
   @Post()
-  create(@Body() createThematicSpaceDto: CreateThematicSpaceDto) {
-    return this.thematicSpacesService.create(createThematicSpaceDto);
+  async create(@Req() request: Request) {
+    // return await this.thematicSpacesService.create(request.body);
   }
 
   @Get()
-  findAll() {
-    return this.thematicSpacesService.findAll();
+  async findAll() {
+    return await this.thematicSpacesService.findAll();
   }
 
   @Get('id/:id')
-  findOne(@Param('id') id: string) {
-    return this.thematicSpacesService.findOne(+id);
+  async findOneById(@Param('id') id: string) {
+    return await this.thematicSpacesService.findOneById(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateThematicSpaceDto: UpdateThematicSpaceDto) {
-    return this.thematicSpacesService.update(+id, updateThematicSpaceDto);
+  async update(@Param('id') id: string, /**@Body() updateThematicSpaceDto: UpdateThematicSpaceDto**/) {
+    return await this.thematicSpacesService.update(id /*, updateThematicSpaceDto*/);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.thematicSpacesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.thematicSpacesService.remove(id);
   }
 
 

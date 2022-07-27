@@ -11,6 +11,9 @@ import {ThematicSpace} from "../../thematic-spaces/models/ThematicSpace";
 import {Users} from "../../users/schema/users.schema";
 import autoMockOn = jest.autoMockOn;
 
+// TODO: añadido por Utri
+export type CollectibleDocument = Collectible & Document;
+
 @Schema()
 export class Collectible extends AbstractDocument{
     @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Users'})
@@ -35,11 +38,18 @@ export class Collectible extends AbstractDocument{
         Toggle
     };
 
-    constructor(user: Users,thematicSpace: ThematicSpace, values: { [tag: string]: Value }) {
+    constructor(user: Users, thematicSpace: ThematicSpace, values: { [tag: string]: Value }) {
         super();
+        // TODO: Visualización de los datos que se reciben como parámetro (Pendiente de borrar)
+        console.log(user);
+        console.log(thematicSpace);
+        console.log(values);
+
         this.thematicSpace = thematicSpace;
+        
         this.attributes = new Map<string, DynamicType>();
         let template: Template = thematicSpace.template;
+        
         for(let attribute of template.attributes){
             // TODO: ordenar por tipos
             // Example without transpilation "Multimedia(attribute.type);"
@@ -49,14 +59,13 @@ export class Collectible extends AbstractDocument{
             //let str_js_constructor: string = ts.transpile("multimedia" + "("+"attribute.type"+");");
             //let Constructor: Function = new Function(str_js_constructor);
 
-            console.log("Hola")
             //Constructor()
             let type: DynamicType = new this.constructors[attribute.type.category](attribute.type, values[attribute.tag]);
             this.attributes.set(attribute.tag, type);
-
         }
-
+        
     }
+
     save(){
         let repre: Array<any> = [];
         for (let [key, value] of Array.from(this.attributes.entries())) {

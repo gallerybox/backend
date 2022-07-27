@@ -1,27 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { CreateThematicSpaceDto } from './dto/create-thematic-space.dto';
-import { UpdateThematicSpaceDto } from './dto/update-thematic-space.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { ThematicSpace, ThematicSpaceDocument } from './models/ThematicSpace';
+import { ThematicSpaceRepository } from './repositories/ThematicSpaceRepository';
 
 @Injectable()
 export class ThematicSpacesService {
 
-  create(createThematicSpaceDto: CreateThematicSpaceDto) {
-    return 'This action adds a new thematicSpace';
+  constructor(
+    private readonly thematicSpaceRepository: ThematicSpaceRepository,
+    @InjectModel(ThematicSpace.name) private thematicSpaceModel: Model<ThematicSpaceDocument>,
+  ) {}
+
+  async create() {
+    // return await this.thematicSpaceRepository.create(createThematicSpaceDto);
   }
 
-  findAll() {
-    return `This action returns all thematicSpaces`;
+  async findAll() {
+    return await this.thematicSpaceRepository.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} thematicSpace`;
+  async findOneById(id: string) {
+    return (await this.thematicSpaceRepository.find({ _id: id }))[0];
   }
 
-  update(id: number, updateThematicSpaceDto: UpdateThematicSpaceDto) {
-    return `This action updates a #${id} thematicSpace`;
+  async update(id: string /**, Faltan los datos  */) {
+    // return await this.thematicSpaceRepository.add();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tehmaticSpace`;
+  async remove(id: string) {
+    // return await this.thematicSpaceRepository.
   }
 }

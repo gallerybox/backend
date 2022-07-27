@@ -7,6 +7,7 @@ import { MongooseModule } from "@nestjs/mongoose";1
 import { Collectible, CollectibleSchema } from "./models/Collectible";
 import { ThematicSpacesModule as ThematicSpacesModule } from "../thematic-spaces/thematic-spaces.module";
 import { UsersModule } from 'src/users/users.module';
+import { FilesModule } from 'src/files/files.module';
 
 @Module({
   imports: [ 
@@ -18,6 +19,7 @@ import { UsersModule } from 'src/users/users.module';
       }]),
     UsersModule,
     ThematicSpacesModule,
+    FilesModule
     ],
   controllers: [CollectibleController],
   providers: [CollectibleService, CollectibleRepository],
