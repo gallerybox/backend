@@ -1,7 +1,7 @@
 import {Template, TemplateSchema} from "./Template";
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import {Document} from "mongoose";
-import {AbstractDocument} from "@app/common/database_simpler/AbstractDocument";
+import { AbstractDocument } from "@app/common";
 
 export type ThematicSpaceDocument = ThematicSpace & Document;
 

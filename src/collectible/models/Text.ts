@@ -1,5 +1,5 @@
 import {DynamicType, Value} from "./DynamicType";
-import {Category, TextRepresentation, Type} from "../../tematic-spaces/models/Type";
+import {Category, TextRepresentation, Type} from "../../thematic-spaces/models/Type";
 
 export class Text implements DynamicType {
 

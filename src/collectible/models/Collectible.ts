@@ -2,14 +2,16 @@ import {DynamicType, Value} from "./DynamicType"
 import {Multimedia} from "./Multimedia"
 import {Text} from "./Text"
 import {Toggle} from "./Toggle"
-import {Template} from "../../tematic-spaces/models/Template";
+import {Template} from "../../thematic-spaces/models/Template";
 import {Prop, Schema, raw, SchemaFactory} from "@nestjs/mongoose";
-import {Representation} from "../../tematic-spaces/models/Type";
 import * as mongoose from "mongoose"
-import {AbstractDocument} from "@app/common/database_simpler/AbstractDocument";
-import {ThematicSpace} from "../../tematic-spaces/models/ThematicSpace";
+import {ThematicSpace} from "../../thematic-spaces/models/ThematicSpace";
 import {Users} from "../../users/schema/users.schema";
 import autoMockOn = jest.autoMockOn;
+import { AbstractDocument } from "@app/common";
+
+// TODO: añadido por Utri
+export type CollectibleDocument = Collectible & Document;
 
 @Schema()
 export class Collectible extends AbstractDocument{
@@ -35,28 +37,36 @@ export class Collectible extends AbstractDocument{
         Toggle
     };
 
-    constructor(user: Users,thematicSpace: ThematicSpace, values: { [tag: string]: Value }) {
+    constructor(
+        user: Users,
+        thematicSpace: ThematicSpace,
+        values: { [tag: string]: Value }) 
+    {
         super();
-        this.thematicSpace = thematicSpace;
-        this.attributes = new Map<string, DynamicType>();
-        let template: Template = thematicSpace.template;
-        for(let attribute of template.attributes){
-            // TODO: ordenar por tipos
-            // Example without transpilation "Multimedia(attribute.type);"
-            //let dynamic_type = Object.create(global[attribute.type.category].prototype);
-            //dynamic_type.constructor.apply(dynamic_type, attribute.type);
 
-            //let str_js_constructor: string = ts.transpile("multimedia" + "("+"attribute.type"+");");
-            //let Constructor: Function = new Function(str_js_constructor);
+        // Visualización de los datos que se reciben como parámetro (Pendiente de borrar)
+        console.log(user);
+        console.log(thematicSpace);
+        console.log(values);
 
-            console.log("Hola")
-            //Constructor()
+        this.thematicSpace = thematicSpace;                     // Se asigna el thematicSpace recibido en el modelo
+        
+        this.attributes = new Map<string, DynamicType>();       // Inicializamos los attributes en el modelo
+
+        let template: Template = thematicSpace.template;        // Extraemos la template del thematicSpace
+        
+        for(let attribute of template.attributes){              // Por cada attribute definido en la template...
+
+            // Creamos el nuevo type  (contiene la Category (Text, Multimedia, Toggle), su valor y la representación
+            // que tendrá en la pantalla).
+            // Ej. Collectible Cerveza --> Attribute: Graduación (Category: Text, valor: 6, representación: {negrita: true, color: #443234})
             let type: DynamicType = new this.constructors[attribute.type.category](attribute.type, values[attribute.tag]);
-            this.attributes.set(attribute.tag, type);
 
-        }
-
+            this.attributes.set(attribute.tag, type);           // Asignamos el nuevo type, asignandole el tag (identificador) correspondiente
+        }   
+        
     }
+
     save(){
         let repre: Array<any> = [];
         for (let [key, value] of Array.from(this.attributes.entries())) {

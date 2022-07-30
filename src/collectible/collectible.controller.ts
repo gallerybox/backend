@@ -1,61 +1,60 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, Inject} from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, Req, UseInterceptors, UploadedFiles} from '@nestjs/common';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { Request } from 'express';
 import { CollectibleService } from './collectible.service';
-import { CreateCollectibleDto } from './dto/create-collectible.dto';
-import { UpdateCollectibleDto } from './dto/update-collectible.dto';
-import {Collectible} from "./models/Collectible";
-import {Template} from "../tematic-spaces/models/Template";
-import {ThematicSpaceRepository} from "../tematic-spaces/repositories/ThematicSpaceRepository";
-import {ThematicSpace} from "../tematic-spaces/models/ThematicSpace";
-import {CollectibleRepository} from "./repositories/CollectibleRepository";
 
 @Controller('collectible')
 export class CollectibleController {
 
-  @Inject()
-  thematicSpaceRepository: ThematicSpaceRepository;
+  constructor(
+    private readonly collectibleService: CollectibleService
+  ) {}
 
-  @Inject()
-  collectibleRepository: CollectibleRepository;
-
-
-  constructor(private readonly collectibleService: CollectibleService) {}
-
-  @Post()
-  create(@Body() createCollectibleDto: CreateCollectibleDto) {
-    return this.collectibleService.create(createCollectibleDto);
+  @Post('create')
+  @UseInterceptors(AnyFilesInterceptor())
+  async createCollection(@Req() request: Request, @UploadedFiles() files: Array<Express.Multer.File>) {
+    await this.collectibleService.create(request.body, files);
   }
 
   @Get()
-  findAll() {
-    return this.collectibleService.findAll();
+  async findAll() {
+    return await this.collectibleService.findAll();
   }
 
+  // TODO (Este método no tiene mucho sentido)
   @Get('id/:id')
-  findOne(@Param('id') id: string) {
-    return this.collectibleService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.collectibleService.findOne(id);
   }
 
+  @Get('thematic-space/:thematicSpaceId')
+  async findAllByThematicSpace(@Param('thematicSpaceId') thematicSpaceId: string){
+    return await this.collectibleService.findAllByThematicSpace(thematicSpaceId);
+  }
+
+  // TODO: - collectibleController - Update
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCollectibleDto: UpdateCollectibleDto) {
-    return this.collectibleService.update(+id, updateCollectibleDto);
+  async update(@Param('id') id: string /*, @Body() updateCollectibleDto: UpdateCollectibleDto*/) {
+    return await this.collectibleService.update(id/*, updateCollectibleDto*/);
   }
 
+  // TODO: - collectibleController - Remvoe
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.collectibleService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.collectibleService.remove(id);
   }
 
-  @Get('tests/:tematicSpaceId')
-  async tests(@Param('tematicSpaceId') tematicSpaceId: string) {
+  @Get('tests/:thematicSpaceId')
+  async tests(@Param('thematicSpaceId') thematicSpaceId: string) {
 
-    let space: ThematicSpace = (await this.thematicSpaceRepository.find({_id: tematicSpaceId}))[0];
-    console.log(space);
+    // let space: ThematicSpace = (await this.thematicSpaceRepository.find({_id: thematicSpaceId}))[0];
+    // console.log(space);
 
-    let collectible: Collectible = new Collectible(space, {"My silly attribute TAG": "Valor dinámico de prueba"});
+    // let collectible: Collectible = new Collectible(space, {"My silly attribute TAG": "Valor dinámico de prueba"});
 
-    collectible = await this.collectibleRepository.add(collectible);
+    // collectible = await this.collectibleRepository.add(collectible);
 
-    return collectible;
+    // return collectible;
 
 
   }

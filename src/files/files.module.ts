@@ -19,6 +19,7 @@ import { ConfigModule } from '@nestjs/config';
   }),
   ],
   controllers: [FilesController],
-  providers: [FilesService]
+  providers: [FilesService],
+  exports: [FilesService]
 })
 export class FilesModule {}

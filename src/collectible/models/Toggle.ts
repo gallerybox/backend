@@ -1,5 +1,5 @@
 import {DynamicType, Value} from "./DynamicType";
-import {Category, ToggleRepresentation, Type} from "../../tematic-spaces/models/Type";
+import {Category, ToggleRepresentation, Type} from "../../thematic-spaces/models/Type";
 
 export class Toggle implements DynamicType {
 

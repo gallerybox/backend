@@ -92,4 +92,23 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
         session.startTransaction();
         return session;
     }
+
+    /** Métodos de Jesús
+    find(query: FilterQuery<M>): Promise<M[]>{
+        return this.model.find(query).exec();
+        this.model.aggregate()
+    }
+
+    // Método Jesús
+    add(instance: M): Promise<M>{
+        if (instance._id == null) {
+            instance._id = new Types.ObjectId();
+        }
+        return this.model.findOneAndUpdate(
+            { _id: instance._id },
+            instance,
+            { new: true, upsert: true }
+        ).exec();
+    }
+     */
 }

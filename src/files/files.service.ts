@@ -32,49 +32,83 @@ export class FilesService {
     }
 
     // Sube un fichero a AWS S3
-    async uploadFile(dataBuffer: Buffer, filename: string) {
-        let result = null;
+    async uploadFile(file: Express.Multer.File) {
+        let result = [];
+
         const s3 = new S3();
+
+        const s3FileInfo = {
+            Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
+            Key: `${uuid()}-${file.originalname}`,
+            Body: file.buffer,
+            FieldName: file.fieldname
+        }
         
         // Subiendo el nuevo fichero al bucket
-        await s3.upload({
-            Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
-            Body: dataBuffer,
-            Key: `${uuid()}-${filename}`// filename
-        })
-        .promise()
-        .then(data => {
-            // Guardamos la url en la base de datos y el nombre del fichero
-            result = data;
-            // console.log(data)
-        })
-        .catch(err => {
-            if (err.code === 'SignatureDoesNotMatch'){
-                throw new HttpException("Bad AWS S3 Credentials", HttpStatus.FORBIDDEN);
-            }
-            console.log(err);
-        });
-        
+        result.push(await s3.upload(s3FileInfo)
+            .promise()
+            .then(data => {
+                return {
+                    ETag: data.ETag,
+                    Fieldname: s3FileInfo.FieldName,
+                    Location: data.Location,
+                    key: data.Key,
+                    Key: data.Key,
+                    Bucket: data.Bucket
+                }
+            })
+            .catch(err => {
+                if (err.code === 'SignatureDoesNotMatch'){
+                    throw new HttpException("Bad AWS S3 Credentials", HttpStatus.FORBIDDEN);
+                }
+                console.log(err);
+            }));
         return result;
-        // Guardando el nombre del fichero y la ubicación en la base de datos
-        /**
-         * const newFile = this.myRepository.create({
-         *    key: uploadResult.Key,
-         *    url: uploadResult.Location
-         * });
-         * 
-         * return newFile;
-         */
-
     }
 
+    async uploadFiles(files: Array<Express.Multer.File>) {
+        const s3 = new S3();
+
+        const params = files.map((file) => {
+            return {
+                Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
+                Key: `${uuid()}-${file.originalname}`,
+                Body: file.buffer,
+                FieldName: file.fieldname
+            }
+        });
+
+
+
+        return await Promise.all(params.map(async s3FileInfo => {
+            return await s3.upload(s3FileInfo).promise()
+                .then(data => {
+                    return {
+                        ETag: data.ETag,
+                        Fieldname: s3FileInfo.FieldName,
+                        Location: data.Location,
+                        key: data.Key,
+                        Key: data.Key,
+                        Bucket: data.Bucket
+                    }
+                } )
+                .catch(err => {
+                    if (err.code === 'SignatureDoesNotMatch'){
+                        throw new HttpException("Bad AWS S3 Credentials", HttpStatus.FORBIDDEN);
+                    }
+                    console.log(err);
+                });
+        }));
+    }
+
+
     // Borra un fichero en AWS S3
-    async deleteFile(filename: string) {
+    async deleteFile(fileUrl: string) {
         let result = null;
 
         let objectData = {
             Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
-            Key: filename // fileURL
+            Key: fileUrl // fileURL
         }
         
         const s3 = new S3();
