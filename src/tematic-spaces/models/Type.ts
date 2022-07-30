@@ -16,14 +16,21 @@ export interface Representation {
 
 type Vector2D = [number, number]
 
+export enum MultimediaType {
+    Video = "Video",
+    Audio = "Audio",
+    Photo = "Photo"
+}
+
 @Schema()
 export class MultimediaRepresentation implements Representation{
 
     @Prop({ type: [Number], default: [20, 20] })
     dimensions: Vector2D;
 
-    @Prop({ type: [Number], default: [0, 0] })
-    position: Vector2D;
+
+    @Prop({ type: String, enum: MultimediaType })
+    multimediaType: MultimediaType;
 
 }
 
@@ -40,7 +47,7 @@ export class TextRepresentation implements Representation{
     color: Color;
 
     @Prop()
-    Size: number;
+    size: number;
 
     @Prop()
     font: string;
@@ -66,7 +73,7 @@ export enum ToggleType {
 Schema()
 export class ToggleRepresentation implements Representation {
 
-    @Prop({ type: String, enum: Category })
+    @Prop({ type: String, enum: ToggleType })
     toggleType: ToggleType;
 
     @Prop()
