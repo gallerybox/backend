@@ -1,6 +1,7 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, Req, UseInterceptors, UploadedFiles} from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, Req, UseInterceptors, UploadedFiles, UseGuards} from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CollectibleService } from './collectible.service';
 
 @Controller('collectible')
@@ -13,18 +14,28 @@ export class CollectibleController {
   @Post('create')
   @UseInterceptors(AnyFilesInterceptor())
   async createCollection(@Req() request: Request, @UploadedFiles() files: Array<Express.Multer.File>) {
-    await this.collectibleService.create(request.body, files);
+    return await this.collectibleService.create(request.body, files);
   }
 
+  @Get('timeline/:loggedUserId')
+  async getTimeline(@Param('loggedUserId') loggedUserId: string) {
+    return await this.collectibleService.getTimeline(loggedUserId);
+  }
+  
   @Get()
   async findAll() {
     return await this.collectibleService.findAll();
   }
-
-  // TODO (Este método no tiene mucho sentido)
+  
+  @UseGuards(JwtAuthGuard)
   @Get('id/:id')
   async findOne(@Param('id') id: string) {
     return await this.collectibleService.findOne(id);
+  }
+
+  @Get('userId/:id')
+  async findByUserId(@Param('id') userId: string){
+    return await this.collectibleService.findByUserId(userId);
   }
 
   @Get('thematic-space/:thematicSpaceId')
@@ -38,7 +49,6 @@ export class CollectibleController {
     return await this.collectibleService.update(id/*, updateCollectibleDto*/);
   }
 
-  // TODO: - collectibleController - Remvoe
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.collectibleService.remove(id);

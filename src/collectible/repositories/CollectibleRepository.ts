@@ -1,4 +1,4 @@
-import { Connection, Model } from 'mongoose';
+import { Connection, FilterQuery, Model } from 'mongoose';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Injectable, Logger } from "@nestjs/common";
 import { Collectible } from "../models/Collectible";
@@ -16,4 +16,31 @@ export class CollectibleRepository extends AbstractRepository<Collectible>{
     ) {
         super(collectibleModel, connection);
     }
+
+
+    async getTimeline(usersId: Array<string>, thematicSpaceIds: Array<string>) {
+        return await this.model.find({
+            "$or": [
+                { "user_id": 
+                    { 
+                        "$in": usersId
+                    },
+                },
+                { "space_id": 
+                    { 
+                        "$in": thematicSpaceIds 
+                    }
+                }
+            ]
+        }, {}, { lean: true });
+    }
+
+    /**
+     * {
+            "$or": [
+            { "user_id": { "$in": userIdList },
+            { "space_id": { "$in": spacesIdList }
+        ]
+        }
+     */
 }

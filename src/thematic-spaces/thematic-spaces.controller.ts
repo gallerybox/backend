@@ -4,14 +4,15 @@ import {ThematicSpace} from "./models/ThematicSpace";
 import {Template} from "./models/Template";
 import {Attribute} from "./models/Attribute";
 import {Category, TextRepresentation, Type} from "./models/Type";
-import {ThematicSpaceRepository} from "./repositories/ThematicSpaceRepository";
+import {ThematicSpaceRepository} from "./repositories/thematic-spaces.repository";
 import { Request } from 'express';
 
 @Controller('thematic-spaces')
 export class ThematicSpacesController {
 
   constructor(
-    private readonly thematicSpacesService: ThematicSpacesService
+    private readonly thematicSpacesService: ThematicSpacesService,
+    private readonly thematicSpacesRepository: ThematicSpaceRepository
   ) {}
 
   // TODO: - ThematicSpaceController - Create
@@ -30,9 +31,10 @@ export class ThematicSpacesController {
     return await this.thematicSpacesService.findOneById(id);
   }
 
+  // Todo - ThematicSpaceController - Update
   @Patch(':id')
   async update(@Param('id') id: string, /**@Body() updateThematicSpaceDto: UpdateThematicSpaceDto**/) {
-    return await this.thematicSpacesService.update(id /*, updateThematicSpaceDto*/);
+   //  return await this.thematicSpacesService.update(id /*, updateThematicSpaceDto*/);
   }
 
   @Delete(':id')
@@ -41,41 +43,44 @@ export class ThematicSpacesController {
   }
 
 
-  // @Get("tests")
-  // async test(){
-  //   let representation: TextRepresentation = new TextRepresentation();
-  //   representation.bold = true;
-  //   representation.font = "MehFont";
-  //   representation.color = "#403E28";
-  //   representation.italics =  true;
-  //   representation.maxLength = 20;
-  //   representation.Size = 15;
+  @Get("tests")
+  async test(){
+    // Categoria texto - Representación
+    let representation: TextRepresentation = new TextRepresentation();
+    representation.bold = true;
+    representation.font = "PedroloFont";
+    representation.color = "#403E28";
+    representation.italics =  true;
+    representation.maxLength = 20;
+    representation.Size = 15;
+
+    // Categoria texto 
+    let type_ : Type = new Type();
+    type_.representation = representation;    // Se guarda la reprensetacion
+    type_.category = Category.Text;
+
+    // Atributo texto
+    let attribute: Attribute = new Attribute();
+    attribute.type = type_;
+    attribute.tag = "Salario";
+    attribute.showTag = true;
+    attribute.representationOrder = 0;
+
+    // Template
+    let template: Template = new Template();
+    template.attributes = [attribute];        // Se guarda el atributo en la template
 
 
-  //   let type_ : Type = new Type();
-  //   type_.representation = representation;
-  //   type_.category = Category.Text;
+    let thematicSpace: ThematicSpace = await this.thematicSpacesRepository.add({
+      template: template,
+      name: "TematicSpaceUserPedrolo",
+      description: "Thematic Space Description"
+    });
 
+        //await this.shittyModelRepository.add({name: "Nombre"+random, age: 23, breed: "meh"});
 
-  //   let attribute: Attribute = new Attribute();
-  //   attribute.type = type_;
-  //   attribute.tag = "My silly attribute TAG";
-  //   attribute.showTag = true;
-  //   attribute.representationOrder = 0;
+    return thematicSpace;
 
-  //   let template: Template = new Template();
-  //   template.attributes = [attribute];
-
-  //   let thematicSpace: ThematicSpace = await this.thematicSpaceRepository.add({
-  //     template: template,
-  //     name: "Testing thematic space",
-  //     description: "This is the description of the thematic space, for testing purposes"
-  //   });
-
-  //       //await this.shittyModelRepository.add({name: "Nombre"+random, age: 23, breed: "meh"});
-
-  //   return thematicSpace;
-
-  // }
+  }
 
 }
