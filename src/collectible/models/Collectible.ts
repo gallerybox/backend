@@ -49,6 +49,7 @@ export class Collectible extends AbstractDocument{
         console.log(thematicSpace);
         console.log(values);
 
+        this.user = user;
         this.thematicSpace = thematicSpace;                     // Se asigna el thematicSpace recibido en el modelo
         
         this.attributes = new Map<string, DynamicType>();       // Inicializamos los attributes en el modelo

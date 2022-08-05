@@ -1,6 +1,8 @@
 import {Attribute, AttributeSchema} from './Attribute'
 import {Schema, Prop, SchemaFactory} from "@nestjs/mongoose";
 
+export type TemplateDocument = Template & Document;
+
 @Schema()
 export class Template {
 

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CollectibleService } from './collectible.service';
 import { CollectibleController } from './collectible.controller';
-import { CollectibleRepository } from "./repositories/CollectibleRepository";
+import { CollectibleRepository } from "./repositories/collectible.repository";
 import { MongooseModule } from "@nestjs/mongoose";1
 import { Collectible, CollectibleSchema } from "./models/Collectible";
 import { ThematicSpacesModule as ThematicSpacesModule } from "../thematic-spaces/thematic-spaces.module";

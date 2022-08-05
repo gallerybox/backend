@@ -69,7 +69,22 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
         throw new NotFoundException('Document not found.');
       }
 
+      return document;      
+    };
+
+
+    async findOneAndDelete(
+      filterQuery: FilterQuery<TDocument>,
+    ) {
       
+      const document = await this.model.findOneAndDelete(filterQuery, {  });
+
+      if (!document) {
+        this.logger.warn(`Document not found with filterQuery:`, filterQuery);
+        throw new NotFoundException('Document not found.');
+      }
+
+      return document;      
     };
 
     async upsert(
@@ -99,8 +114,10 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
         this.model.aggregate()
     }
 
+    */
+   
     // Método Jesús
-    add(instance: M): Promise<M>{
+    add(instance: TDocument): Promise<TDocument>{
         if (instance._id == null) {
             instance._id = new Types.ObjectId();
         }
@@ -110,5 +127,4 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
             { new: true, upsert: true }
         ).exec();
     }
-     */
 }

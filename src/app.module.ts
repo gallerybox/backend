@@ -38,6 +38,6 @@ import { FilesModule as FilesModule } from './files/files.module';
     FilesModule
   ],
   controllers: [],
-  providers: [],
+  providers: []
 })
 export class AppModule {}

@@ -7,7 +7,7 @@ import { ThematicSpacesService } from 'src/thematic-spaces/thematic-spaces.servi
 import { Users } from 'src/users/schema/users.schema';
 import { UsersService } from 'src/users/users.service'
 import { Collectible, CollectibleDocument } from './models/Collectible';
-import { CollectibleRepository } from './repositories/CollectibleRepository';
+import { CollectibleRepository } from './repositories/collectible.repository';
 
 @Injectable()
 export class CollectibleService {
@@ -41,15 +41,20 @@ export class CollectibleService {
         values[s3File.Fieldname] = s3File.Location
       });
     }
+    console.log(values);
 
     user = await this.userService.findOneById(userId);
+    console.log("User: " + user._id);
     thematicSpace = await this.thematicSpaceService.findOneById( thematicSpaceId );
     
-    let collectible: Coll
-    ectible = new Collectible(user, thematicSpace, values);
+    let collectible: Collectible = new Collectible(user, thematicSpace, values);
     collectible.name = "Test JUANCA";
     
     return await this.collectibleRepository.create(collectible);
+  }
+
+  async findByUserId(userId: string) {
+    return await this.collectibleRepository.find( { userId: userId })
   }
 
   async findAll() {
@@ -61,7 +66,20 @@ export class CollectibleService {
   }
 
   async findOne(id: string) {
-    return await this.collectibleRepository.findOne( { _id: id });
+    return await this.collectibleRepository.find( { _id: id });
+  }
+
+  async getTimeline(loggedUserId: string) {
+    // userIds: Array<string>, thematicSpaceIds: Array<string>
+    let user = await this.userService.findOneById(loggedUserId); 
+    let userIds = user.followedUsers.map(user => user._id.toString());
+    
+    let x = user.followedThematicSpaces.map(thematicSpace => thematicSpace._id.toString())
+    let y = user.ownedThematicSpaces.map(thematicSpace => thematicSpace._id.toString())
+    let unifiedThematicSpaces = x.concat(y);
+
+    console.log(unifiedThematicSpaces);
+    return await this.collectibleRepository.getTimeline(userIds, unifiedThematicSpaces);
   }
 
   // TODO: - collectibleService - Update
@@ -69,8 +87,11 @@ export class CollectibleService {
     // return await this.collectibleRepository.remove()
   }
 
-  // TODO: - collectibleService - Remove
+  async findOneAndDelete(id: string){
+    return await this.collectibleRepository.findOneAndDelete( { _id: id });
+  }
+
   async remove(id: string) {
-    return await this.collectibleRepository.delete( { _id: id })
+    return await this.collectibleRepository.delete( {_id: id })
   }
 }
