@@ -63,7 +63,7 @@ export class ThematicSpacesController {
     representation.color = "#403E28";
     representation.italics =  true;
     representation.maxLength = 20;
-    representation.Size = 15;
+    representation.size = 15;
 
     // Categoria texto 
     let type_ : Type = new Type();
