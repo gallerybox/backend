@@ -10,9 +10,7 @@ import { Type, TypeSchema } from './models/Type';
 import { ThematicSpacesController } from './thematic-spaces.controller';
 import { ThematicSpacesService } from './thematic-spaces.service';
 import { ThematicSpaceRepository } from "./repositories/thematic-spaces.repository";
-import { AttributeController } from 'src/attribute/attribute.controller';
-import { AttributeService } from 'src/attribute/attribute.service';
-import { AttributeRepository } from 'src/attribute/attribute.repository';
+
 
 @Module({
   imports: [
@@ -36,8 +34,8 @@ import { AttributeRepository } from 'src/attribute/attribute.repository';
       }
     ])
   ],
-  controllers: [ThematicSpacesController, AttributeController],
-  providers: [ThematicSpacesService, ThematicSpaceRepository, AttributeService, AttributeRepository],
+  controllers: [ThematicSpacesController],
+  providers: [ThematicSpacesService, ThematicSpaceRepository],
   exports: [ThematicSpacesService]
 })
 export class ThematicSpacesModule {}

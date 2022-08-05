@@ -1,17 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AttributeRepository } from 'src/attribute/attribute.repository';
 import { Attribute, AttributeDocument } from './models/Attribute';
 import { ThematicSpace, ThematicSpaceDocument } from './models/ThematicSpace';
 import { ThematicSpaceRepository } from './repositories/thematic-spaces.repository';
 
 @Injectable()
 export class ThematicSpacesService {
-
   constructor(
     private readonly thematicSpaceRepository: ThematicSpaceRepository,
-    private readonly attributeRepository: AttributeRepository,
     @InjectModel(ThematicSpace.name) private thematicSpaceModel: Model<ThematicSpaceDocument>,
     @InjectModel(Attribute.name) private attributeModel: Model<AttributeDocument>
   ) {}
