@@ -40,10 +40,7 @@ export class Users extends AbstractDocument {
 
     @Prop({ required: true })
     password: string;
-
-    @Prop()
-    isPrivate: boolean;
-
+    
     @Prop({ 
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Users',

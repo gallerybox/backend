@@ -13,7 +13,7 @@ export class CollectibleController {
 
   @Post('create')
   @UseInterceptors(AnyFilesInterceptor())
-  async createCollection(@Req() request: Request, @UploadedFiles() files: Array<Express.Multer.File>) {
+  async createCollectible(@Req() request: Request, @UploadedFiles() files: Array<Express.Multer.File>) {
     return await this.collectibleService.create(request.body, files);
   }
 

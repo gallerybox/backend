@@ -7,7 +7,7 @@ import { ThematicSpacesService } from 'src/thematic-spaces/thematic-spaces.servi
 import { Users } from 'src/users/schema/users.schema';
 import { UsersService } from 'src/users/users.service'
 import { Collectible, CollectibleDocument } from './models/Collectible';
-import { CollectibleRepository } from './repositories/CollectibleRepository';
+import { CollectibleRepository } from './repositories/collectible.repository';
 
 @Injectable()
 export class CollectibleService {
