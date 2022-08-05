@@ -13,6 +13,7 @@ import { ThematicSpaceRepository } from "./repositories/thematic-spaces.reposito
 import { AttributeController } from 'src/attribute/attribute.controller';
 import { AttributeService } from 'src/attribute/attribute.service';
 import { AttributeRepository } from 'src/attribute/attribute.repository';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { AttributeRepository } from 'src/attribute/attribute.repository';
         name: Type.name,
         schema: TypeSchema
       }
-    ])
+    ]),
+    UsersModule,
   ],
   controllers: [ThematicSpacesController, AttributeController],
   providers: [ThematicSpacesService, ThematicSpaceRepository, AttributeService, AttributeRepository],

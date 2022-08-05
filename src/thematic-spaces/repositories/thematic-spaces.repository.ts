@@ -1,4 +1,4 @@
-import { Connection, Model } from 'mongoose';
+import mongoose, { Connection, Model } from 'mongoose';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Injectable, Logger } from "@nestjs/common";
 import { ThematicSpace } from "../models/ThematicSpace";
@@ -14,6 +14,14 @@ export class ThematicSpaceRepository extends AbstractRepository<ThematicSpace>{
         @InjectConnection() connection: Connection,
     ) {
         super(thematicSpaceModel, connection);
+    }
+
+    async getThematicSpacesByIds(userIds: Array<mongoose.Types.ObjectId>) {
+        return await this.model.find(
+            { "_id": { 
+                "$in": new mongoose.Types.ObjectId(...userIds)
+            },
+        }, {}, { lean: true });
     }
 
 }

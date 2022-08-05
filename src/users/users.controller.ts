@@ -10,37 +10,37 @@ export class UsersController {
         private readonly usersService: UsersService
     ) {}
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Post()
     create(@Body() createUsersDto: CreateUsersDto) {
         return this.usersService.create(createUsersDto);
     }
 
-    @UseGuards(JwtAuthGuard) 
+    // @UseGuards(JwtAuthGuard) 
     @Get('/id/:id')
     findOneById(@Param('id') id: string) {
         return this.usersService.findOneById(id);
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get('/nickname/:nickname')
     findOneByNickname(@Param('nickname') nickname: string) {
         return this.usersService.findOneByNickname(nickname);
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get('/all')
     findAll(){
         return this.usersService.findAll();
     }
     
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Patch(':id')
     updateById(@Param('id') id: string, @Body() updateUsersDto: UpdateUsersDto) {
         return this.usersService.update(id, updateUsersDto);
     }
     
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Delete(':id')
     delete(@Param('id') id: string) {
         return this.usersService.deleteOne(id);

@@ -35,6 +35,12 @@ export class CollectibleRepository extends AbstractRepository<Collectible>{
         }, {}, { lean: true });
     }
 
+    async getTimelineByThematicSpaceId(thematicSpaceIds: string) {
+        return await this.model.find({
+            thematicSpace: thematicSpaceIds
+        });
+    } 
+
     /**
      * {
             "$or": [

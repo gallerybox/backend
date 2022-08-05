@@ -21,6 +21,9 @@ export class Collectible extends AbstractDocument{
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ThematicSpace' })
     thematicSpace: ThematicSpace;
 
+    @Prop({ type: Date, required: true, default: Date.now })
+    lastModified: Date;
+
     @Prop()
     name: String;
 

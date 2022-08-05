@@ -17,9 +17,14 @@ export class CollectibleController {
     return await this.collectibleService.create(request.body, files);
   }
 
-  @Get('timeline/:loggedUserId')
+  @Get('timeline/loggedUserId/:loggedUserId')
   async getTimeline(@Param('loggedUserId') loggedUserId: string) {
     return await this.collectibleService.getTimeline(loggedUserId);
+  }
+
+  @Get('timeline/thematicSpaceId/:thematicSpaceId')
+  async getTimelineByThematicSpaceId(@Param('thematicSpaceId') thematicSpaceId: string){
+    return await this.collectibleService.getTimelineByThematicSpaceId(thematicSpaceId);
   }
   
   @Get()

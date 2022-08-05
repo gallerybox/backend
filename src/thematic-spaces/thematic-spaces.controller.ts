@@ -15,9 +15,20 @@ export class ThematicSpacesController {
     private readonly thematicSpacesRepository: ThematicSpaceRepository
   ) {}
 
+  @Get('owned/:userId')
+  async getOwnedThematicSpaces(@Param('userId') userId: string) {
+    return await this.thematicSpacesService.getOwnedThematicSpaces(userId);
+  }
+
+  @Get('participated/:userId')
+  async getFollowedThematicSpaces(@Param('userId') userId: string) {
+    return await this.thematicSpacesService.getFollowedThematicSpaces(userId);
+  }
+
   // TODO: - ThematicSpaceController - Create
   @Post()
   async create(@Req() request: Request) {
+    // 
     // return await this.thematicSpacesService.create(request.body);
   }
 

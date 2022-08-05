@@ -82,6 +82,11 @@ export class CollectibleService {
     return await this.collectibleRepository.getTimeline(userIds, unifiedThematicSpaces);
   }
 
+  async getTimelineByThematicSpaceId(thematicSpaceId: string) {
+    return await this.collectibleRepository.getTimelineByThematicSpaceId(thematicSpaceId);
+  }
+
+
   // TODO: - collectibleService - Update
   async update(id: string, /*updateCollectibleDto: UpdateCollectibleDto*/) {
     // return await this.collectibleRepository.remove()

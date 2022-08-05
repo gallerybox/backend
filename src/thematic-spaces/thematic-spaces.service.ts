@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AttributeRepository } from 'src/attribute/attribute.repository';
+import { UsersService } from 'src/users/users.service';
 import { Attribute, AttributeDocument } from './models/Attribute';
 import { ThematicSpace, ThematicSpaceDocument } from './models/ThematicSpace';
 import { ThematicSpaceRepository } from './repositories/thematic-spaces.repository';
@@ -12,9 +13,32 @@ export class ThematicSpacesService {
   constructor(
     private readonly thematicSpaceRepository: ThematicSpaceRepository,
     private readonly attributeRepository: AttributeRepository,
+    private readonly userService: UsersService,
     @InjectModel(ThematicSpace.name) private thematicSpaceModel: Model<ThematicSpaceDocument>,
     @InjectModel(Attribute.name) private attributeModel: Model<AttributeDocument>
   ) {}
+
+  async getOwnedThematicSpaces(userId: string){
+    // Paso 1: obtenemos el usuario de la base de datos
+    const user = await this.userService.findOneById(userId);
+
+    // Paso 2: sacamos sus espacios temáticos
+    const thematicSpacesId = user.ownedThematicSpaces.map( thematicSpace => thematicSpace._id );
+
+    // Paso 3: buscamos los espacios temáticos en la base de datos
+    return await this.thematicSpaceRepository.getThematicSpacesByIds(thematicSpacesId);
+  }
+
+  async getFollowedThematicSpaces(userId: string) {
+    // Paso 1: obtenemos el usuario de la base de datos
+    const user = await this.userService.findOneById(userId);
+
+    // Paso 2: sacamos sus espacios temáticos
+    const thematicSpacesId = user.followedThematicSpaces.map( thematicSpace => thematicSpace._id );
+
+    // Paso 3: buscamos los espacios temáticos en la base de datos
+    return await this.thematicSpaceRepository.getThematicSpacesByIds(thematicSpacesId);
+  }
 
   async create() {
     // return await this.thematicSpaceRepository.create(createThematicSpaceDto);
