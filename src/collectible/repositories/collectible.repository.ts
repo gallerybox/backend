@@ -38,7 +38,10 @@ export class CollectibleRepository extends AbstractRepository<Collectible>{
     async getTimelineByThematicSpaceId(thematicSpaceIds: string) {
         return await this.model.find({
             thematicSpace: thematicSpaceIds
-        });
+        }, {}, { lean: true })
+            .sort('-lastModified')
+            .then(thematicSpace => thematicSpace)
+            .catch(err => console.log(err));
     } 
 
     /**

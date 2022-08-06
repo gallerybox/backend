@@ -11,6 +11,7 @@ import { ThematicSpacesController } from './thematic-spaces.controller';
 import { ThematicSpacesService } from './thematic-spaces.service';
 import { ThematicSpaceRepository } from "./repositories/thematic-spaces.repository";
 import { UsersModule } from 'src/users/users.module';
+import { CollectibleModule } from 'src/collectible/collectible.module';
 
 @Module({
   imports: [
@@ -33,7 +34,7 @@ import { UsersModule } from 'src/users/users.module';
         schema: TypeSchema
       }
     ]),
-    UsersModule,
+    UsersModule
   ],
   controllers: [ThematicSpacesController],
   providers: [ThematicSpacesService, ThematicSpaceRepository],
