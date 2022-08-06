@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { CreateCollectionDto } from './dto/create-collection.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
 import { UsersService } from './users.service';
@@ -12,8 +13,13 @@ export class UsersController {
 
     // @UseGuards(JwtAuthGuard)
     @Post()
-    create(@Body() createUsersDto: CreateUsersDto) {
-        return this.usersService.create(createUsersDto);
+    async create(@Body() createUsersDto: CreateUsersDto) {
+        return await this.usersService.create(createUsersDto);
+    }
+
+    @Post('create-collection')
+    async createCollection( @Body() createCollectionDto: CreateCollectionDto) {
+        return await this.usersService.createCollection(createCollectionDto);
     }
 
     // @UseGuards(JwtAuthGuard) 
