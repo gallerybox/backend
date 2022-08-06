@@ -32,7 +32,9 @@ export class CollectibleRepository extends AbstractRepository<Collectible>{
                     }
                 }
             ]
-        }, {}, { lean: true });
+        }, {}, { lean: true })
+            .populate("thematicSpace")
+            .populate("user");
     }
 
     /**
