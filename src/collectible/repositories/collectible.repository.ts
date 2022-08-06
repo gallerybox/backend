@@ -37,6 +37,15 @@ export class CollectibleRepository extends AbstractRepository<Collectible>{
             .populate("user");
     }
 
+    async getTimelineByThematicSpaceId(thematicSpaceIds: string) {
+        return await this.model.find({
+            thematicSpace: thematicSpaceIds
+        }, {}, { lean: true })
+            .sort('-lastModified')
+            .then(thematicSpace => thematicSpace)
+            .catch(err => console.log(err));
+    } 
+
     /**
      * {
             "$or": [

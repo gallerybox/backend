@@ -17,9 +17,14 @@ export class CollectibleController {
     return await this.collectibleService.create(request.body, files);
   }
 
-  @Get('timeline/:loggedUserId')
+  @Get('timeline/loggedUserId/:loggedUserId')
   async getTimeline(@Param('loggedUserId') loggedUserId: string) {
     return await this.collectibleService.getTimeline(loggedUserId);
+  }
+
+  @Get('timeline/thematicSpaceId/:thematicSpaceId')
+  async getTimelineByThematicSpaceId(@Param('thematicSpaceId') thematicSpaceId: string){
+    return await this.collectibleService.getTimelineByThematicSpaceId(thematicSpaceId);
   }
   
   @Get()
@@ -54,19 +59,9 @@ export class CollectibleController {
     return await this.collectibleService.remove(id);
   }
 
-  @Get('tests/:thematicSpaceId')
-  async tests(@Param('thematicSpaceId') thematicSpaceId: string) {
-
-    // let space: ThematicSpace = (await this.thematicSpaceRepository.find({_id: thematicSpaceId}))[0];
-    // console.log(space);
-
-    // let collectible: Collectible = new Collectible(space, {"My silly attribute TAG": "Valor dinámico de prueba"});
-
-    // collectible = await this.collectibleRepository.add(collectible);
-
-    // return collectible;
-
-
+  @Get('populate')
+  async populate() {
+    return await this.collectibleService.populate()
   }
 
 

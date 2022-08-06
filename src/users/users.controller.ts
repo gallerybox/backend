@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { CreateCollectionDto } from './dto/create-collection.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
 import { UsersService } from './users.service';
@@ -10,37 +11,42 @@ export class UsersController {
         private readonly usersService: UsersService
     ) {}
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Post()
-    create(@Body() createUsersDto: CreateUsersDto) {
-        return this.usersService.create(createUsersDto);
+    async create(@Body() createUsersDto: CreateUsersDto) {
+        return await this.usersService.create(createUsersDto);
     }
 
-    @UseGuards(JwtAuthGuard) 
+    @Post('create-collection')
+    async createCollection( @Body() createCollectionDto: CreateCollectionDto) {
+        return await this.usersService.createCollection(createCollectionDto);
+    }
+
+    // @UseGuards(JwtAuthGuard) 
     @Get('/id/:id')
     findOneById(@Param('id') id: string) {
         return this.usersService.findOneById(id);
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get('/nickname/:nickname')
     findOneByNickname(@Param('nickname') nickname: string) {
         return this.usersService.findOneByNickname(nickname);
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get('/all')
     findAll(){
         return this.usersService.findAll();
     }
     
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Patch(':id')
     updateById(@Param('id') id: string, @Body() updateUsersDto: UpdateUsersDto) {
         return this.usersService.update(id, updateUsersDto);
     }
     
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Delete(':id')
     delete(@Param('id') id: string) {
         return this.usersService.deleteOne(id);

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
+import { CreateCollectionDto } from './dto/create-collection.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
-import { Users, UsersDocument } from './schema/users.schema';
+import { Collection, Users, UsersDocument } from './schema/users.schema';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
@@ -16,6 +17,18 @@ export class UsersService {
     // Add a new user
     async create(createUsersDto: any | CreateUsersDto) {
         return await this.usersRepository.create(createUsersDto);
+    }
+    async createCollection(createCollectionDto: CreateCollectionDto) {
+        let collection: Collection = new Collection();
+        collection.name = createCollectionDto.name;
+        let user_db = await this.findOneById(createCollectionDto.userId);
+        
+        let user_dto: UpdateUsersDto = new UpdateUsersDto();
+        user_dto.collections = user_db.collections;
+
+        user_dto.collections.push(collection);
+
+        return await this.update(createCollectionDto.userId, user_dto);
     }
     
     async findAll() {

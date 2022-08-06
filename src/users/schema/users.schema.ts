@@ -7,6 +7,7 @@ import { ThematicSpace, ThematicSpaceSchema } from "src/thematic-spaces/models/T
 @Schema()
 export class Collection {
 
+    @Prop({ required: true })
     name: string;
 
     @Prop({ 

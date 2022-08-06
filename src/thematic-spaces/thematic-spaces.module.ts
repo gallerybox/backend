@@ -10,7 +10,8 @@ import { Type, TypeSchema } from './models/Type';
 import { ThematicSpacesController } from './thematic-spaces.controller';
 import { ThematicSpacesService } from './thematic-spaces.service';
 import { ThematicSpaceRepository } from "./repositories/thematic-spaces.repository";
-
+import { UsersModule } from 'src/users/users.module';
+import { CollectibleModule } from 'src/collectible/collectible.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { ThematicSpaceRepository } from "./repositories/thematic-spaces.reposito
         name: Type.name,
         schema: TypeSchema
       }
-    ])
+    ]),
+    UsersModule
   ],
   controllers: [ThematicSpacesController],
   providers: [ThematicSpacesService, ThematicSpaceRepository],

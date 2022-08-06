@@ -10,7 +10,4 @@ export class CreateUsersDto {
 
     @IsNotEmpty()
     password: string;
-
-    @IsBoolean()
-    isPrivate: boolean;
 }
