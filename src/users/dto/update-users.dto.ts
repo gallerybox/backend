@@ -7,5 +7,5 @@ export class UpdateUsersDto extends PartialType(CreateUsersDto) {
     followedUsers: Array<string>;
     ownedThematicSpaces: Array<string>;
     followedThematicSpaces: Array<string>;
-    collections: Array<Collection>; 
+    collections: Collection[]= []; 
 }
