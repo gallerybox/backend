@@ -21,14 +21,20 @@ export class UsersService {
     async createCollection(createCollectionDto: CreateCollectionDto) {
         let collection: Collection = new Collection();
         collection.name = createCollectionDto.name;
-        let user_db = await this.findOneById(createCollectionDto.userId);
+        let userDb = await this.findOneById(createCollectionDto.userId);
         
-        let user_dto: UpdateUsersDto = new UpdateUsersDto();
-        user_dto.collections = user_db.collections;
+        let userDTO: UpdateUsersDto = new UpdateUsersDto();
+        userDTO.collections = userDb.collections;
 
-        user_dto.collections.push(collection);
+        userDTO.collections.push(collection);
 
-        return await this.update(createCollectionDto.userId, user_dto);
+        return await this.update(createCollectionDto.userId, userDTO);
+    }
+    
+    async findAllByCollectionId(collectionId: string){
+        // Paso 1: buscamos la coleccion en todos los usuarios
+        return await this.usersRepository.getCollectionById(collectionId)
+        
     }
     
     async findAll() {

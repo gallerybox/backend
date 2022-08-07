@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Model, Connection } from 'mongoose';
+import mongoose, { Model, Connection } from 'mongoose';
 import { AbstractRepository } from '@app/common';
-import { Users } from './schema/users.schema';
+import { Collection, Users } from './schema/users.schema';
 
 @Injectable()
 export class UsersRepository extends AbstractRepository<Users> {
@@ -13,5 +13,21 @@ export class UsersRepository extends AbstractRepository<Users> {
     @InjectConnection() connection: Connection,
   ) {
     super(userModel, connection);
+  }
+
+  async getCollectionById(collectionId: string) {
+    let result = await this.model
+      .find(
+        {
+          "collections._id": collectionId
+        }, {}, { lean: true })
+      .populate("collections.collectibles")
+      .catch(
+        err => []
+      );
+
+      return result[0].collections.find((collection: any) => collection._id.toString() === collectionId)
+        
+
   }
 }

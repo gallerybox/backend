@@ -22,6 +22,11 @@ export class UsersController {
         return await this.usersService.createCollection(createCollectionDto);
     }
 
+    @Get('collection/:collectionId')
+    async findAllByCollectionId(@Param('collectionId') collectionId: string) {
+      return await this.usersService.findAllByCollectionId(collectionId);
+    }
+
     // @UseGuards(JwtAuthGuard) 
     @Get('/id/:id')
     findOneById(@Param('id') id: string) {

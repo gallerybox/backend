@@ -44,7 +44,7 @@ export class CollectibleController {
   }
 
   @Get('thematic-space/:thematicSpaceId')
-  async findAllByThematicSpace(@Param('thematicSpaceId') thematicSpaceId: string){
+  async findAllByThematicSpaceId(@Param('thematicSpaceId') thematicSpaceId: string){
     return await this.collectibleService.findAllByThematicSpace(thematicSpaceId);
   }
 
