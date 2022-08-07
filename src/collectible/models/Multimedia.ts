@@ -3,6 +3,10 @@ import {Category, MultimediaRepresentation, Type} from "../../thematic-spaces/mo
 
 export class Multimedia implements DynamicType {
 
+    representationOrder: number;
+
+    showTag: boolean;
+
     readonly category: Category = Category.Multimedia;
     // Data associated with technical rules
     value: string; // Resource Url
@@ -14,25 +18,14 @@ export class Multimedia implements DynamicType {
     // para que, en lugar de un Value, reciba el tipo que corresponda al Buffer.
     // Aquí se meterá la lógica de S3.
     // 
-    constructor(type: Type, value: Value) {
+    constructor(type: Type, value: Value, representationOrder: number, showTag: boolean) {
         this.representation = type.representation as MultimediaRepresentation;
         this.value = value as string;
+        this.representationOrder = representationOrder;
+        this.showTag = showTag;
     }
     represent(): MultimediaRepresentation{
         return this.representation;
     }
-
-    save(): Multimedia {
-        // Do something with amazon S3, this method implementation should be inyected to be clean
-        // Dicho de otra manera, esto hace las veces de interfaz, pero no contiene la implementación.
-        // Algunos método deberían moverse a DynamicType
-        return this;
-    }
-
-    read(): Multimedia {
-
-        return this;
-    }
-
 
 }

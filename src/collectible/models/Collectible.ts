@@ -64,20 +64,14 @@ export class Collectible extends AbstractDocument{
             // Creamos el nuevo type  (contiene la Category (Text, Multimedia, Toggle), su valor y la representación
             // que tendrá en la pantalla).
             // Ej. Collectible Cerveza --> Attribute: Graduación (Category: Text, valor: 6, representación: {negrita: true, color: #443234})
-            let type: DynamicType = new this.constructors[attribute.type.category](attribute.type, values[attribute.tag]);
+            let type: DynamicType = new this.constructors[attribute.type.category](attribute.type, values[attribute.tag],
+                                                                                   attribute.representationOrder, attribute.showTag);
 
             this.attributes.set(attribute.tag, type);           // Asignamos el nuevo type, asignandole el tag (identificador) correspondiente
         }   
         
     }
 
-    save(){
-        let repre: Array<any> = [];
-        for (let [key, value] of Array.from(this.attributes.entries())) {
-            repre.push({[key] : value.save()});
-        }
-        return repre;
-    }
     represent(){
         let repre: Array<any> = [];
         for (let [key, value] of Array.from(this.attributes.entries())) {
@@ -86,12 +80,7 @@ export class Collectible extends AbstractDocument{
         return repre;
 
     }
-    save_attribute(attribute: string){
 
-    }
-    represent_attribute(attribute: string){
-
-    }
 
 }
 
