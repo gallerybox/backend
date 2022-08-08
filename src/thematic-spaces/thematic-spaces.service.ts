@@ -80,6 +80,7 @@ export class ThematicSpacesService {
     user1.email = "utri1990@gmail.com";
     user1.nickname = "utrilla";
     user1.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
+    user1.hasConsented = true;
     let user1_db = await this.userService.create(user1);
 
     /*****************************************************************************
@@ -89,6 +90,7 @@ export class ThematicSpacesService {
     user2.email = "pedrolo@gmail.com";
     user2.nickname = "pedrolo";
     user2.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
+    user2.hasConsented = true;
     let user2_db = await this.userService.create(user2);
 
     /*****************************************************************************
@@ -98,6 +100,7 @@ export class ThematicSpacesService {
      user3.email = "jesus@gmail.com";
      user3.nickname = "jesus";
      user3.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
+     user3.hasConsented = true;
      let user3_db = await this.userService.create(user3);
 
     /*****************************************************************************
