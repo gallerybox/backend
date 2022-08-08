@@ -40,6 +40,18 @@ export class UsersController {
     }
 
     // @UseGuards(JwtAuthGuard)
+    @Get('/followed-space-id/:spaceId')
+    findUsersByFollowedSpaceId(@Param('spaceId') spaceId: string) {
+        return this.usersService.findUsersByFollowedSpaceId(spaceId);
+    }
+    @Get('/owned-space-id/:spaceId')
+    findUserOwnerOfSpaceId(@Param('spaceId') spaceId: string){
+        console.log("entra qui");
+        console.log(spaceId);
+        return this.usersService.findUserOwnerOfSpaceId( spaceId );
+    }
+
+    // @UseGuards(JwtAuthGuard)
     @Get('/all')
     findAll(){
         return this.usersService.findAll();

@@ -42,7 +42,7 @@ export class UsersService {
     }
 
     async findOneById(id: string) {
-        return await this.usersRepository.findOne({ _id: id });
+        return await this.usersRepository.getUserByIdCollectionsPopulate({ _id: id });
     }
     
     async update(id: string, updateUsersDto: UpdateUsersDto) {
@@ -59,5 +59,12 @@ export class UsersService {
 
     async findOneByEmail(email: string){
         return await this.usersRepository.findOne( { email: email })
+    }
+
+    async findUsersByFollowedSpaceId(followedSpaceId: string){
+        return await this.usersRepository.findUsersByFollowedSpaceId( followedSpaceId );
+    }
+    async findUserOwnerOfSpaceId(ownedSpaceId: string){
+        return await this.usersRepository.findUserOwnerOfSpaceId( ownedSpaceId );
     }
 }

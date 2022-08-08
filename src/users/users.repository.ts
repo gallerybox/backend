@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model, Connection } from 'mongoose';
+import mongoose, {Model, Connection, FilterQuery} from 'mongoose';
 import { AbstractRepository } from '@app/common';
 import { Collection, Users } from './schema/users.schema';
 
@@ -30,4 +30,36 @@ export class UsersRepository extends AbstractRepository<Users> {
         
 
   }
+
+  async getUserByIdCollectionsPopulate(filterQuery: FilterQuery<any>) {
+
+    return await this.model.findOne(filterQuery, {}, {lean: true})
+        .populate([
+          {
+            path: "collections.collectibles",
+            model: "Collectible",
+            select: "thematicSpace",
+            populate: {
+              path: 'thematicSpace',
+              model: 'ThematicSpace',
+              select: '_id name'
+            }
+          },
+        ]).populate("ownedThematicSpaces")
+        .populate("followedThematicSpaces")
+        .then(data => data);
+  }
+  async findUsersByFollowedSpaceId(followedSpaceId: string) {
+    return await this.model.find({ followedThematicSpaces: followedSpaceId },
+        {}, {lean: true})
+        .then(data => data);
+
+  }
+  async findUserOwnerOfSpaceId(ownedSpaceId: string) {
+    return await this.model.findOne({ ownedThematicSpaces: ownedSpaceId },
+        {}, {lean: true})
+        .then(data => data);
+
+  }
+
 }

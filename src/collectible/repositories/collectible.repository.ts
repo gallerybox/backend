@@ -35,7 +35,7 @@ export class CollectibleRepository extends AbstractRepository<Collectible>{
             ]
         }, {}, { lean: true })
             .populate("thematicSpace")
-            .populate("user");
+            .populate("user").then(data => data);
     }
 
     async getTimelineByThematicSpaceId(thematicSpaceIds: string) {
