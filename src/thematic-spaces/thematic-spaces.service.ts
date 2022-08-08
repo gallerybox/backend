@@ -7,7 +7,7 @@ import { UsersService } from 'src/users/users.service';
 import { Attribute } from './models/Attribute';
 import { Template } from './models/Template';
 import { ThematicSpace, ThematicSpaceDocument } from './models/ThematicSpace';
-import { Category, TextRepresentation, Type } from './models/Type';
+import { Category, MultimediaRepresentation, MultimediaType, TextRepresentation, Type } from './models/Type';
 import { ThematicSpaceRepository } from './repositories/thematic-spaces.repository';
 
 @Injectable()
@@ -80,6 +80,7 @@ export class ThematicSpacesService {
     user1.email = "utri1990@gmail.com";
     user1.nickname = "utrilla";
     user1.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
+    user1.hasConsented = true;
     let user1_db = await this.userService.create(user1);
 
     /*****************************************************************************
@@ -88,7 +89,8 @@ export class ThematicSpacesService {
     let user2: CreateUsersDto = new CreateUsersDto();
     user2.email = "pedrolo@gmail.com";
     user2.nickname = "pedrolo";
-    user2.password = "$2b$10$lOeSeU5WCe2YN3zueIUyTOfe67RRRhZ.yaSfNM3Qm681VqWn4eyQe" // 1234
+    user2.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
+    user2.hasConsented = true;
     let user2_db = await this.userService.create(user2);
 
     /*****************************************************************************
@@ -97,12 +99,14 @@ export class ThematicSpacesService {
      let user3: CreateUsersDto = new CreateUsersDto();
      user3.email = "jesus@gmail.com";
      user3.nickname = "jesus";
-     user3.password = "$$2b$10$JVCpFhmL43NmFcUZYMx7turOSCJ7vnec1OSRuYCh4aeJVM8Kk1bn2" // 1234
+     user3.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
+     user3.hasConsented = true;
      let user3_db = await this.userService.create(user3);
 
     /*****************************************************************************
     *                    Espacio temático 1 - Cervezas del mundo                 *
     *****************************************************************************/
+    // Atributos: Nombre (Text), Graduacion(Text), Tipo(Text), Foto(Multimedia.Photo)
     // ------------------------ Atributo - Nombre (Texto) -------------------------
     
     // Representación gráfica
@@ -166,15 +170,36 @@ export class ThematicSpacesService {
     let tipoCervezaAttribute: Attribute = new Attribute();
     tipoCervezaAttribute.type = tipoCervezaType;                      // Tipo
     tipoCervezaAttribute.tag = "Tipo";                                // Texto del atributo
-    tipoCervezaAttribute.showTag = true;                              // ¿Muestra el dato?
+    tipoCervezaAttribute.showTag = false;                             // ¿Muestra el dato?
     tipoCervezaAttribute.representationOrder = 2;                     // Ubicación del elemento en pantalla
+    
+    // --------------------- Atributo - Foto (Multimedia - Photo) ---------------------
 
+    // Representación gráfica
+    let imagenCervezaRepr: MultimediaRepresentation = new MultimediaRepresentation();
+    imagenCervezaRepr.dimensions = [400, 225];
+    imagenCervezaRepr.multimediaType = MultimediaType.Photo;
+
+    // Tipo = Categoria (Texto) + Representación gráfica
+    let imagenCervezaType: Type = new Type();
+    imagenCervezaType.representation = imagenCervezaRepr;
+    imagenCervezaType.category = Category.Multimedia;
+    
+    let imagenCervezaAttribute: Attribute = new Attribute();
+    imagenCervezaAttribute.type = imagenCervezaType;
+    imagenCervezaAttribute.tag = "Foto";
+    imagenCervezaAttribute.showTag = true;
+    imagenCervezaAttribute.representationOrder = 3;
+
+    // --------------------------- Fin atributos ------------------------------
+  
     // Plantilla: guarda cada uno de los atributos
     let templateCervezas: Template = new Template();
     templateCervezas.attributes = [
       nombreCervezaAttribute,
       graduacionCervezaAttribute,
-      tipoCervezaAttribute
+      tipoCervezaAttribute,
+      imagenCervezaAttribute
     ];    
 
     // Espacio temático: name + template + description
@@ -183,10 +208,12 @@ export class ThematicSpacesService {
       name: "Cervezas del mundo",
       description: "Colección de todas las cervezas del mundo"
     });
-
+    
+    
     /*****************************************************************************
-    *                    Espacio temático 2 - Videojuego                         *
+    *                    Espacio temático 2 - Videojuegos                         *
     *****************************************************************************/
+    // Atributos: Titulo (Text), Descripcion (Text), Distribuidora (Text), Caratula (Multimedia - Foto) 
     // ------------------------ Atributo - Titulo (Texto) -------------------------
     
     // Representación gráfica
@@ -250,8 +277,28 @@ export class ThematicSpacesService {
     let distribuidoraVideojuegoAttribute: Attribute = new Attribute();
     distribuidoraVideojuegoAttribute.type = distribuidoraVideojuegoType;  // Tipo
     distribuidoraVideojuegoAttribute.tag = "Distribuidora";               // Texto del atributo
-    distribuidoraVideojuegoAttribute.showTag = true;                      // ¿Muestra el dato?
+    distribuidoraVideojuegoAttribute.showTag = false;                      // ¿Muestra el dato?
     distribuidoraVideojuegoAttribute.representationOrder = 2;             // Ubicación del elemento en pantalla
+
+    // --------------------- Atributo - Caratula (Multimedia - Photo) ---------------------
+
+    // Representación gráfica
+    let caratulaVideojuegoRepr: MultimediaRepresentation = new MultimediaRepresentation();
+    caratulaVideojuegoRepr.dimensions = [500, 325];
+    caratulaVideojuegoRepr.multimediaType = MultimediaType.Photo ;
+
+    // Tipo = Categoria (Texto) + Representación gráfica
+    let caratulaVideojuegoType: Type = new Type();
+    caratulaVideojuegoType.representation = caratulaVideojuegoRepr;
+    caratulaVideojuegoType.category = Category.Multimedia;
+    
+    let caratulaVideojuegoAttribute: Attribute = new Attribute();
+    caratulaVideojuegoAttribute.type = caratulaVideojuegoType;
+    caratulaVideojuegoAttribute.tag = "Etiqueta";
+    caratulaVideojuegoAttribute.showTag = true;
+    caratulaVideojuegoAttribute.representationOrder = 3;
+
+    // --------------------------- Fin atributos ------------------------------
 
     // Plantilla: guarda cada uno de los atributos
     let templateVideojuegos: Template = new Template();
@@ -259,7 +306,8 @@ export class ThematicSpacesService {
     templateVideojuegos.attributes = [
       tituloVideojuegoAttribute, 
       descripcionVideojuegoAttribute,
-      distribuidoraVideojuegoAttribute
+      distribuidoraVideojuegoAttribute,
+      caratulaVideojuegoAttribute
     ];    
 
     // Espacio temático: name + template + description
@@ -273,6 +321,8 @@ export class ThematicSpacesService {
     /*****************************************************************************
     *                      Espacio temático 3 - Musica                           *
     *****************************************************************************/
+    // Atributos: Album (Text), Grupo (Text), Discografica (Text),
+    //            Muestra (Multimedia.Audio), Videoclip (Multimedia.Video)
     // ------------------------ Atributo - Album (Texto) -------------------------
     
     // Representación gráfica
@@ -335,16 +385,58 @@ export class ThematicSpacesService {
 
     let discograficaMusicaAttribute: Attribute = new Attribute();
     discograficaMusicaAttribute.type = discograficaMusicaType;         // Tipo
-    discograficaMusicaAttribute.tag = "Discografica";            // Texto del atributo
-    discograficaMusicaAttribute.showTag = true;                        // ¿Muestra el dato?
+    discograficaMusicaAttribute.tag = "Discografica";                  // Texto del atributo
+    discograficaMusicaAttribute.showTag = false;                        // ¿Muestra el dato?
     discograficaMusicaAttribute.representationOrder = 2;               // Ubicación del elemento en pantalla
+
+    // --------------------- Atributo - Muestra (Multimedia - Audio) ---------------------
+
+    // Representación gráfica
+    let muestraMusicaRepr: MultimediaRepresentation = new MultimediaRepresentation();
+    muestraMusicaRepr.dimensions = [500, 325];
+    muestraMusicaRepr.multimediaType = MultimediaType.Audio;
+
+    // Tipo = Categoria (Texto) + Representación gráfica
+    let muestraMusicaType: Type = new Type();
+    muestraMusicaType.representation = muestraMusicaRepr;
+    muestraMusicaType.category = Category.Multimedia;
+    
+    let muestraMusicaAttribute: Attribute = new Attribute();
+    muestraMusicaAttribute.type = muestraMusicaType;
+    muestraMusicaAttribute.tag = "Muestra";
+    muestraMusicaAttribute.showTag = true;
+    muestraMusicaAttribute.representationOrder = 3;
+
+
+    // --------------------- Atributo - Videoclip (Multimedia - Video) ---------------------
+
+    // Representación gráfica
+    let videoclipMusicaRepr: MultimediaRepresentation = new MultimediaRepresentation();
+    videoclipMusicaRepr.dimensions = [500, 325];
+    videoclipMusicaRepr.multimediaType = MultimediaType.Video;
+
+    // Tipo = Categoria (Texto) + Representación gráfica
+    let videoclipMusicaType: Type = new Type();
+    videoclipMusicaType.representation = videoclipMusicaRepr;
+    videoclipMusicaType.category = Category.Multimedia;
+    
+    let videoclipMusicaAttribute: Attribute = new Attribute();
+    videoclipMusicaAttribute.type = videoclipMusicaType;
+    videoclipMusicaAttribute.tag = "Videoclip";
+    videoclipMusicaAttribute.showTag = true;
+    videoclipMusicaAttribute.representationOrder = 4;
+
+
+    // --------------------------- Fin atributos ------------------------------
 
     // Plantilla: guarda cada uno de los atributoss
     let templateMusica: Template = new Template();
     templateMusica.attributes = [
       albumMusicaAttribute,
       grupoMusicaAttribute,
-      discograficaMusicaAttribute
+      discograficaMusicaAttribute,
+      muestraMusicaAttribute,
+      videoclipMusicaAttribute
     ];    
 
     // Espacio temático: name + template + description

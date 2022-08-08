@@ -33,14 +33,17 @@ export class Users extends AbstractDocument {
     @Prop()             // Dato personal
     apellidos?: string;
 
-    @Prop({ required: true })            
+    @Prop({ required: true, unique: true })            
     nickname: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, unique: true })
     email:string;
 
     @Prop({ required: true })
     password: string;
+
+    @Prop({ required: true })
+    hasConsented: boolean;
     
     @Prop({ 
         type: [mongoose.Schema.Types.ObjectId],
