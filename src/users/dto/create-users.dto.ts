@@ -10,4 +10,7 @@ export class CreateUsersDto {
 
     @IsNotEmpty()
     password: string;
+
+    @IsBoolean()
+    hasConsented: boolean;
 }
