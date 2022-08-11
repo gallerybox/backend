@@ -1,6 +1,5 @@
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import mongoose from "mongoose";
-import {AttributeSchema} from "./Attribute";
 
 
 export enum Category {
@@ -56,10 +55,10 @@ export class TextRepresentation implements Representation{
     italics: boolean;
 
     @Prop()
-    bold: boolean;
+    underlined: boolean;
 
     @Prop()
-    maxLength: number;
+    bold: boolean;
 
 }
 export const TextRepresentationSchema = SchemaFactory.createForClass(TextRepresentation);

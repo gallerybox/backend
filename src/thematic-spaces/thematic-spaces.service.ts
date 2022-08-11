@@ -73,9 +73,22 @@ export class ThematicSpacesService {
   }
 
   async populate(){
+    enum Fonts {
+        Font1 = "Roboto, Helvetica, sans-serif",
+        Font2 = "'Roboto Mono', Helvetica, sans-serif",
+        Font3 = "'Press Start 2P, Helvetica, sans-serif",
+        Font4 = "'Rye', Helvetica, sans-serif"
+    }
+    
+    enum FontSize {
+      Pequenyo = 9,
+      Mediano = 14,
+      Grande = 20
+  }
     /*****************************************************************************
     *                             Usuario 1 - utrilla                            *
     *****************************************************************************/
+  
     let user1: CreateUsersDto = new CreateUsersDto();
     user1.email = "utri1990@gmail.com";
     user1.nickname = "utrilla";
@@ -112,11 +125,11 @@ export class ThematicSpacesService {
     // Representación gráfica
     let nombreCervezaRepr: TextRepresentation = new TextRepresentation();
     nombreCervezaRepr.bold = true;
-    nombreCervezaRepr.font = "CustomFont1";
+    nombreCervezaRepr.font = Fonts.Font1;
     nombreCervezaRepr.color = "#111111";
     nombreCervezaRepr.italics =  true;
-    nombreCervezaRepr.maxLength = 13;
-    nombreCervezaRepr.size = 15;
+    nombreCervezaRepr.underlined = false;
+    nombreCervezaRepr.size = FontSize.Grande;
 
     // Tipo = Categoria (Texto) + Representación gráfica
     let nombreCervezaType: Type = new Type();            
@@ -134,11 +147,11 @@ export class ThematicSpacesService {
     // Representación gráfica
     let graduacionCervezaRepr: TextRepresentation = new TextRepresentation();
     graduacionCervezaRepr.bold = true;
-    graduacionCervezaRepr.font = "CustomFont2";
+    graduacionCervezaRepr.font = Fonts.Font1;
     graduacionCervezaRepr.color = "#403E28";
     graduacionCervezaRepr.italics =  true;
-    graduacionCervezaRepr.maxLength = 20;
-    graduacionCervezaRepr.size = 15;
+    graduacionCervezaRepr.underlined = true;
+    graduacionCervezaRepr.size = FontSize.Pequenyo;
 
     // Tipo = Categoria (Texto) + Representación gráfica
     let graduacionType : Type = new Type();            
@@ -156,11 +169,11 @@ export class ThematicSpacesService {
     // Representación gráfica
     let tipoCervezaRepr: TextRepresentation = new TextRepresentation();
     tipoCervezaRepr.bold = true;
-    tipoCervezaRepr.font = "CustomFont3";
+    tipoCervezaRepr.font = Fonts.Font2;
     tipoCervezaRepr.color = "#AAAAAA";
     tipoCervezaRepr.italics =  false;
-    tipoCervezaRepr.maxLength = 35;
-    tipoCervezaRepr.size = 15;
+    tipoCervezaRepr.underlined = false;
+    tipoCervezaRepr.size = FontSize.Mediano;
 
     // Tipo = Categoria (Texto) + Representación gráfica
     let tipoCervezaType : Type = new Type();            
@@ -219,11 +232,11 @@ export class ThematicSpacesService {
     // Representación gráfica
     let tituloVideojuegoRepr: TextRepresentation = new TextRepresentation();
     tituloVideojuegoRepr.bold = true;
-    tituloVideojuegoRepr.font = "CustomFont4";
+    tituloVideojuegoRepr.font = Fonts.Font2;
     tituloVideojuegoRepr.color = "#111111";
     tituloVideojuegoRepr.italics =  true;
-    tituloVideojuegoRepr.maxLength = 13;
-    tituloVideojuegoRepr.size = 15;
+    tituloVideojuegoRepr.underlined = false;
+    tituloVideojuegoRepr.size = FontSize.Grande;
 
     // Tipo = Categoria (Texto) + Representación gráfica
     let tituloVideojuegoType: Type = new Type();            
@@ -241,11 +254,11 @@ export class ThematicSpacesService {
     // Representación gráfica
     let descriptionVideojuegoRepr: TextRepresentation = new TextRepresentation();
     descriptionVideojuegoRepr.bold = true;
-    descriptionVideojuegoRepr.font = "CustomFont5";
+    descriptionVideojuegoRepr.font = Fonts.Font2;
     descriptionVideojuegoRepr.color = "#403E28";
     descriptionVideojuegoRepr.italics =  true;
-    descriptionVideojuegoRepr.maxLength = 20;
-    descriptionVideojuegoRepr.size = 15;
+    descriptionVideojuegoRepr.underlined = true;
+    descriptionVideojuegoRepr.size = FontSize.Pequenyo;
 
     // Tipo = Categoria (Texto) + Representación gráfica
     let descriptionVideojuegoType : Type = new Type();            
@@ -263,11 +276,11 @@ export class ThematicSpacesService {
     // Representación gráfica
     let distribuidoraVideojuegoRepr: TextRepresentation = new TextRepresentation();
     distribuidoraVideojuegoRepr.bold = true;
-    distribuidoraVideojuegoRepr.font = "CustomFont6";
+    distribuidoraVideojuegoRepr.font = Fonts.Font3;
     distribuidoraVideojuegoRepr.color = "#AAAAAA";
-    distribuidoraVideojuegoRepr.italics =  false;
-    distribuidoraVideojuegoRepr.maxLength = 35;
-    distribuidoraVideojuegoRepr.size = 15;
+    distribuidoraVideojuegoRepr.italics = false;
+    distribuidoraVideojuegoRepr.underlined = true;
+    distribuidoraVideojuegoRepr.size = FontSize.Mediano;
 
     // Tipo = Categoria (Texto) + Representación gráfica
     let distribuidoraVideojuegoType : Type = new Type();            
@@ -328,11 +341,11 @@ export class ThematicSpacesService {
     // Representación gráfica
     let albumMusicaRepr: TextRepresentation = new TextRepresentation();
     albumMusicaRepr.bold = true;
-    albumMusicaRepr.font = "CustomFont7";
+    albumMusicaRepr.font = Fonts.Font3;
     albumMusicaRepr.color = "#111111";
     albumMusicaRepr.italics =  true;
-    albumMusicaRepr.maxLength = 13;
-    albumMusicaRepr.size = 15;
+    albumMusicaRepr.underlined = false;
+    albumMusicaRepr.size = FontSize.Grande;
 
     // Tipo = Categoria (Texto) + Representación gráfica
     let albumMusicaType: Type = new Type();            
@@ -350,11 +363,11 @@ export class ThematicSpacesService {
     // Representación gráfica
     let grupoMusicaRepr: TextRepresentation = new TextRepresentation();
     grupoMusicaRepr.bold = true;
-    grupoMusicaRepr.font = "CustomFont8";
+    grupoMusicaRepr.font = Fonts.Font3;
     grupoMusicaRepr.color = "#403E28";
     grupoMusicaRepr.italics =  true;
-    grupoMusicaRepr.maxLength = 20;
-    grupoMusicaRepr.size = 15;
+    grupoMusicaRepr.underlined = true;
+    grupoMusicaRepr.size = FontSize.Mediano;
 
     // Tipo = Categoria (Texto) + Representación gráfica
     let grupoMusicaType: Type = new Type();            
@@ -372,11 +385,11 @@ export class ThematicSpacesService {
     // Representación gráfica
     let discograficaMusicaRepr: TextRepresentation = new TextRepresentation();
     discograficaMusicaRepr.bold = true;
-    discograficaMusicaRepr.font = "CustomFont9";
+    discograficaMusicaRepr.font = Fonts.Font4;
     discograficaMusicaRepr.color = "#AAAAAA";
     discograficaMusicaRepr.italics =  false;
-    discograficaMusicaRepr.maxLength = 35;
-    discograficaMusicaRepr.size = 15;
+    discograficaMusicaRepr.underlined = true;
+    discograficaMusicaRepr.size = FontSize.Pequenyo;
 
     // Tipo = Categoria (Texto) + Representación gráfica
     let discograficaMusicaType : Type = new Type();            
