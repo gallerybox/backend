@@ -177,7 +177,7 @@ export class ThematicSpacesService {
 
     // Representación gráfica
     let imagenCervezaRepr: MultimediaRepresentation = new MultimediaRepresentation();
-    imagenCervezaRepr.dimensions = [400, 225];
+    imagenCervezaRepr.dimensions = [50, 100];
     imagenCervezaRepr.multimediaType = MultimediaType.Photo;
 
     // Tipo = Categoria (Texto) + Representación gráfica
@@ -284,7 +284,7 @@ export class ThematicSpacesService {
 
     // Representación gráfica
     let caratulaVideojuegoRepr: MultimediaRepresentation = new MultimediaRepresentation();
-    caratulaVideojuegoRepr.dimensions = [500, 325];
+    caratulaVideojuegoRepr.dimensions = [50, 100];
     caratulaVideojuegoRepr.multimediaType = MultimediaType.Photo ;
 
     // Tipo = Categoria (Texto) + Representación gráfica
@@ -393,7 +393,7 @@ export class ThematicSpacesService {
 
     // Representación gráfica
     let muestraMusicaRepr: MultimediaRepresentation = new MultimediaRepresentation();
-    muestraMusicaRepr.dimensions = [500, 325];
+    muestraMusicaRepr.dimensions = [75, 100];
     muestraMusicaRepr.multimediaType = MultimediaType.Audio;
 
     // Tipo = Categoria (Texto) + Representación gráfica
@@ -412,7 +412,7 @@ export class ThematicSpacesService {
 
     // Representación gráfica
     let videoclipMusicaRepr: MultimediaRepresentation = new MultimediaRepresentation();
-    videoclipMusicaRepr.dimensions = [500, 325];
+    videoclipMusicaRepr.dimensions = [100, 100];
     videoclipMusicaRepr.multimediaType = MultimediaType.Video;
 
     // Tipo = Categoria (Texto) + Representación gráfica
