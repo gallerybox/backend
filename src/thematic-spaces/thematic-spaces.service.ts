@@ -79,9 +79,8 @@ export class ThematicSpacesService {
         Font3 = "\"Roboto Slab\", Helvetica, sans-serif",
         Font4 = "\"Roboto Serif\", Helvetica, sans-serif",
         Font5 = "\"Gloria Hallelujah\", Helvetica, sans-serif",
-        Font5 = "\"Press Start 2P\"', Helvetica, sans-serif",
-        Font6 = "Rye, Helvetica, sans-serif",
-        Font7 = 
+        Font6 = "\"Press Start 2P\"', Helvetica, sans-serif",
+        Font7 = "Rye, Helvetica, sans-serif",
     }
     
     enum FontSize {
@@ -158,7 +157,7 @@ export class ThematicSpacesService {
     // Representación gráfica
     let graduacionCervezaRepr: TextRepresentation = new TextRepresentation();
     graduacionCervezaRepr.bold = true;
-    graduacionCervezaRepr.font = Fonts.Font1;
+    graduacionCervezaRepr.font = Fonts.Font2;
     graduacionCervezaRepr.color = "#403E28";
     graduacionCervezaRepr.italics =  true;
     graduacionCervezaRepr.underlined = true;
@@ -265,7 +264,7 @@ export class ThematicSpacesService {
     // Representación gráfica
     let tituloVideojuegoRepr: TextRepresentation = new TextRepresentation();
     tituloVideojuegoRepr.bold = true;
-    tituloVideojuegoRepr.font = Fonts.Font2;
+    tituloVideojuegoRepr.font = Fonts.Font3;
     tituloVideojuegoRepr.color = "#111111";
     tituloVideojuegoRepr.italics =  true;
     tituloVideojuegoRepr.underlined = false;
@@ -287,7 +286,7 @@ export class ThematicSpacesService {
     // Representación gráfica
     let descriptionVideojuegoRepr: TextRepresentation = new TextRepresentation();
     descriptionVideojuegoRepr.bold = true;
-    descriptionVideojuegoRepr.font = Fonts.Font2;
+    descriptionVideojuegoRepr.font = Fonts.Font4;
     descriptionVideojuegoRepr.color = "#403E28";
     descriptionVideojuegoRepr.italics =  true;
     descriptionVideojuegoRepr.underlined = true;
@@ -309,7 +308,7 @@ export class ThematicSpacesService {
     // Representación gráfica
     let distribuidoraVideojuegoRepr: TextRepresentation = new TextRepresentation();
     distribuidoraVideojuegoRepr.bold = true;
-    distribuidoraVideojuegoRepr.font = Fonts.Font3;
+    distribuidoraVideojuegoRepr.font = Fonts.Font5;
     distribuidoraVideojuegoRepr.color = "#AAAAAA";
     distribuidoraVideojuegoRepr.italics = false;
     distribuidoraVideojuegoRepr.underlined = true;
@@ -395,7 +394,7 @@ export class ThematicSpacesService {
     // Representación gráfica
     let albumMusicaRepr: TextRepresentation = new TextRepresentation();
     albumMusicaRepr.bold = true;
-    albumMusicaRepr.font = Fonts.Font3;
+    albumMusicaRepr.font = Fonts.Font6;
     albumMusicaRepr.color = "#111111";
     albumMusicaRepr.italics =  true;
     albumMusicaRepr.underlined = false;
@@ -417,7 +416,7 @@ export class ThematicSpacesService {
     // Representación gráfica
     let grupoMusicaRepr: TextRepresentation = new TextRepresentation();
     grupoMusicaRepr.bold = true;
-    grupoMusicaRepr.font = Fonts.Font3;
+    grupoMusicaRepr.font = Fonts.Font7;
     grupoMusicaRepr.color = "#403E28";
     grupoMusicaRepr.italics =  true;
     grupoMusicaRepr.underlined = true;
@@ -439,7 +438,7 @@ export class ThematicSpacesService {
     // Representación gráfica
     let discograficaMusicaRepr: TextRepresentation = new TextRepresentation();
     discograficaMusicaRepr.bold = true;
-    discograficaMusicaRepr.font = Fonts.Font4;
+    discograficaMusicaRepr.font = Fonts.Font7;
     discograficaMusicaRepr.color = "#AAAAAA";
     discograficaMusicaRepr.italics =  false;
     discograficaMusicaRepr.underlined = true;
