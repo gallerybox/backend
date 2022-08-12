@@ -76,8 +76,12 @@ export class ThematicSpacesService {
     enum Fonts {
         Font1 = "Roboto, Helvetica, sans-serif",
         Font2 = "\"Roboto Mono\", Helvetica, sans-serif",
-        Font3 = "\"Press Start 2P\"', Helvetica, sans-serif",
-        Font4 = "Rye, Helvetica, sans-serif"
+        Font3 = "\"Roboto Slab\", Helvetica, sans-serif",
+        Font4 = "\"Roboto Serif\", Helvetica, sans-serif",
+        Font5 = "\"Gloria Hallelujah\", Helvetica, sans-serif",
+        Font5 = "\"Press Start 2P\"', Helvetica, sans-serif",
+        Font6 = "Rye, Helvetica, sans-serif",
+        Font7 = 
     }
     
     enum FontSize {
