@@ -336,7 +336,7 @@ export class ThematicSpacesService {
     
     let caratulaVideojuegoAttribute: Attribute = new Attribute();
     caratulaVideojuegoAttribute.type = caratulaVideojuegoType;
-    caratulaVideojuegoAttribute.tag = "Etiqueta";
+    caratulaVideojuegoAttribute.tag = "Caratula";
     caratulaVideojuegoAttribute.showTag = true;
     caratulaVideojuegoAttribute.representationOrder = 3;
 
@@ -470,6 +470,23 @@ export class ThematicSpacesService {
     muestraMusicaAttribute.showTag = true;
     muestraMusicaAttribute.representationOrder = 3;
 
+    // --------------------- Atributo - Videoclip (Multimedia - Video) ---------------------
+
+    // Representación gráfica
+    let videoclipMusicaRepr: MultimediaRepresentation = new MultimediaRepresentation();
+    videoclipMusicaRepr.dimensions = [75, 100];
+    videoclipMusicaRepr.multimediaType = MultimediaType.Video;
+
+    // Tipo = Categoria (Texto) + Representación gráfica
+    let videoclipMusicaType: Type = new Type();
+    videoclipMusicaType.representation = muestraMusicaRepr;
+    videoclipMusicaType.category = Category.Multimedia;
+    
+    let videoclipMusicaAttribute: Attribute = new Attribute();
+    videoclipMusicaAttribute.type = videoclipMusicaType;
+    videoclipMusicaAttribute.tag = "Videoclip";
+    videoclipMusicaAttribute.showTag = true;
+    videoclipMusicaAttribute.representationOrder = 4;
 
     // --------------------- Atributo - Activo (Toogle) ---------------------
 
@@ -489,7 +506,7 @@ export class ThematicSpacesService {
     enActivoMusicaAttribute.type = enActivoMusicaType;
     enActivoMusicaAttribute.tag = "Activo";
     enActivoMusicaAttribute.showTag = true;
-    enActivoMusicaAttribute.representationOrder = 4;
+    enActivoMusicaAttribute.representationOrder = 5;
 
 
     // --------------------------- Fin atributos ------------------------------
@@ -501,6 +518,7 @@ export class ThematicSpacesService {
       grupoMusicaAttribute,
       enActivoMusicaAttribute,
       discograficaMusicaAttribute,
+      videoclipMusicaAttribute,
       muestraMusicaAttribute,
     ];    
 
