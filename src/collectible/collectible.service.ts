@@ -124,7 +124,8 @@ export class CollectibleService {
       "Nombre": "Cruzcampo Gran Reserva",
       "Graduacion": "7",
       "Tipo": "Rubia",
-      "Foto": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/364c1283-d635-40e5-ad0f-2ad394e8b6f2-cruzcampo-gran-reserva-gnu1.2.jpeg"
+      "Foto": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/364c1283-d635-40e5-ad0f-2ad394e8b6f2-cruzcampo-gran-reserva-gnu1.2.jpeg",
+      "Favorita": true
     };
     let collectible1 = new Collectible(user1_db, thematicSpaceCervezas, values_collectible1);
     const collectible1_db = await this.collectibleRepository.create(collectible1);
@@ -135,7 +136,8 @@ export class CollectibleService {
       "Nombre": "Alhambra Reserva 1925",
       "Graduacion": "6.4",
       "Tipo": "Pilsen",
-      "Foto": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/0f3fb711-69a2-4114-9c57-811ca380024f-alhambra-reserva-1925-cc.jpg"
+      "Foto": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/0f3fb711-69a2-4114-9c57-811ca380024f-alhambra-reserva-1925-cc.jpg",
+      "Favorita": true
     };
     let collectible2 = new Collectible(user1_db, thematicSpaceCervezas, values_collectible2);
     const collectible2_db = await this.collectibleRepository.create(collectible2);
@@ -145,7 +147,8 @@ export class CollectibleService {
       "Nombre": "Mahou",
       "Graduacion": "7.3",
       "Tipo": "Lager",
-      "Foto": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/9bda6e6d-093c-41f5-a808-184d0f9f5e03-mahou-cc.jpg"
+      "Foto": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/9bda6e6d-093c-41f5-a808-184d0f9f5e03-mahou-cc.jpg",
+      "Favorita": false
     };
     let collectible3 = new Collectible(user1_db, thematicSpaceCervezas, values_collectible3);
     const collectible3_db = await this.collectibleRepository.create(collectible3);
@@ -155,7 +158,8 @@ export class CollectibleService {
       "Nombre": "Alhambra Singular",
       "Graduacion": "5.4",
       "Tipo": "Lager",
-      "Foto": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/ee3edb9e-33cb-419c-b105-86e20819bd20-estrella-galicia-cc.jpg"
+      "Foto": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/ee3edb9e-33cb-419c-b105-86e20819bd20-estrella-galicia-cc.jpg",
+      "Favorita": true
     };
     let collectible4 = new Collectible(user1_db, thematicSpaceCervezas, values_collectible4);
     const collectible4_db = await this.collectibleRepository.create(collectible4);
@@ -169,7 +173,8 @@ export class CollectibleService {
       "Descripcion": "Una versión mejorada del juego, Gravity Rush Remastered, fue lanzada en Japón " + 
                      "a finales de 2015 y en Europa y Norteamérica a inicios de 2016 para PlayStation 4.",
       "Distribuidora": "Sony Interactive Entertainment",
-      "Caratula": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/e147061e-ae3a-4b89-9665-24d794d80c0b-ps4-cover-cc.jpg"
+      "Caratula": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/e147061e-ae3a-4b89-9665-24d794d80c0b-ps4-cover-cc.jpg",
+      "Precintado": true
     };
     let collectible5 = new Collectible(user2_db, thematicSpaceVideojuegos, values_collectible5);
     const collectible5_db = await this.collectibleRepository.create(collectible5);
@@ -181,7 +186,8 @@ export class CollectibleService {
                      "y cuidado diseño se inspiran en el folklore español y, más concretamente, en la " +
                      "Semana Santa andaluza",
       "Distribuidora": "Selecta Play",
-      "Caratula": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/43702e26-d7ef-4570-b9fd-e099b19bc682-ps4-cover-cc.jpg"
+      "Caratula": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/43702e26-d7ef-4570-b9fd-e099b19bc682-ps4-cover-cc.jpg",
+      "Precintado": true
     };
     let collectible6 = new Collectible(user2_db, thematicSpaceVideojuegos, values_collectible6);
     const collectible6_db = await this.collectibleRepository.create(collectible6);
@@ -192,7 +198,8 @@ export class CollectibleService {
       "Descripcion": "Nueva adaptación de la obra maestra del rol japonés. El remake del séptimo " +
                      "capítulo de la saga nos trasladará al mundo de la entrega original de PlayStation y PC",
       "Distribuidora": "Koch Media",
-      "Caratula": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/6037854f-bb09-4dd6-a612-a2d601236cf7-ps5-cc4.0.jpg"
+      "Caratula": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/6037854f-bb09-4dd6-a612-a2d601236cf7-ps5-cc4.0.jpg",
+      "Precintado": false
     };
     let collectible7 = new Collectible(user2_db, thematicSpaceVideojuegos, values_collectible7);
     const collectible7_db = await this.collectibleRepository.create(collectible7);
@@ -205,7 +212,8 @@ export class CollectibleService {
                      "aniquilaria a gran parte de la civilización, en la que el o la protagonista sobrevive " +
                      "en un búnker subterráneo de la compañía Vault-Tec.",
       "Distribuidora": "Bethesda Softworks",
-      "Caratula": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/658e0df8-d0c4-482f-8d70-c5b301fab33b-ps5-cc4.0.jpg"
+      "Caratula": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/658e0df8-d0c4-482f-8d70-c5b301fab33b-ps5-cc4.0.jpg",
+      "Precintado": false
     };
 
     let collectible8 = new Collectible(user2_db, thematicSpaceVideojuegos, values_collectible8);
@@ -220,7 +228,8 @@ export class CollectibleService {
       "Grupo": "Jarabe de Palo",
       "Discografica": "Virgin Records",
       "Muestra": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/cf15df74-9583-4005-a325-ece0b9b677cb-dance-and-hiphop-sample-cc.mp3",
-      "Videoclip": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/4729d65a-9093-4008-90e4-a0e3573d3bec-BuildingOnThePast-640x480-cc.mp4"
+      "Videoclip": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/4729d65a-9093-4008-90e4-a0e3573d3bec-BuildingOnThePast-640x480-cc.mp4",
+      "Activo": false
     };
     let collectible9 = new Collectible(user3_db, thematicSpaceMusica, values_collectible9);
     const collectible9_db = await this.collectibleRepository.create(collectible9);
@@ -231,7 +240,8 @@ export class CollectibleService {
       "Grupo": "Michael Jackson",
       "Discografica": "Epic Records",
       "Muestra": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/217db708-7464-4a3f-93ba-2308b41087e9-dance-and-hiphop-sample-cc.mp3",
-      "Videoclip": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/b8742f69-4a18-454b-9083-bb8a0da5b1ff-BuildingOnThePast-640x480-cc.mp4"
+      "Videoclip": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/b8742f69-4a18-454b-9083-bb8a0da5b1ff-BuildingOnThePast-640x480-cc.mp4",
+      "Activo": false
     };
     let collectible10 = new Collectible(user3_db, thematicSpaceMusica, values_collectible10);
     const collectible10_db = await this.collectibleRepository.create(collectible10);
@@ -243,7 +253,8 @@ export class CollectibleService {
       "Grupo": "The Prodigy",
       "Discografica": "Ragged Flag",
       "Muestra": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/186c9ed3-156d-496e-9817-9fcbf35c0f37-dance-and-hiphop-sample-cc.mp3",
-      "Videoclip": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/6a9a8a81-5b17-449e-abd4-e4d1e611ad92-BuildingOnThePast-640x480-cc.mp4"
+      "Videoclip": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/6a9a8a81-5b17-449e-abd4-e4d1e611ad92-BuildingOnThePast-640x480-cc.mp4",
+      "Activo": false
     };
     let collectible11 = new Collectible(user3_db, thematicSpaceMusica, values_collectible11);
     const collectible11_db = await this.collectibleRepository.create(collectible11);
@@ -254,7 +265,8 @@ export class CollectibleService {
       "Grupo": "Sixto Rodriguez",
       "Discografica": "Sussex Records",
       "Muestra": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/413e02cc-4a70-47df-a8b0-4ca137d9a3a0-dance-and-hiphop-sample-cc.mp3",
-      "Videoclip": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/5e0f7814-1c39-48f6-b0ca-cf205aa9dc32-BuildingOnThePast-640x480-cc.mp4"
+      "Videoclip": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/5e0f7814-1c39-48f6-b0ca-cf205aa9dc32-BuildingOnThePast-640x480-cc.mp4",
+      "Activo": true
     };
     let collectible12 = new Collectible(user3_db, thematicSpaceMusica, values_collectible12);
     const collectible12_db = await this.collectibleRepository.create(collectible12);
@@ -265,7 +277,8 @@ export class CollectibleService {
       "Grupo": "Sixto Rodriguez",
       "Discografica": "Sussex Records",
       "Muestra": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/066fb5fe-6155-4870-b90e-460b6bc2335c-dance-and-hiphop-sample-cc.mp3",
-      "Videoclip": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/c3831efa-5c0c-4d0f-be89-39e5a4eacf33-BuildingOnThePast-640x480-cc.mp4"
+      "Videoclip": "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/c3831efa-5c0c-4d0f-be89-39e5a4eacf33-BuildingOnThePast-640x480-cc.mp4",
+      "Activo": true
     };
     let collectible13 = new Collectible(user3_db, thematicSpaceMusica, values_collectible13);
     const collectible13_db = await this.collectibleRepository.create(collectible13);

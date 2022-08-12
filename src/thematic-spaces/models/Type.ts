@@ -64,7 +64,7 @@ export class TextRepresentation implements Representation{
 export const TextRepresentationSchema = SchemaFactory.createForClass(TextRepresentation);
 
 export enum ToggleType {
-    Switch = "switch",
+    Switch = "Switch",
     Check = "Check",
     Icon = "Icon"
 }

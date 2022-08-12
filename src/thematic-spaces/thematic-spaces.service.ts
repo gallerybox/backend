@@ -7,7 +7,7 @@ import { UsersService } from 'src/users/users.service';
 import { Attribute } from './models/Attribute';
 import { Template } from './models/Template';
 import { ThematicSpace, ThematicSpaceDocument } from './models/ThematicSpace';
-import { Category, MultimediaRepresentation, MultimediaType, TextRepresentation, Type } from './models/Type';
+import { Category, MultimediaRepresentation, MultimediaType, TextRepresentation, Type, ToggleRepresentation, ToggleType } from './models/Type';
 import { ThematicSpaceRepository } from './repositories/thematic-spaces.repository';
 
 @Injectable()
@@ -76,15 +76,22 @@ export class ThematicSpacesService {
     enum Fonts {
         Font1 = "Roboto, Helvetica, sans-serif",
         Font2 = "'Roboto Mono', Helvetica, sans-serif",
-        Font3 = "'Press Start 2P, Helvetica, sans-serif",
+        Font3 = "'Press Start 2P', Helvetica, sans-serif",
         Font4 = "'Rye', Helvetica, sans-serif"
     }
     
     enum FontSize {
-      Pequenyo = 9,
-      Mediano = 14,
-      Grande = 20
-  }
+        Pequenyo = 9,
+        Mediano = 14,
+        Grande = 20
+    }
+
+    enum IconSelected {
+        Favorite = "Favorite",
+        Bookmark = "Bookmark",
+        Star = "Star"
+    }
+  
     /*****************************************************************************
     *                             Usuario 1 - utrilla                            *
     *****************************************************************************/
@@ -204,12 +211,34 @@ export class ThematicSpacesService {
     imagenCervezaAttribute.showTag = true;
     imagenCervezaAttribute.representationOrder = 3;
 
+
+    // --------------------- Atributo - Favorita (Toogle) ---------------------
+
+    // Representación gráfica
+    let esFavoritaCervezaRepr: ToggleRepresentation = new ToggleRepresentation();
+    esFavoritaCervezaRepr.toggleType = ToggleType.Icon;
+    esFavoritaCervezaRepr.icon = IconSelected.Favorite;
+    esFavoritaCervezaRepr.colorTrue = "#0000FF";
+    esFavoritaCervezaRepr.colorFalse = "#FF0000";
+
+    // Tipo = Categoria (Texto) + Representación gráfica
+    let esFavoritaCervezaType: Type = new Type();
+    esFavoritaCervezaType.representation = esFavoritaCervezaRepr;
+    esFavoritaCervezaType.category = Category.Toggle;
+    
+    let esFavoritaCervezaAttribute: Attribute = new Attribute();
+    esFavoritaCervezaAttribute.type = esFavoritaCervezaType;
+    esFavoritaCervezaAttribute.tag = "Favorita";
+    esFavoritaCervezaAttribute.showTag = true;
+    esFavoritaCervezaAttribute.representationOrder = 4;
+
     // --------------------------- Fin atributos ------------------------------
   
     // Plantilla: guarda cada uno de los atributos
     let templateCervezas: Template = new Template();
     templateCervezas.attributes = [
       nombreCervezaAttribute,
+      esFavoritaCervezaAttribute,
       graduacionCervezaAttribute,
       tipoCervezaAttribute,
       imagenCervezaAttribute
@@ -311,6 +340,26 @@ export class ThematicSpacesService {
     caratulaVideojuegoAttribute.showTag = true;
     caratulaVideojuegoAttribute.representationOrder = 3;
 
+    // --------------------- Atributo - Precintado (Toogle) ---------------------
+
+    // Representación gráfica
+    let estaPrecintadoVideojuegoRepr: ToggleRepresentation = new ToggleRepresentation();
+    estaPrecintadoVideojuegoRepr.toggleType = ToggleType.Icon;
+    estaPrecintadoVideojuegoRepr.icon = IconSelected.Bookmark;
+    estaPrecintadoVideojuegoRepr.colorTrue = "#00FF00";
+    estaPrecintadoVideojuegoRepr.colorFalse = "#FF0000";
+
+    // Tipo = Categoria (Texto) + Representación gráfica
+    let estaPrecintadoVideojuegoType: Type = new Type();
+    estaPrecintadoVideojuegoType.representation = estaPrecintadoVideojuegoRepr;
+    estaPrecintadoVideojuegoType.category = Category.Toggle;
+    
+    let estaPrecintadoVideojuegoAttribute: Attribute = new Attribute();
+    estaPrecintadoVideojuegoAttribute.type = estaPrecintadoVideojuegoType;
+    estaPrecintadoVideojuegoAttribute.tag = "Precintado";
+    estaPrecintadoVideojuegoAttribute.showTag = true;
+    estaPrecintadoVideojuegoAttribute.representationOrder = 4;
+
     // --------------------------- Fin atributos ------------------------------
 
     // Plantilla: guarda cada uno de los atributos
@@ -318,6 +367,7 @@ export class ThematicSpacesService {
     
     templateVideojuegos.attributes = [
       tituloVideojuegoAttribute, 
+      estaPrecintadoVideojuegoAttribute,
       descripcionVideojuegoAttribute,
       distribuidoraVideojuegoAttribute,
       caratulaVideojuegoAttribute
@@ -421,23 +471,25 @@ export class ThematicSpacesService {
     muestraMusicaAttribute.representationOrder = 3;
 
 
-    // --------------------- Atributo - Videoclip (Multimedia - Video) ---------------------
+    // --------------------- Atributo - Activo (Toogle) ---------------------
 
     // Representación gráfica
-    let videoclipMusicaRepr: MultimediaRepresentation = new MultimediaRepresentation();
-    videoclipMusicaRepr.dimensions = [100, 100];
-    videoclipMusicaRepr.multimediaType = MultimediaType.Video;
+    let enActivoMusicaRepr: ToggleRepresentation = new ToggleRepresentation();
+    enActivoMusicaRepr.toggleType = ToggleType.Icon;
+    enActivoMusicaRepr.icon = IconSelected.Star;
+    enActivoMusicaRepr.colorTrue = "#FFFF00";
+    enActivoMusicaRepr.colorFalse = "#FF0000";
 
     // Tipo = Categoria (Texto) + Representación gráfica
-    let videoclipMusicaType: Type = new Type();
-    videoclipMusicaType.representation = videoclipMusicaRepr;
-    videoclipMusicaType.category = Category.Multimedia;
+    let enActivoMusicaType: Type = new Type();
+    enActivoMusicaType.representation = enActivoMusicaRepr;
+    enActivoMusicaType.category = Category.Toggle;
     
-    let videoclipMusicaAttribute: Attribute = new Attribute();
-    videoclipMusicaAttribute.type = videoclipMusicaType;
-    videoclipMusicaAttribute.tag = "Videoclip";
-    videoclipMusicaAttribute.showTag = true;
-    videoclipMusicaAttribute.representationOrder = 4;
+    let enActivoMusicaAttribute: Attribute = new Attribute();
+    enActivoMusicaAttribute.type = enActivoMusicaType;
+    enActivoMusicaAttribute.tag = "Activo";
+    enActivoMusicaAttribute.showTag = true;
+    enActivoMusicaAttribute.representationOrder = 4;
 
 
     // --------------------------- Fin atributos ------------------------------
@@ -447,9 +499,9 @@ export class ThematicSpacesService {
     templateMusica.attributes = [
       albumMusicaAttribute,
       grupoMusicaAttribute,
+      enActivoMusicaAttribute,
       discograficaMusicaAttribute,
       muestraMusicaAttribute,
-      videoclipMusicaAttribute
     ];    
 
     // Espacio temático: name + template + description
