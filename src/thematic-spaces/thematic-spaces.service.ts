@@ -76,11 +76,10 @@ export class ThematicSpacesService {
     enum Fonts {
         Font1 = "Roboto, Helvetica, sans-serif",
         Font2 = "\"Roboto Mono\", Helvetica, sans-serif",
-        Font3 = "\"Roboto Slab\", Helvetica, sans-serif",
-        Font4 = "\"Roboto Serif\", Helvetica, sans-serif",
-        Font5 = "\"Gloria Hallelujah\", Helvetica, sans-serif",
-        Font6 = "\"Press Start 2P\"', Helvetica, sans-serif",
-        Font7 = "Rye, Helvetica, sans-serif",
+        Font3 = "\"Roboto Serif\", Helvetica, sans-serif",
+        Font4 = "\"Gloria Hallelujah\", Helvetica, sans-serif",
+        Font5 = "\"Press Start 2P\"', Helvetica, sans-serif",
+        Font6 = "Rye, Helvetica, sans-serif",
     }
     
     enum FontSize {
@@ -416,7 +415,7 @@ export class ThematicSpacesService {
     // Representación gráfica
     let grupoMusicaRepr: TextRepresentation = new TextRepresentation();
     grupoMusicaRepr.bold = true;
-    grupoMusicaRepr.font = Fonts.Font7;
+    grupoMusicaRepr.font = Fonts.Font6;
     grupoMusicaRepr.color = "#403E28";
     grupoMusicaRepr.italics =  true;
     grupoMusicaRepr.underlined = true;
@@ -438,7 +437,7 @@ export class ThematicSpacesService {
     // Representación gráfica
     let discograficaMusicaRepr: TextRepresentation = new TextRepresentation();
     discograficaMusicaRepr.bold = true;
-    discograficaMusicaRepr.font = Fonts.Font7;
+    discograficaMusicaRepr.font = Fonts.Font6;
     discograficaMusicaRepr.color = "#AAAAAA";
     discograficaMusicaRepr.italics =  false;
     discograficaMusicaRepr.underlined = true;
