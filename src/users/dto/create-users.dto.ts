@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsNotEmpty } from "class-validator";
+import { IsBoolean, IsEmail, IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreateUsersDto {
     @IsNotEmpty()
@@ -13,4 +13,7 @@ export class CreateUsersDto {
 
     @IsBoolean()
     hasConsented: boolean;
+
+    @IsOptional()
+    profileImage: string
 }

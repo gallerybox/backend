@@ -47,6 +47,9 @@ export class Users extends AbstractDocument {
 
     @Prop({ required: true })
     hasConsented: boolean;
+
+    @Prop()
+    profileImage?: string
     
     @Prop({ 
         type: [mongoose.Schema.Types.ObjectId],

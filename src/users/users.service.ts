@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateCollectionDto } from './dto/create-collection.dto';
@@ -16,7 +16,17 @@ export class UsersService {
 
     // Add a new user
     async create(createUsersDto: any | CreateUsersDto) {
-        return await this.usersRepository.create(createUsersDto);
+        try {
+            return await this.usersRepository.create(createUsersDto);
+        } catch (error) {
+            if (error.code === 11000) {
+                throw new HttpException({
+                    status: HttpStatus.FORBIDDEN,
+                    error: 'El nickname o email ya existen en GalleryBox',
+                  }, HttpStatus.FORBIDDEN);    
+            }   
+        }
+
     }
     async createCollection(createCollectionDto: CreateCollectionDto) {
         let collection: Collection = new Collection();
