@@ -64,7 +64,12 @@ export class UsersService {
     async findUsersByFollowedSpaceId(followedSpaceId: string){
         return await this.usersRepository.findUsersByFollowedSpaceId( followedSpaceId );
     }
+
     async findUserOwnerOfSpaceId(ownedSpaceId: string){
         return await this.usersRepository.findUserOwnerOfSpaceId( ownedSpaceId );
+    }
+
+    async findUserByFollowedUserId(ownedSpaceId: string) {
+        return await this.usersRepository.findUserByFollowedUserId(ownedSpaceId);
     }
 }
