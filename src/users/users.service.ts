@@ -62,7 +62,7 @@ export class UsersService {
         // Actualizamos el usuario con su nuevo avatar
         let updateUserDTO: UpdateUsersDto = {
             ... await this.actualizarUsuarioDTO(userId),
-            profileImage: uploadedFile.Location
+            profilePhoto: uploadedFile.Location
         }
 
         return await this.update(userId, updateUserDTO);
@@ -79,14 +79,14 @@ export class UsersService {
             "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/2ab093fb-908b-424b-8bf1-ac633a11872d-avatar-men3.jpg"
         ]
 
-        // Si tiene profileImage, lo borramos de la base de datos
-        if (userDb?.profileImage && !filesAvatarDefaultUsers.includes(userDb.profileImage))
-            result = await this.filesService.deleteFile(userDb.profileImage);
+        // Si tiene profilePhoto, lo borramos de la base de datos
+        if (userDb?.profilePhoto && !filesAvatarDefaultUsers.includes(userDb.profilePhoto))
+            result = await this.filesService.deleteFile(userDb.profilePhoto);
         
         // Actualizamos el usuario borrando su avatar.
         let updateUserDTO: UpdateUsersDto = {
             ... await this.actualizarUsuarioDTO(userId),
-            profileImage: null
+            profilePhoto: null
         }
 
         return await this.update(userId, updateUserDTO);
@@ -98,7 +98,7 @@ export class UsersService {
         let updatedUserDto = new UpdateUsersDto();
         updatedUserDto = {
             nombre: userDb?.nombre,
-            profileImage: userDb?.profileImage,
+            profilePhoto: userDb?.profilePhoto,
             collections: userDb?.collections,
             followedThematicSpaces: userDb?.followedThematicSpaces.map(thematicSpace => thematicSpace._id.toString()),
             ownedThematicSpaces: userDb?.ownedThematicSpaces.map(thematicSpace => thematicSpace._id.toString()),

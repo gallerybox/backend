@@ -21,5 +21,5 @@ export class CreateUsersDto {
     hasConsented: boolean;
 
     @IsOptional()
-    profileImage: string
+    profilePhoto: string
 }

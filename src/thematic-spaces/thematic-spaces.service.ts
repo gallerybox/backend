@@ -102,7 +102,7 @@ export class ThematicSpacesService {
     user1.email = "utri1990@gmail.com";
     user1.nickname = "utrilla";
     user1.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
-    user1.profileImage = "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/ea872f6d-fb36-4a4c-b3ec-215764c736cb-avatar-men.jpg"
+    user1.profilePhoto = "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/ea872f6d-fb36-4a4c-b3ec-215764c736cb-avatar-men.jpg"
     user1.hasConsented = true;
     let user1_db = await this.userService.create(user1);
 
@@ -114,7 +114,7 @@ export class ThematicSpacesService {
     user2.nickname = "pedrolo";
     user2.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
     user2.hasConsented = true;
-    user2.profileImage = "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/08e6c6ee-40fc-4142-b8cf-25d87ecc5abf-avatar-men2.jpg";
+    user2.profilePhoto = "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/08e6c6ee-40fc-4142-b8cf-25d87ecc5abf-avatar-men2.jpg";
     let user2_db = await this.userService.create(user2);
 
     /*****************************************************************************
@@ -125,7 +125,7 @@ export class ThematicSpacesService {
      user3.nickname = "jesus";
      user3.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
      user3.hasConsented = true;
-     user3.profileImage = "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/2ab093fb-908b-424b-8bf1-ac633a11872d-avatar-men3.jpg"
+     user3.profilePhoto = "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/2ab093fb-908b-424b-8bf1-ac633a11872d-avatar-men3.jpg"
      let user3_db = await this.userService.create(user3);
 
     /*****************************************************************************
