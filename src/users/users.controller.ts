@@ -1,4 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
@@ -18,7 +20,7 @@ export class UsersController {
     }
 
     @Post('create-collection')
-    async createCollection( @Body() createCollectionDto: CreateCollectionDto) {
+    async createCollection(@Body() createCollectionDto: CreateCollectionDto) {
         return await this.usersService.createCollection(createCollectionDto);
     }
 
@@ -46,7 +48,6 @@ export class UsersController {
     }
     @Get('/owned-space-id/:spaceId')
     findUserOwnerOfSpaceId(@Param('spaceId') spaceId: string){
-        console.log("entra qui");
         console.log(spaceId);
         return this.usersService.findUserOwnerOfSpaceId( spaceId );
     }
@@ -63,9 +64,21 @@ export class UsersController {
         return this.usersService.update(id, updateUsersDto);
     }
     
+    @Post('add-avatar')
+    @UseInterceptors(FileInterceptor('file'))
+    async addAvatar(@Req() request: Request, @UploadedFile() file: Express.Multer.File) {
+        return await this.usersService.addAvatar(request.body.userId, file);
+    }
+
+    @Delete('delete-avatar/:userId')
+    async deleteAvatar(@Param('userId') userId: string){
+        return await this.usersService.deleteAvatar(userId);
+    }    
+
     // @UseGuards(JwtAuthGuard)
     @Delete(':id')
     delete(@Param('id') id: string) {
         return this.usersService.deleteOne(id);
     }
+
 }

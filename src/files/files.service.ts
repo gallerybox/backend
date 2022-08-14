@@ -33,7 +33,7 @@ export class FilesService {
 
     // Sube un fichero a AWS S3
     async uploadFile(file: Express.Multer.File) {
-        let result = [];
+        let result;
 
         const s3 = new S3();
 
@@ -45,7 +45,7 @@ export class FilesService {
         }
         
         // Subiendo el nuevo fichero al bucket
-        result.push(await s3.upload(s3FileInfo)
+        result = await s3.upload(s3FileInfo)
             .promise()
             .then(data => {
                 return {
@@ -62,7 +62,7 @@ export class FilesService {
                     throw new HttpException("Bad AWS S3 Credentials", HttpStatus.FORBIDDEN);
                 }
                 console.log(err);
-            }));
+            });
         return result;
     }
 
@@ -108,7 +108,7 @@ export class FilesService {
 
         let objectData = {
             Bucket: this.configService.get<string>('AWS_S3_BUCKET_NAME'),
-            Key: fileUrl // fileURL
+            Key: fileUrl.split('.amazonaws.com/')[1] // fileURL
         }
         
         const s3 = new S3();
@@ -118,22 +118,34 @@ export class FilesService {
         } else {
             await s3.deleteObject(objectData)
             .promise()
+            .then(data => {
+                result = data;
+            })
             .catch(err => {
                 console.log(err);
             });
         }
 
-        // Faltaría borrar en base de datos
+        return result;
     }
 
     private async checkIfFileExistsInAwsS3(params: {Bucket: string, Key: string}): Promise<boolean>{
         let result = true;
-
+        
         const s3 = new S3();
 
         await s3.headObject(params)
         .promise()
+        .then(data => {
+            console.log("SI ENCUENTRA ALGO...")
+            console.log(data);
+        })
         .catch(err => {
+            
+            console.log("HA ENCONTRADO UN ERROR");
+            console.log(err);
+            console.log("CON ESTOS PARAMETROS...")
+            console.log(params);
             // Si err.code === 'NotFound', el fichero no existe
             if (err.code === 'Forbidden')
                 throw new HttpException("Bad AWS S3 Credentials", HttpStatus.FORBIDDEN);

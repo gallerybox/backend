@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { FilesService } from 'src/files/files.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
@@ -9,8 +10,10 @@ import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
+   
     constructor(
         private readonly usersRepository: UsersRepository,
+        private readonly filesService: FilesService,
         @InjectModel(Users.name) private usersModel: Model<UsersDocument>,
     ) {}
 
@@ -28,6 +31,8 @@ export class UsersService {
         }
 
     }
+
+    // Crea una nueva colección para un usuario
     async createCollection(createCollectionDto: CreateCollectionDto) {
         let collection: Collection = new Collection();
         collection.name = createCollectionDto.name;
@@ -42,9 +47,59 @@ export class UsersService {
     }
     
     async findAllByCollectionId(collectionId: string){
-        // Paso 1: buscamos la coleccion en todos los usuarios
         return await this.usersRepository.getCollectionById(collectionId)
+    }
+
+    async addAvatar(userId: string, file: Express.Multer.File) {
+
+        await this.deleteAvatar(userId);
         
+        const uploadedFile = await this.filesService.uploadFile(file);
+
+        let updateUserDTO: UpdateUsersDto = {
+            ... await this.actualizarUsuarioDTO(userId),
+            profileImage: uploadedFile.Location
+        }
+
+        return await this.update(userId, updateUserDTO);
+    }
+
+    async deleteAvatar(userId: string) {
+        let userDb = await this.findOneById(userId);
+        let result: any;
+
+        const filesAvatarDefaultUsers = [
+            "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/ea872f6d-fb36-4a4c-b3ec-215764c736cb-avatar-men.jpg",
+            "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/08e6c6ee-40fc-4142-b8cf-25d87ecc5abf-avatar-men2.jpg",
+            "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/2ab093fb-908b-424b-8bf1-ac633a11872d-avatar-men3.jpg"
+        ]
+
+        // Se borra de la base de datos
+        if (userDb?.profileImage && !filesAvatarDefaultUsers.includes(userDb.profileImage))
+            result = await this.filesService.deleteFile(userDb.profileImage);
+        
+        let updateUserDTO: UpdateUsersDto = {
+            ... await this.actualizarUsuarioDTO(userId),
+            profileImage: null
+        }
+
+        return await this.update(userId, updateUserDTO);
+    }
+
+    private async actualizarUsuarioDTO(userId: string) {
+        let userDb = await this.findOneById(userId);
+
+        let updatedUserDto = new UpdateUsersDto();
+        updatedUserDto = {
+            nombre: userDb?.nombre,
+            profileImage: userDb?.profileImage,
+            collections: userDb?.collections,
+            followedThematicSpaces: userDb?.followedThematicSpaces.map(thematicSpace => thematicSpace._id.toString()),
+            ownedThematicSpaces: userDb?.ownedThematicSpaces.map(thematicSpace => thematicSpace._id.toString()),
+            followedUsers: userDb?.followedUsers.map(user => user._id.toString())
+        }
+
+        return updatedUserDto;
     }
     
     async findAll() {

@@ -2,6 +2,12 @@ import { IsBoolean, IsEmail, IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreateUsersDto {
     @IsNotEmpty()
+    nombre: string
+
+    @IsNotEmpty()
+    apellidos: string;
+
+    @IsNotEmpty()
     nickname: string;
     
     @IsNotEmpty()

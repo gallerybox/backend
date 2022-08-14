@@ -7,6 +7,7 @@ import { Users, UsersSchema } from './schema/users.schema';
 import { UsersRepository } from './users.repository';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { FilesModule } from 'src/files/files.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import * as Joi from 'joi';
       {
         name: Users.name, schema: UsersSchema
       }
-    ])
+    ]),
+    FilesModule
   ],
   providers: [UsersService, UsersRepository],
   exports: [UsersService],
