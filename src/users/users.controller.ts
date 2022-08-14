@@ -36,6 +36,12 @@ export class UsersController {
     }
 
     // @UseGuards(JwtAuthGuard)
+    @Get('/followed-user/:id')
+    findUserByFollowedUserId(@Param('id') id: string) {
+        return this.usersService.findUserByFollowedUserId(id);
+    }
+
+    // @UseGuards(JwtAuthGuard)
     @Get('/nickname/:nickname')
     findOneByNickname(@Param('nickname') nickname: string) {
         return this.usersService.findOneByNickname(nickname);

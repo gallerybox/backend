@@ -47,6 +47,7 @@ export class UsersRepository extends AbstractRepository<Users> {
           },
         ]).populate("ownedThematicSpaces")
         .populate("followedThematicSpaces")
+        .populate("followedUsers")
         .then(data => data);
   }
   async findUsersByFollowedSpaceId(followedSpaceId: string) {
@@ -60,6 +61,11 @@ export class UsersRepository extends AbstractRepository<Users> {
         {}, {lean: true})
         .then(data => data);
 
+  }
+  async findUserByFollowedUserId(userId: string) {
+    return await this.model.find({ followedUsers: userId },
+        {}, {lean: true})
+        .then(data => data);
   }
 
 }
