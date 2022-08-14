@@ -52,10 +52,14 @@ export class UsersService {
 
     async addAvatar(userId: string, file: Express.Multer.File) {
 
+        // Se necesita borrar primero para retirar el fichero de Amazon S3
         await this.deleteAvatar(userId);
         
+
+        // Subimos el nuevo fichero a Amazon S3
         const uploadedFile = await this.filesService.uploadFile(file);
 
+        // Actualizamos el usuario con su nuevo avatar
         let updateUserDTO: UpdateUsersDto = {
             ... await this.actualizarUsuarioDTO(userId),
             profileImage: uploadedFile.Location
@@ -68,16 +72,18 @@ export class UsersService {
         let userDb = await this.findOneById(userId);
         let result: any;
 
+        // Esto evita perder los datos de ejemplo en el populate
         const filesAvatarDefaultUsers = [
             "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/ea872f6d-fb36-4a4c-b3ec-215764c736cb-avatar-men.jpg",
             "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/08e6c6ee-40fc-4142-b8cf-25d87ecc5abf-avatar-men2.jpg",
             "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/2ab093fb-908b-424b-8bf1-ac633a11872d-avatar-men3.jpg"
         ]
 
-        // Se borra de la base de datos
+        // Si tiene profileImage, lo borramos de la base de datos
         if (userDb?.profileImage && !filesAvatarDefaultUsers.includes(userDb.profileImage))
             result = await this.filesService.deleteFile(userDb.profileImage);
         
+        // Actualizamos el usuario borrando su avatar.
         let updateUserDTO: UpdateUsersDto = {
             ... await this.actualizarUsuarioDTO(userId),
             profileImage: null
