@@ -43,9 +43,11 @@ export class CollectibleRepository extends AbstractRepository<Collectible>{
             thematicSpace: thematicSpaceIds
         }, {}, { lean: true })
             .sort('-lastModified')
+            .populate("thematicSpace")
+            .populate("user")
             .then(thematicSpace => thematicSpace)
             .catch(err => console.log(err));
-    } 
+    }
 
     /**
      * {
