@@ -36,6 +36,9 @@ export class Users extends AbstractDocument {
     @Prop()
     profilePhoto: string;
 
+    @Prop()
+    bio: string;
+
     @Prop({ required: true, unique: true })            
     nickname: string;
 
