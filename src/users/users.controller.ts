@@ -4,6 +4,7 @@ import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
+import { UpdatePersonalDataDto } from './dto/update-personaldata.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
 import { UsersService } from './users.service';
 
@@ -63,12 +64,14 @@ export class UsersController {
     findAll(){
         return this.usersService.findAll();
     }
-    
+
     // @UseGuards(JwtAuthGuard)
     @Patch(':id')
     updateById(@Param('id') id: string, @Body() updateUsersDto: UpdateUsersDto) {
         return this.usersService.update(id, updateUsersDto);
     }
+
+    // Personal data management
     
     @Post('add-avatar')
     @UseInterceptors(FileInterceptor('file'))
@@ -79,11 +82,22 @@ export class UsersController {
     @Delete('delete-avatar/:userId')
     async deleteAvatar(@Param('userId') userId: string){
         return await this.usersService.deleteAvatar(userId);
-    }    
+    }
+
+    @Patch('/personal-data/:userId')
+    async updatePersonalData(
+        @Param('userId') userId: string,
+        @Body() updatePersonalDataDto: UpdatePersonalDataDto
+    ) {
+        return await this.usersService.update(userId, updatePersonalDataDto);
+    }
+    
 
     // @UseGuards(JwtAuthGuard)
     @Delete(':id')
     delete(@Param('id') id: string) {
+        // TODO: borrar todos los datos de Amazon S3 asociados al usuario.
+
         return this.usersService.deleteOne(id);
     }
 

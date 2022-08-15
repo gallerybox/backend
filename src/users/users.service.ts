@@ -1,9 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
 import { FilesService } from 'src/files/files.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
+import { UpdatePersonalDataDto } from './dto/update-personaldata.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
 import { Collection, Users, UsersDocument } from './schema/users.schema';
 import { UsersRepository } from './users.repository';
@@ -116,11 +118,12 @@ export class UsersService {
         return await this.usersRepository.getUserByIdCollectionsPopulate({ _id: id });
     }
     
-    async update(id: string, updateUsersDto: UpdateUsersDto) {
-        return await this.usersRepository.findOneAndUpdate({ _id: id }, updateUsersDto);
+    async update(userId: string, updateUsersDto: UpdateUsersDto | UpdatePersonalDataDto | ChangePasswordDto) {
+        return await this.usersRepository.findOneAndUpdate({ _id: userId }, updateUsersDto);
     }
     
     async deleteOne(id: string) {
+
         return await this.usersRepository.delete({ _id: id })
     }
 
