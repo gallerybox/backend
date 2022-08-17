@@ -7,6 +7,7 @@ import * as Joi from 'joi';
 import { ThematicSpacesModule } from './thematic-spaces/thematic-spaces.module';
 import { CollectibleModule } from './collectible/collectible.module';
 import { FilesModule as FilesModule } from './files/files.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { FilesModule as FilesModule } from './files/files.module';
     UsersModule,
     ThematicSpacesModule,
     CollectibleModule,
-    FilesModule
+    FilesModule,
+    MailModule
   ],
   controllers: [],
   providers: []

@@ -22,7 +22,7 @@ export class AuthController {
     }
 
     @Post('/forgot-password')
-    async forgotPassword(@Body(new ValidationPipe()) forgotPasswordDto: ForgotPasswordDto): Promise<void> {
+    async forgotPassword(@Body(new ValidationPipe()) forgotPasswordDto: ForgotPasswordDto) {
         return await this.authService.forgotPassword(forgotPasswordDto);
     }
 

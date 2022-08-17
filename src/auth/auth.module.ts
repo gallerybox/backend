@@ -8,6 +8,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
 import * as Joi from 'joi';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
     imports: [
@@ -29,7 +30,8 @@ import * as Joi from 'joi';
                 },
             }),
             inject: [ConfigService]
-        })
+        }),
+        MailModule
     ],
     providers: [AuthService, LocalStrategy, JwtStrategy],
     exports: [AuthService],

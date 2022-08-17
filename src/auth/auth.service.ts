@@ -1,13 +1,15 @@
 import { BadRequestException, Body, HttpException, HttpStatus, Injectable, Post } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
+import { MailService } from 'src/mail/mail.service';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { compare, hash } from "bcrypt";
 import { LoginAuthDto } from './dto/login-auth.dto';
-import { ConfigService } from '@nestjs/config';
 import { ITokenPayload } from './interfaces/token-payload.interface';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { Users } from 'src/users/schema/users.schema';
 
 @Injectable()
 export class AuthService {
@@ -16,9 +18,10 @@ export class AuthService {
     constructor(
         private readonly usersService: UsersService,
         private readonly jwtService: JwtService,
-        private readonly configService: ConfigService
+        private readonly configService: ConfigService,
+        private readonly mailService: MailService
     ) {
-        this.clientAppUrl = this.configService.get<string>('');
+        this.clientAppUrl = this.configService.get<string>('CLIENT_APP_URL');
     }
 
     // Registra un nuevo usuario en la base de datos
@@ -46,33 +49,36 @@ export class AuthService {
     }
 
     // Loguea al usuario (signIn)
-    async login(loginAuthDto: LoginAuthDto) {
+    async login(loginAuthDto: LoginAuthDto, resetPassword?: boolean) {
         const { email, password } = loginAuthDto;
-        
+  
+
         // Comprobación de usuario existente
         
-        const findUser = await this.usersService.findOneByEmail(email);
-        if (!findUser) throw new HttpException('USER_NOT_FOUND', HttpStatus.NOT_FOUND);
+        const userDb = await this.usersService.findOneByEmail(email);
+        if (!userDb) throw new HttpException('USER_NOT_FOUND', HttpStatus.NOT_FOUND);
         
         
         // Comprobación de contraseña correcta
         
-        const checkPassword = await compare(password, findUser.password);
+        const checkPassword = await compare(password, userDb.password);
         if (!checkPassword) throw new HttpException('PASSWORD_INVALID', HttpStatus.BAD_REQUEST);
-        
-        const tokenPayload: ITokenPayload = {
-             id: findUser._id.toString(),
-             nickname: findUser.nickname
-        }
-
-        const token = await this.generateToken(tokenPayload)
 
         const data = {
-            user: findUser,
-            access_token: token // Firmando el token
+            user: userDb,
+            access_token: await this.getAccessToken(userDb) // Firmando el token
         }
         
         return data;
+    }
+
+    private async getAccessToken(user: Users, options?: JwtSignOptions) {
+        const tokenPayload: ITokenPayload = {
+            id: user._id.toString(),
+            nickname: user.nickname
+        }
+
+        return await this.generateToken(tokenPayload, options)
     }
 
     private async generateToken(data: ITokenPayload, options?: JwtSignOptions) {
@@ -82,16 +88,32 @@ export class AuthService {
     async forgotPassword (forgotPasswordDto: ForgotPasswordDto) {
         const { email } = forgotPasswordDto;
 
-        const user = await this.usersService.findOneByEmail(email);
+        // Comprobación de email existente
 
-        if(!user) {
-            throw new BadRequestException('Invalid email');
+        const userDb = await this.usersService.findOneByEmail(email);
+        if(!userDb) throw new BadRequestException('Invalid email');
+        
+        const token = await this.getAccessToken(userDb, {
+            expiresIn: '1m'
+        });
+
+        const forgotLink = `${this.clientAppUrl}/reset-password?resetToken=%22${token}%22`;
+
+        this.mailService.sendPlainTextEmail(
+            email,
+            "noreply@galleryboxapp.com",
+            "Recuperación de la contraseña",
+            `<h1>Hola, ${userDb.nickname}: </h1>\n
+            <p>Lamentamos que tengas problemas para iniciar sesión en GalleryBox. Hemos 
+            recibido un mensaje conforme has olvidado tu contraseña. Si has sido tú,
+            puedes cambiar la contraseña haciendo clic en el siguiente <a href="${forgotLink}">enlace</a></p>`
+            
+        );
+
+        return {
+            status: HttpStatus.OK,
+            message: "El email ha sido enviado"
         }
-
-        const token = (await this.login({email: user.email, password: user.password})).access_token;
-        const forgotLink = `${this.clientAppUrl}/auth/forgotPassword?token=${token}`;
-
-        // TODO: enviar el email con el enlace (forgotLink) --> mailService
     }
 
 
@@ -119,25 +141,4 @@ export class AuthService {
 
         
     }
-
-    // async forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<void> {
-    //     const user = await this.usersService.findOneByEmail(forgotPasswordDto.email);
-
-    //     if (!user) {
-    //         throw new BadRequestException('Invalid email');
-    //     }
-
-    //     const token = await this.signUser(user);
-    //     const forgotLink = `${this.clientAppUrl}/auth/forgotPassword?token=${token}`;
-
-    //     await this.mailService.send({
-    //         from: this.configService.get<string>('MAIL_FROM'),
-    //         to: user.email,
-    //         subject: 'Contraseña olvidada',
-    //         html: `
-    //             <h3>Hola ${user.nombre}!</h3>
-    //             <p>Por favor, usa este <a href="${forgotLink}">link</a> pra resetear tu contraseña.</p>
-    //         `,
-    //     });
-    // }
 }
