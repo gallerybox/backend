@@ -59,7 +59,7 @@ export class UsersController {
         return this.usersService.findUserOwnerOfSpaceId( spaceId );
     }
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Get('/all')
     findAll(){
         return this.usersService.findAll();

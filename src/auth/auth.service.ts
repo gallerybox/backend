@@ -1,4 +1,4 @@
-import { BadRequestException, Body, HttpException, HttpStatus, Injectable, Post } from '@nestjs/common';
+import { BadRequestException, Body, HttpCode, HttpException, HttpStatus, Injectable, Post } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
@@ -10,6 +10,7 @@ import { ITokenPayload } from './interfaces/token-payload.interface';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { Users } from 'src/users/schema/users.schema';
+
 
 @Injectable()
 export class AuthService {
@@ -84,6 +85,22 @@ export class AuthService {
     private async generateToken(data: ITokenPayload, options?: JwtSignOptions) {
         return this.jwtService.sign(data, options);
     }
+
+    async verifyToken(token: string){
+        try {
+            this.jwtService.verify(token)
+
+            return {
+                status: HttpStatus.OK,
+                message: 'VALID_TOKEN'
+            }
+
+        } catch (error) {
+            if (error.message == "jwt expired") {
+                throw new HttpException('UNAUTHORIZED_COFFEE', HttpStatus.I_AM_A_TEAPOT)
+            }
+        }
+    }
     
     async forgotPassword (forgotPasswordDto: ForgotPasswordDto) {
         const { email } = forgotPasswordDto;
@@ -94,7 +111,7 @@ export class AuthService {
         if(!userDb) throw new BadRequestException('Invalid email');
         
         const token = await this.getAccessToken(userDb, {
-            expiresIn: '1m'
+            expiresIn: '900s'   // 15 minutos
         });
 
         const forgotLink = `${this.clientAppUrl}/reset-password?resetToken=%22${token}%22`;
