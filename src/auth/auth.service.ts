@@ -126,13 +126,14 @@ export class AuthService {
 
         return {
             status: HttpStatus.OK,
-            message: "El email ha sido enviado"
+            message: "EMAIL_SENT"
         }
     }
 
 
     async resetPassword(userId: string, token: string, changePasswordDto: ChangePasswordDto) {
         let tokenData: any; 
+
         // Verificación del token con el secret
 
         try {
@@ -141,6 +142,12 @@ export class AuthService {
             if (err.name === "JsonWebTokenError")
                 throw new BadRequestException('INVALID_SIGNATURE');
         }
+
+        // Comprobación si otro usuario está usando el token
+
+        if ((this.jwtService.decode(token) as ITokenPayload).id !== userId)
+            throw new BadRequestException('USER_NOT_OWNER_TOKEN')
+   
 
         // Comprobación de usuario existente
         
