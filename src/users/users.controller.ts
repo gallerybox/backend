@@ -92,6 +92,11 @@ export class UsersController {
         return await this.usersService.update(userId, updatePersonalDataDto);
     }
     
+    @Get("find-email/:email")
+    async findEmail (@Param("email") email: string){
+        return await this.usersService.findOneByEmail(email);
+    }
+
 
     // @UseGuards(JwtAuthGuard)
     @Delete(':id')

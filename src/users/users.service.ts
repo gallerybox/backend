@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
@@ -132,8 +132,10 @@ export class UsersService {
     }
 
     async findOneByEmail(email: string){
-        return await this.usersRepository.findOne( { email: email })
+        return await this.usersRepository.findEmail(email);
+    
     }
+
 
     async findUsersByFollowedSpaceId(followedSpaceId: string){
         return await this.usersRepository.findUsersByFollowedSpaceId( followedSpaceId );

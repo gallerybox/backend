@@ -50,6 +50,13 @@ export class UsersRepository extends AbstractRepository<Users> {
         .populate("followedUsers")
         .then(data => data);
   }
+
+  async findEmail(email: string) {
+    return await this.model.find({ email: email }, {}, {lean: true})
+        .then(data => data.length === 0 ? null : data[0])
+        .catch(error => console.log(error));
+  }
+
   async findUsersByFollowedSpaceId(followedSpaceId: string) {
     return await this.model.find({ followedThematicSpaces: followedSpaceId },
         {}, {lean: true})

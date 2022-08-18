@@ -56,7 +56,7 @@ export class AuthService {
 
         // Comprobación de usuario existente
         
-        const userDb = await this.usersService.findOneByEmail(email);
+        const userDb = await this.usersService.findOneByEmail(email) as unknown as Users;
         if (!userDb) throw new HttpException('USER_NOT_FOUND', HttpStatus.NOT_FOUND);
         
         
@@ -88,7 +88,7 @@ export class AuthService {
 
     async verifyToken(token: string){
         try {
-            this.jwtService.verify(token)
+            await this.jwtService.verify(token)
 
             return {
                 status: HttpStatus.OK,
@@ -96,9 +96,7 @@ export class AuthService {
             }
 
         } catch (error) {
-            if (error.message == "jwt expired") {
-                throw new HttpException('UNAUTHORIZED_COFFEE', HttpStatus.I_AM_A_TEAPOT)
-            }
+            throw new HttpException('UNAUTHORIZED_COFFEE', HttpStatus.I_AM_A_TEAPOT)
         }
     }
     
@@ -106,11 +104,10 @@ export class AuthService {
         const { email } = forgotPasswordDto;
 
         // Comprobación de email existente
+        const userDb = await this.usersService.findOneByEmail(email) as unknown as Users
+        if (userDb === null) throw new BadRequestException("INVALID_EMAIL")
 
-        const userDb = await this.usersService.findOneByEmail(email);
-        if(!userDb) throw new BadRequestException('Invalid email');
-        
-        const token = await this.getAccessToken(userDb, {
+        const token = await this.getAccessToken((userDb) , {
             expiresIn: '900s'   // 15 minutos
         });
 
@@ -135,9 +132,9 @@ export class AuthService {
 
 
     async resetPassword(userId: string, token: string, changePasswordDto: ChangePasswordDto) {
-        let tokenData; 
-
+        let tokenData: any; 
         // Verificación del token con el secret
+
         try {
             tokenData = await this.jwtService.verify(token);
         } catch (err) {
@@ -155,7 +152,5 @@ export class AuthService {
             ...userDb,
             password: await hash(changePasswordDto.password, 10)
         });
-
-        
     }
 }
