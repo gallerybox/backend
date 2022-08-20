@@ -5,7 +5,8 @@ export type Value = string | boolean;
 
 export interface DynamicType{
     representationOrder: number;
-    showTag: boolean
+    showTag: boolean;
+    showInReducedView: boolean;
     category: Category;
     value: Value
     representation: Representation;

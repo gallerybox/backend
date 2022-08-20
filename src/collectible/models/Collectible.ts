@@ -65,7 +65,8 @@ export class Collectible extends AbstractDocument{
             // que tendrá en la pantalla).
             // Ej. Collectible Cerveza --> Attribute: Graduación (Category: Text, valor: 6, representación: {negrita: true, color: #443234})
             let type: DynamicType = new this.constructors[attribute.type.category](attribute.type, values[attribute.tag],
-                                                                                   attribute.representationOrder, attribute.showTag);
+                                                                                   attribute.representationOrder, attribute.showTag,
+                                                                                    attribute.showInReducedView);
 
             this.attributes.set(attribute.tag, type);           // Asignamos el nuevo type, asignandole el tag (identificador) correspondiente
         }   
