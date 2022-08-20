@@ -17,6 +17,9 @@ export class Attribute extends AbstractDocument{
     @Prop()
     public showTag: boolean;
 
+    @Prop({default: false})
+    public showInReducedView: boolean = false;
+
     @Prop()
     public representationOrder: number;
 }
