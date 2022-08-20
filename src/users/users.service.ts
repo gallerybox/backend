@@ -68,7 +68,7 @@ export class UsersService {
         // Actualizamos el usuario con su nuevo avatar
         let updateUserDTO: UpdateUsersDto = {
             ... await this.actualizarUsuarioDTO(userId),
-            profilePhoto: uploadedFile.Location
+            profilePhoto: decodeURI(uploadedFile.Location)
         }
 
         return await this.update(userId, updateUserDTO);
@@ -104,7 +104,7 @@ export class UsersService {
         let updatedUserDto = new UpdateUsersDto();
         updatedUserDto = {
             nombre: userDb?.nombre,
-            profilePhoto: userDb?.profilePhoto,
+            profilePhoto: decodeURI(userDb?.profilePhoto),
             collections: userDb?.collections,
             followedThematicSpaces: userDb?.followedThematicSpaces.map(thematicSpace => thematicSpace._id.toString()),
             ownedThematicSpaces: userDb?.ownedThematicSpaces.map(thematicSpace => thematicSpace._id.toString()),

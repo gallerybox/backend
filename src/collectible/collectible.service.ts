@@ -40,7 +40,7 @@ export class CollectibleService {
     if (files){
       s3UploadedFiles = await this.filesService.uploadFiles(files);
       s3UploadedFiles.forEach(s3File => {
-        values[s3File.Fieldname] = s3File.Location
+        values[s3File.Fieldname] = decodeURI(s3File.Location)
       });
     }
     console.log(values);
