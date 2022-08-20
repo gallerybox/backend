@@ -121,7 +121,6 @@ export class AuthService {
             <p>Lamentamos que tengas problemas para iniciar sesión en GalleryBox. Hemos 
             recibido un mensaje conforme has olvidado tu contraseña. Si has sido tú,
             puedes cambiar la contraseña haciendo clic en el siguiente <a href="${forgotLink}">enlace</a></p>`
-            
         );
 
         return {

@@ -8,6 +8,7 @@ import { ThematicSpacesModule } from './thematic-spaces/thematic-spaces.module';
 import { CollectibleModule } from './collectible/collectible.module';
 import { FilesModule as FilesModule } from './files/files.module';
 import { MailModule } from './mail/mail.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { MailModule } from './mail/mail.module';
     ThematicSpacesModule,
     CollectibleModule,
     FilesModule,
-    MailModule
+    MailModule,
+    ProfileModule
   ],
   controllers: [],
   providers: []

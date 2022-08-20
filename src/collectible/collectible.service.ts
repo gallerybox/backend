@@ -68,7 +68,7 @@ export class CollectibleService {
   }
 
   async findOne(id: string) {
-    return await this.collectibleRepository.find( { _id: id });
+    return await this.collectibleRepository.findOne( { _id: id });
   }
 
   async getTimeline(loggedUserId: string) {

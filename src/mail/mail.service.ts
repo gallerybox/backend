@@ -1,6 +1,7 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 
+
 @Injectable()
 export class MailService {
     constructor(
@@ -22,14 +23,14 @@ export class MailService {
     }
 
 
-    async sendPlainTextEmail(toEmail: string, fromEmail: string, subject: string, text: string,
-    ) {
+    async sendPlainTextEmail(toEmail: string, fromEmail: string, subject: string, text: string, attachments?) {
+        
         return await this.mailerService.sendMail({
             to: toEmail,
             from: fromEmail,
             subject: subject,
             html: text,
-            
+            attachments: attachments
         });
     }
 }
