@@ -7,6 +7,8 @@ export class Toggle implements DynamicType {
 
     showTag: boolean;
 
+    showInReducedView: boolean;
+
     readonly category: Category = Category.Toggle;
     // Data associated with technical rules
     value: boolean = false;
@@ -14,11 +16,12 @@ export class Toggle implements DynamicType {
     //Representation
     representation: ToggleRepresentation;
 
-    constructor(type: Type, value: Value, representationOrder: number, showTag: boolean) {
+    constructor(type: Type, value: Value, representationOrder: number, showTag: boolean, showInReducedView: boolean) {
         this.representation = type.representation as ToggleRepresentation;
         this.value = value as boolean;
         this.representationOrder = representationOrder;
         this.showTag = showTag;
+        this.showInReducedView = showInReducedView;
     }
     represent(): ToggleRepresentation{
         return this.representation;

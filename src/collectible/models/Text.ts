@@ -7,6 +7,8 @@ export class Text implements DynamicType {
 
     showTag: boolean;
 
+    showInReducedView: boolean;
+
     readonly category: Category = Category.Text;
     // Data associated with technical rules
     value: string; // The text itself
@@ -14,11 +16,12 @@ export class Text implements DynamicType {
     //Representation
     representation: TextRepresentation;
 
-    constructor(type: Type, value: Value, representationOrder: number, showTag: boolean) {
+    constructor(type: Type, value: Value, representationOrder: number, showTag: boolean, showInReducedView: boolean) {
         this.representation = type.representation as TextRepresentation;
         this.value = value as string;
         this.representationOrder = representationOrder;
         this.showTag = showTag;
+        this.showInReducedView = showInReducedView;
     }
     represent(): TextRepresentation{
         return this.representation;

@@ -7,6 +7,8 @@ export class Multimedia implements DynamicType {
 
     showTag: boolean;
 
+    showInReducedView: boolean;
+
     readonly category: Category = Category.Multimedia;
     // Data associated with technical rules
     value: string; // Resource Url
@@ -18,11 +20,12 @@ export class Multimedia implements DynamicType {
     // para que, en lugar de un Value, reciba el tipo que corresponda al Buffer.
     // Aquí se meterá la lógica de S3.
     // 
-    constructor(type: Type, value: Value, representationOrder: number, showTag: boolean) {
+    constructor(type: Type, value: Value, representationOrder: number, showTag: boolean, showInReducedView: boolean) {
         this.representation = type.representation as MultimediaRepresentation;
         this.value = value as string;
         this.representationOrder = representationOrder;
         this.showTag = showTag;
+        this.showInReducedView = showInReducedView;
     }
     represent(): MultimediaRepresentation{
         return this.representation;
