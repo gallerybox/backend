@@ -34,4 +34,9 @@ export class AuthController {
     {
         return await this.authService.resetPassword(userId, token, changePasswordDto);
     }
+    
+    @Get('verify-token/:token')
+    async verifyToken(@Param('token') token: string){
+        return this.authService.verifyToken(token);
+    } 
 }

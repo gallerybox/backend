@@ -23,5 +23,6 @@ import { DatabaseModule } from '@app/common';
     ],
   controllers: [CollectibleController],
   providers: [CollectibleService, CollectibleRepository],
+  exports: [CollectibleService]
 })
 export class CollectibleModule {}

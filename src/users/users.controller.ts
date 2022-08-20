@@ -59,7 +59,7 @@ export class UsersController {
         return this.usersService.findUserOwnerOfSpaceId( spaceId );
     }
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Get('/all')
     findAll(){
         return this.usersService.findAll();
@@ -92,13 +92,18 @@ export class UsersController {
         return await this.usersService.update(userId, updatePersonalDataDto);
     }
     
+    @Get("find-email/:email")
+    async findEmail (@Param("email") email: string){
+        return await this.usersService.findOneByEmail(email);
+    }
+
 
     // @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    delete(@Param('id') id: string) {
+    delete(@Param('id') userId: string) {
+        console.log("ENTRO EN BORRAR")
         // TODO: borrar todos los datos de Amazon S3 asociados al usuario.
-
-        return this.usersService.deleteOne(id);
+        return this.usersService.deleteOne(userId);
     }
 
 }

@@ -101,6 +101,8 @@ export class ThematicSpacesService {
     let user1: CreateUsersDto = new CreateUsersDto();
     user1.email = "utri1990@gmail.com";
     user1.nickname = "utrilla";
+    user1.nombre = "Juan Carlos";
+    user1.apellidos = "Utrilla Martín"
     user1.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
     user1.profilePhoto = "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/ea872f6d-fb36-4a4c-b3ec-215764c736cb-avatar-men.jpg"
     user1.hasConsented = true;
@@ -111,6 +113,8 @@ export class ThematicSpacesService {
     *****************************************************************************/
     let user2: CreateUsersDto = new CreateUsersDto();
     user2.email = "pedrolo@gmail.com";
+    user2.nombre = "Pedro Gonzalo";
+    user2.apellidos = "Bernaldez Torres"
     user2.nickname = "pedrolo";
     user2.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
     user2.hasConsented = true;
@@ -123,6 +127,8 @@ export class ThematicSpacesService {
      let user3: CreateUsersDto = new CreateUsersDto();
      user3.email = "jesus@gmail.com";
      user3.nickname = "jesus";
+     user3.nombre = "Jesús";
+     user3.apellidos = "Ortíz Calleja";
      user3.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
      user3.hasConsented = true;
      user3.profilePhoto = "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/2ab093fb-908b-424b-8bf1-ac633a11872d-avatar-men3.jpg"

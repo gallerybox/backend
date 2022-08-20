@@ -1,8 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
 import { FilesService } from 'src/files/files.service';
+import { MailService } from 'src/mail/mail.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdatePersonalDataDto } from './dto/update-personaldata.dto';
@@ -16,13 +17,16 @@ export class UsersService {
     constructor(
         private readonly usersRepository: UsersRepository,
         private readonly filesService: FilesService,
+        private readonly mailService: MailService,
         @InjectModel(Users.name) private usersModel: Model<UsersDocument>,
     ) {}
 
     // Add a new user
     async create(createUsersDto: any | CreateUsersDto) {
         try {
-            return await this.usersRepository.create(createUsersDto);
+            let userDb = await this.usersRepository.create(createUsersDto);
+            this.mailService.sendUserWelcome(userDb.email);
+            return userDb;
         } catch (error) {
             if (error.code === 11000) {
                 throw new HttpException({
@@ -123,8 +127,19 @@ export class UsersService {
     }
     
     async deleteOne(id: string) {
+        let result: any
 
-        return await this.usersRepository.delete({ _id: id })
+        let check = await this.usersRepository.delete({ _id: id });
+        if (check.deletedCount === 1){
+            result = {
+                statusCode: 200,
+                message: "USER_DELETED"
+            }
+        } else {
+            throw new BadRequestException("USER_NOT_DELETED")
+        }
+
+        return result;
     }
 
     async findOneByNickname(nickname: string){
@@ -132,8 +147,10 @@ export class UsersService {
     }
 
     async findOneByEmail(email: string){
-        return await this.usersRepository.findOne( { email: email })
+        return await this.usersRepository.findEmail(email);
+    
     }
+
 
     async findUsersByFollowedSpaceId(followedSpaceId: string){
         return await this.usersRepository.findUsersByFollowedSpaceId( followedSpaceId );

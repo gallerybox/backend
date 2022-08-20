@@ -34,7 +34,7 @@ export class Users extends AbstractDocument {
     apellidos?: string;
 
     @Prop()
-    profilePhoto: string;
+    profilePhoto?: string;
 
     @Prop()
     bio: string;

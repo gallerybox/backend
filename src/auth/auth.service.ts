@@ -1,4 +1,4 @@
-import { BadRequestException, Body, HttpException, HttpStatus, Injectable, Post } from '@nestjs/common';
+import { BadRequestException, Body, HttpCode, HttpException, HttpStatus, Injectable, Post } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
@@ -10,6 +10,7 @@ import { ITokenPayload } from './interfaces/token-payload.interface';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { Users } from 'src/users/schema/users.schema';
+
 
 @Injectable()
 export class AuthService {
@@ -55,7 +56,7 @@ export class AuthService {
 
         // Comprobación de usuario existente
         
-        const userDb = await this.usersService.findOneByEmail(email);
+        const userDb = await this.usersService.findOneByEmail(email) as unknown as Users;
         if (!userDb) throw new HttpException('USER_NOT_FOUND', HttpStatus.NOT_FOUND);
         
         
@@ -84,17 +85,30 @@ export class AuthService {
     private async generateToken(data: ITokenPayload, options?: JwtSignOptions) {
         return this.jwtService.sign(data, options);
     }
+
+    async verifyToken(token: string){
+        try {
+            await this.jwtService.verify(token)
+
+            return {
+                status: HttpStatus.OK,
+                message: 'VALID_TOKEN'
+            }
+
+        } catch (error) {
+            throw new HttpException('UNAUTHORIZED_COFFEE', HttpStatus.I_AM_A_TEAPOT)
+        }
+    }
     
     async forgotPassword (forgotPasswordDto: ForgotPasswordDto) {
         const { email } = forgotPasswordDto;
 
         // Comprobación de email existente
+        const userDb = await this.usersService.findOneByEmail(email) as unknown as Users
+        if (userDb === null) throw new BadRequestException("INVALID_EMAIL")
 
-        const userDb = await this.usersService.findOneByEmail(email);
-        if(!userDb) throw new BadRequestException('Invalid email');
-        
-        const token = await this.getAccessToken(userDb, {
-            expiresIn: '1m'
+        const token = await this.getAccessToken((userDb) , {
+            expiresIn: '900s'   // 15 minutos
         });
 
         const forgotLink = `${this.clientAppUrl}/reset-password?resetToken=%22${token}%22`;
@@ -107,26 +121,32 @@ export class AuthService {
             <p>Lamentamos que tengas problemas para iniciar sesión en GalleryBox. Hemos 
             recibido un mensaje conforme has olvidado tu contraseña. Si has sido tú,
             puedes cambiar la contraseña haciendo clic en el siguiente <a href="${forgotLink}">enlace</a></p>`
-            
         );
 
         return {
             status: HttpStatus.OK,
-            message: "El email ha sido enviado"
+            message: "EMAIL_SENT"
         }
     }
 
 
     async resetPassword(userId: string, token: string, changePasswordDto: ChangePasswordDto) {
-        let tokenData; 
+        let tokenData: any; 
 
         // Verificación del token con el secret
+
         try {
             tokenData = await this.jwtService.verify(token);
         } catch (err) {
             if (err.name === "JsonWebTokenError")
                 throw new BadRequestException('INVALID_SIGNATURE');
         }
+
+        // Comprobación si otro usuario está usando el token
+
+        if ((this.jwtService.decode(token) as ITokenPayload).id !== userId)
+            throw new BadRequestException('USER_NOT_OWNER_TOKEN')
+   
 
         // Comprobación de usuario existente
         
@@ -138,7 +158,5 @@ export class AuthService {
             ...userDb,
             password: await hash(changePasswordDto.password, 10)
         });
-
-        
     }
 }
