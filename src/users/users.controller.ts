@@ -100,10 +100,10 @@ export class UsersController {
 
     // @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    delete(@Param('id') id: string) {
+    delete(@Param('id') userId: string) {
+        console.log("ENTRO EN BORRAR")
         // TODO: borrar todos los datos de Amazon S3 asociados al usuario.
-
-        return this.usersService.deleteOne(id);
+        return this.usersService.deleteOne(userId);
     }
 
 }
