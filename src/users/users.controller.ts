@@ -110,7 +110,7 @@ export class UsersController {
     async changeFollowUser(
         @Param('userId') userId: string,
         @Param('userIdToChange') userIdToChange: string,
-        @Param('isFollowed') isFollowed: boolean)
+        @Param('isFollowed') isFollowed: string)
     {
         return await this.usersService.changeFollowUser(userId, userIdToChange, isFollowed);
     }

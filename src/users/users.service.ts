@@ -98,13 +98,15 @@ export class UsersService {
         return await this.update(userId, updateUserDTO);
     }
     
-    async changeFollowUser(userId: string, userIdToChange: string, isFollowed: boolean){
+    async changeFollowUser(userId: string, userIdToChange: string, isFollowed: string){
+        let userDbToChange = await this.findOneById(userIdToChange);
         let userDb = await this.findOneById(userId);
 
-        isFollowed
-            ? userDb.followedUsers = userDb.followedUsers.filter(userIdElement => userIdElement._id.toString() !== userIdToChange) // Unfollow
-            : userDb.followedUsers.push(await this.findOneById(userIdToChange))
-        
+        if (isFollowed === "true")
+            userDb.followedUsers = userDb.followedUsers.filter(userIdElement => userIdElement._id.toString() !== userIdToChange) // Unfollow
+        else
+            userDb.followedUsers = [...userDb.followedUsers, userDbToChange];
+
         let updateUserDTO: UpdateUsersDto = {
             ...await this.actualizarUsuarioDTO(userId),
             followedUsers: userDb.followedUsers.map(user => user._id.toString())
