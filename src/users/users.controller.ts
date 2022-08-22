@@ -106,4 +106,12 @@ export class UsersController {
         return this.usersService.deleteOne(userId);
     }
 
+    @Get('change-follow-user/:userId/:userIdToChange/:isFollowed')
+    async changeFollowUser(
+        @Param('userId') userId: string,
+        @Param('userIdToChange') userIdToChange: string,
+        @Param('isFollowed') isFollowed: boolean)
+    {
+        return await this.usersService.changeFollowUser(userId, userIdToChange, isFollowed);
+    }
 }
