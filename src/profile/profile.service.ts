@@ -26,7 +26,7 @@ export class ProfileService {
         let userDb = await this.usersService.findOneById(userId) as unknown as Users;
 
         // Información que se debe dar:
-        // Nombre, Apellidos, Nickname, Email, Bio, Espacio temático + Colecciones + Coleccionables,  
+        // Nombre, Apellidos, Nickname, Email, Biography, Espacio temático + Colecciones + Coleccionables,  
         
         try{
             let htmlTemplate = `
@@ -42,7 +42,7 @@ export class ProfileService {
                     <tr>
                         <td>${userDb.nickname}</td>
                         <td>${userDb.email}</td>
-                        <td>${userDb?.bio !== undefined ? userDb.bio : "Sin definir"}</td>
+                        <td>${userDb?.biography !== undefined ? userDb.biography : "Sin definir"}</td>
                     </tr>
                     <tr>
                         <th>Foto de perfil</th>

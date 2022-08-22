@@ -11,4 +11,5 @@ export class UpdatePersonalDataDto {
     @IsEmail()
     email: string;
 
+    biography?: string;
 }
