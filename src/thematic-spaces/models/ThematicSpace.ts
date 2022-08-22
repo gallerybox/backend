@@ -5,10 +5,12 @@ import { AbstractDocument } from "@app/common";
 
 export type ThematicSpaceDocument = ThematicSpace & Document;
 
+const template: Template = new Template();
+template.attributes = [];
 @Schema()
 export class ThematicSpace extends AbstractDocument{
 
-    @Prop({ type: TemplateSchema })
+    @Prop({ type: TemplateSchema,  default: template})
     template: Template;
 
     @Prop()

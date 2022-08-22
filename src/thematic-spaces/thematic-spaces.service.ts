@@ -40,9 +40,8 @@ export class ThematicSpacesService {
     return await this.thematicSpaceRepository.getThematicSpacesByIds(thematicSpacesId);
   }
 
-  async create() {
-    // return await this.thematicSpaceRepository.create(createThematicSpaceDto);
-    
+  async create(thematicSpace: ThematicSpace) {
+    return await this.thematicSpaceRepository.add(thematicSpace);
   }
 
   async findAll() {

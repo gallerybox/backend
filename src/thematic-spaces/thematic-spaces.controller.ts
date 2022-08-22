@@ -1,6 +1,8 @@
-import { Controller, Delete, Get, Inject, Param, Patch, Post, Req } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Inject, Param, Patch, Post, Req} from '@nestjs/common';
 import { ThematicSpacesService } from './thematic-spaces.service';
 import { Request } from 'express';
+import {CreateUsersDto} from "../users/dto/create-users.dto";
+import {ThematicSpace} from "./models/ThematicSpace";
 
 @Controller('thematic-spaces')
 export class ThematicSpacesController {
@@ -19,13 +21,6 @@ export class ThematicSpacesController {
     return await this.thematicSpacesService.getFollowedThematicSpaces(userId);
   }
 
-  // TODO: - ThematicSpaceController - Create
-  @Post()
-  async create(@Req() request: Request) {
-    // 
-    // return await this.thematicSpacesService.create(request.body);
-  }
-
   @Get()
   async findAll() {
     return await this.thematicSpacesService.findAll();
@@ -41,10 +36,9 @@ export class ThematicSpacesController {
     return await this.thematicSpacesService.findOneByName(name);
   }
 
-  // Todo - ThematicSpaceController - Update
-  @Patch(':id')
-  async update(@Param('id') id: string, /**@Body() updateThematicSpaceDto: UpdateThematicSpaceDto**/) {
-   //  return await this.thematicSpacesService.update(id /*, updateThematicSpaceDto*/);
+  @Post()
+  async upsert(@Body() thematicSpace: ThematicSpace) {
+    return await this.thematicSpacesService.create(thematicSpace);
   }
 
   @Delete(':id')
