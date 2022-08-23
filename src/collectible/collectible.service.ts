@@ -68,7 +68,7 @@ export class CollectibleService {
   }
 
   async findOne(id: string) {
-    return await this.collectibleRepository.findOne( { _id: id });
+    return await this.collectibleRepository.getOnePopulate(id);
   }
 
   async getTimeline(loggedUserId: string) {
@@ -89,9 +89,8 @@ export class CollectibleService {
   }
 
 
-  // TODO: - collectibleService - Update
-  async update(id: string, /*updateCollectibleDto: UpdateCollectibleDto*/) {
-    // return await this.collectibleRepository.remove()
+  async update(collectible: Collectible) {
+      return await this.collectibleRepository.add(collectible);
   }
 
   async findOneAndDelete(id: string){

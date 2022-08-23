@@ -38,6 +38,15 @@ export class CollectibleRepository extends AbstractRepository<Collectible>{
             .populate("user").then(data => data);
     }
 
+    async getOnePopulate(collectibleId: string) {
+
+        return await this.model.findOne({
+            "_id": collectibleId
+        }, {}, { lean: true })
+            .populate("thematicSpace")
+            .populate("user").then(data => data);
+    }
+
     async getTimelineByThematicSpaceId(thematicSpaceIds: string) {
         return await this.model.find({
             thematicSpace: thematicSpaceIds

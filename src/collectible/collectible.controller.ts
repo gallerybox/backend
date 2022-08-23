@@ -3,6 +3,7 @@ import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CollectibleService } from './collectible.service';
+import {Collectible} from "./models/Collectible";
 
 @Controller('collectible')
 export class CollectibleController {
@@ -48,10 +49,9 @@ export class CollectibleController {
     return await this.collectibleService.findAllByThematicSpace(thematicSpaceId);
   }
 
-  // TODO: - collectibleController - Update
-  @Patch(':id')
-  async update(@Param('id') id: string /*, @Body() updateCollectibleDto: UpdateCollectibleDto*/) {
-    return await this.collectibleService.update(id/*, updateCollectibleDto*/);
+  @Patch()
+  async update( @Body() collectible: Collectible ) {
+    return await this.collectibleService.update(collectible);
   }
 
   @Delete(':id')
