@@ -21,7 +21,23 @@ export class UsersRepository extends AbstractRepository<Users> {
         {
           "collections._id": collectionId
         }, {}, { lean: true })
-      .populate("collections.collectibles")
+      .populate([
+          {
+            path: "collections.collectibles",
+            model: "Collectible",
+            populate:[
+              {
+                path: 'thematicSpace',
+                model: 'ThematicSpace',
+              },
+              {
+                path: 'user',
+                model: 'Users',
+              }
+            ]
+
+          },
+          ])
       .catch(
         err => []
       );
