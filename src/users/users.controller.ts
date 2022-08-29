@@ -7,6 +7,7 @@ import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdatePersonalDataDto } from './dto/update-personaldata.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
 import { UsersService } from './users.service';
+import {Users} from "./schema/users.schema";
 
 @Controller('users')
 export class UsersController {
@@ -91,6 +92,16 @@ export class UsersController {
     ) {
         return await this.usersService.update(userId, updatePersonalDataDto);
     }
+
+
+    @Post('/prueba/')
+    async updateUserCollection(
+        @Body() updatePersonalDataDto: Users
+    ) {
+        return await this.usersService.upsertDeleteCollectibles(updatePersonalDataDto);
+    }
+
+    upsertDeleteCollectibles
     
     @Get("find-email/:email")
     async findEmail (@Param("email") email: string){

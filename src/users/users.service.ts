@@ -10,6 +10,7 @@ import { UpdatePersonalDataDto } from './dto/update-personaldata.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
 import { Collection, Users, UsersDocument } from './schema/users.schema';
 import { UsersRepository } from './users.repository';
+import {CollectibleService} from "../collectible/collectible.service";
 
 @Injectable()
 export class UsersService {
@@ -144,7 +145,27 @@ export class UsersService {
     async update(userId: string, updateUsersDto: UpdateUsersDto | UpdatePersonalDataDto | ChangePasswordDto) {
         return await this.usersRepository.findOneAndUpdate({ _id: userId }, updateUsersDto);
     }
-    
+
+    async upsertDeleteCollectibles(user: Users){
+        const userDB= await this.usersRepository.findOne({_id:user._id});
+        if (userDB){
+            for(const collection of user.collections){
+                if ((collection as any)._id){
+                    const collectionDB = userDB.collections.find(collectiondb => (collectiondb as any)._id == (collection as any)._id);
+                    if (collectionDB){
+                        const toDelete = collectionDB.collectibles.filter(c1=>!collection.collectibles.find(c2=> c2._id=c1._id));
+                        for (const collectible of toDelete){
+
+                            //await this.collectibleService.remove(collectible._id.toString());
+                        }
+                    }
+                }
+
+            }
+        }
+        return await this.usersRepository.add(user);
+    }
+
     async deleteOne(id: string) {
         let result: any
 

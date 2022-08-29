@@ -9,6 +9,8 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { FilesModule } from 'src/files/files.module';
 import { MailModule } from 'src/mail/mail.module';
+import {CollectibleService} from "../collectible/collectible.service";
+import {CollectibleModule} from "../collectible/collectible.module";
 
 @Module({
   imports: [
