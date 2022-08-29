@@ -42,6 +42,7 @@ export class UsersService {
     async createCollection(createCollectionDto: CreateCollectionDto) {
         let collection: Collection = new Collection();
         collection.name = createCollectionDto.name;
+        collection.thematicSpace = createCollectionDto.thematicSpace;
         let userDb = await this.findOneById(createCollectionDto.userId);
         
         let userDTO: UpdateUsersDto = new UpdateUsersDto();
@@ -180,5 +181,9 @@ export class UsersService {
 
     async findUserByFollowedUserId(ownedSpaceId: string) {
         return await this.usersRepository.findUserByFollowedUserId(ownedSpaceId);
+    }
+
+    async upsert(user: Users){
+        return await this.usersRepository.add(user);
     }
 }

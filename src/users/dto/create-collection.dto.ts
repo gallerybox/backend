@@ -1,4 +1,5 @@
 import { IsNotEmpty } from "class-validator";
+import {ThematicSpace} from "../../thematic-spaces/models/ThematicSpace";
 
 export class CreateCollectionDto {
     @IsNotEmpty()
@@ -6,4 +7,7 @@ export class CreateCollectionDto {
     
     @IsNotEmpty()
     name: string;
+
+    @IsNotEmpty()
+    thematicSpace: ThematicSpace;
 }

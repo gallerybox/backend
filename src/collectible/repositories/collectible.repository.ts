@@ -33,7 +33,7 @@ export class CollectibleRepository extends AbstractRepository<Collectible>{
                     }
                 }
             ]
-        }, {}, { lean: true })
+        }, {}, { lean: true }).sort ( { lastModified : -1  } )
             .populate("thematicSpace")
             .populate("user").then(data => data);
     }

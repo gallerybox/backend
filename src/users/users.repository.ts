@@ -21,7 +21,33 @@ export class UsersRepository extends AbstractRepository<Users> {
         {
           "collections._id": collectionId
         }, {}, { lean: true })
-      .populate([
+      .populate(
+          [
+              { path: "collections",
+                  model: "Collection",
+
+                  populate:[{
+                      path: "collectibles",
+                      model: "Collectible",
+                      populate:[
+                          {
+                              path: 'thematicSpace',
+                              model: 'ThematicSpace',
+                          },
+                          {
+                              path: 'user',
+                              model: 'Users',
+                          }
+                      ]
+                  },
+                  {
+                      path: "thematicSpace",
+                      model: "ThematicSpace"
+                  }
+                  ]
+              },
+          ]
+          /*[
           {
             path: "collections.collectibles",
             model: "Collectible",
@@ -37,31 +63,37 @@ export class UsersRepository extends AbstractRepository<Users> {
             ]
 
           },
-          ])
+          ]*/)
       .catch(
         err => []
       );
-
       return result[0].collections.find((collection: any) => collection._id.toString() === collectionId)
-        
-
   }
+
+
 
   async getUserByIdCollectionsPopulate(filterQuery: FilterQuery<any>) {
 
     return await this.model.findOne(filterQuery, {}, {lean: true})
         .populate([
-          {
-            path: "collections.collectibles",
-            model: "Collectible",
-            select: "thematicSpace",
-            populate: {
-              path: 'thematicSpace',
-              model: 'ThematicSpace',
-              select: '_id name'
+ ,
+        ]).populate([
+          { path: "collections",
+            model: "Collection",
+
+            populate:[{
+              path: "collectibles",
+              model: "Collectible",
+              select: "thematicSpace",
+            },
+            {
+              path: "thematicSpace",
+              model: "ThematicSpace"
             }
+          ]
           },
-        ]).populate("ownedThematicSpaces")
+        ])
+        .populate("ownedThematicSpaces")
         .populate("followedThematicSpaces")
         .populate("followedUsers")
         .then(data => data);

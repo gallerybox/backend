@@ -10,6 +10,9 @@ export class Collection {
     @Prop({ required: true })
     name: string;
 
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ThematicSpace' })
+    thematicSpace: ThematicSpace;
+
     @Prop({ 
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Collectible',

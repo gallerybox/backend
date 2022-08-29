@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import {Model, Schema} from 'mongoose';
 import { FilesService } from 'src/files/files.service';
 import { ThematicSpace } from 'src/thematic-spaces/models/ThematicSpace';
 import { ThematicSpacesService } from 'src/thematic-spaces/thematic-spaces.service';
@@ -10,6 +10,7 @@ import { Collection, Users } from 'src/users/schema/users.schema';
 import { UsersService } from 'src/users/users.service'
 import { Collectible, CollectibleDocument } from './models/Collectible';
 import { CollectibleRepository } from './repositories/collectible.repository';
+
 
 @Injectable()
 export class CollectibleService {
@@ -24,36 +25,71 @@ export class CollectibleService {
 
   async create(body: any, files: Express.Multer.File[]) {
     let user: Users, thematicSpace: ThematicSpace, s3UploadedFiles;
-    let userId: string, thematicSpaceId: string;
+    let userId: string, thematicSpaceId: string, collectibleId: string;
     let values: {[tag:string]: any} = {};
-
+    console.log(Object.keys(body).length);
     Object.keys(body).forEach(async function (key) {
-      if (key === "userId")
+      if (key === "userId") {
+        console.log("user iddsdssdfs");
+        console.log(key);
         userId = body[key];
-      else if (key === "thematicSpaceId")
-        thematicSpaceId = body[key]
-      else
-        values[key] = body[key];
+      }else if (key === "thematicSpaceId")
+        thematicSpaceId = body[key];
+      else if (key === "collectibleId")
+        collectibleId = body[key];
+      else{
+        if (body[key]==="#123true#" || body[key]==="#123false#"){
+          values[key] = body[key]==="#123true#"?true:false;
+        }else{
+          values[key] = body[key];
+        }
+      }
+
+
     });
 
     // Si hay ficheros, los sube a AWS S3 y guarda las URL en values(attributes)
+
     if (files){
       s3UploadedFiles = await this.filesService.uploadFiles(files);
       s3UploadedFiles.forEach(s3File => {
         values[s3File.Fieldname] = decodeURI(s3File.Location)
       });
     }
+
+
     console.log(values);
 
     user = await this.userService.findOneById(userId);
     console.log("User: " + user._id);
-    thematicSpace = await this.thematicSpaceService.findOneById( thematicSpaceId );
-    
-    let collectible: Collectible = new Collectible(user, thematicSpace, values);
-    collectible.name = "Test JUANCA";
-    
-    return await this.collectibleRepository.create(collectible);
+
+    if (collectibleId){
+      let collectible: Collectible = await this.collectibleRepository.findOne({_id: collectibleId});
+
+      Object.keys(collectible.attributes).forEach(tag => {
+        console.log(tag);
+        collectible.attributes[tag].value = values[tag];
+      });
+      return await this.collectibleRepository.add(collectible);
+    }else{
+      thematicSpace = await this.thematicSpaceService.findOneById( thematicSpaceId );
+
+      let collectible: Collectible = new Collectible(user, thematicSpace, values);
+      collectible = await this.collectibleRepository.add(collectible);
+      collectible.name = "Test JUANCA";
+      user.collections = user.collections.map(collection => {
+        if (collection.thematicSpace._id.toString() === thematicSpaceId){
+          collection.collectibles.push(collectible);
+        }
+        return collection;
+      })
+      this.userService.upsert(user);
+      return collectible;
+    }
+
   }
+
+
 
   async findByUserId(userId: string) {
     return await this.collectibleRepository.find( { userId: userId })
@@ -290,6 +326,7 @@ export class CollectibleService {
     // Coleccion: Cervezas Españolas; Espacio: Cervezas del mundo; Propietario: utrilla (user1_db)
     let collection1CreateDto = new CreateCollectionDto();
     collection1CreateDto.name = "Cervezas Españolas";
+    collection1CreateDto.thematicSpace = thematicSpaceCervezas;
     collection1CreateDto.userId = user1_db._id.toString();
     user1_db = await this.userService.createCollection(collection1CreateDto);
     
@@ -304,6 +341,7 @@ export class CollectibleService {
     // Coleccion: PS4 Collection; Espacio: Videojuegos; Propietario: pedrolo (user2_db)
     let collection2CreateDto = new CreateCollectionDto();
     collection2CreateDto.name = "PS4 Collection";
+    collection2CreateDto.thematicSpace = thematicSpaceVideojuegos;
     collection2CreateDto.userId = user2_db._id.toString();
     user2_db = await this.userService.createCollection(collection2CreateDto);
     
@@ -318,6 +356,7 @@ export class CollectibleService {
     // Coleccion: PS5 Collection; Espacio: Videojuegos; Propietario: pedrolo (user2_db)
     let collection3CreateDto = new CreateCollectionDto();
     collection3CreateDto.name = "PS5 Collection";
+    collection3CreateDto.thematicSpace = thematicSpaceVideojuegos;
     collection3CreateDto.userId = user2_db._id.toString();
     user2_db = await this.userService.createCollection(collection3CreateDto);
     
@@ -332,6 +371,7 @@ export class CollectibleService {
     // Coleccion: Vinilos; Espacio: Mi musicon; Propietario: jesus (user3_db)
     let collection4CreateDto = new CreateCollectionDto();
     collection4CreateDto.name = "Mis vinilos";
+    collection4CreateDto.thematicSpace = thematicSpaceMusica;
     collection4CreateDto.userId = user3_db._id.toString();
     user3_db = await this.userService.createCollection(collection4CreateDto);
     

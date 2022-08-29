@@ -33,7 +33,7 @@ export class CollectibleController {
     return await this.collectibleService.findAll();
   }
   
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get('id/:id')
   async findOne(@Param('id') id: string) {
     return await this.collectibleService.findOne(id);
