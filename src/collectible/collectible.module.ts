@@ -8,6 +8,7 @@ import { ThematicSpacesModule as ThematicSpacesModule } from "../thematic-spaces
 import { UsersModule } from 'src/users/users.module';
 import { FilesModule } from 'src/files/files.module';
 import { DatabaseModule } from '@app/common';
+import {ProfileModule} from "../profile/profile.module";
 
 @Module({
   imports: [ 

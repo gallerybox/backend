@@ -10,7 +10,6 @@ import { UpdatePersonalDataDto } from './dto/update-personaldata.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
 import { Collection, Users, UsersDocument } from './schema/users.schema';
 import { UsersRepository } from './users.repository';
-import {CollectibleService} from "../collectible/collectible.service";
 
 @Injectable()
 export class UsersService {

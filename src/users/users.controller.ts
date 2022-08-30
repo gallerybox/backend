@@ -94,12 +94,7 @@ export class UsersController {
     }
 
 
-    @Post('/prueba/')
-    async updateUserCollection(
-        @Body() updatePersonalDataDto: Users
-    ) {
-        return await this.usersService.upsertDeleteCollectibles(updatePersonalDataDto);
-    }
+
 
     upsertDeleteCollectibles
     

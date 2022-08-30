@@ -4,6 +4,7 @@ import { MailModule } from 'src/mail/mail.module';
 import { UsersModule } from 'src/users/users.module';
 import { ProfileService } from './profile.service';
 import { ProfileController } from './profile.controller';
+import {ThematicSpacesModule} from "../thematic-spaces/thematic-spaces.module";
 
 @Module({
     imports: [
