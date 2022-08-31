@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post, Request, Res, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, Request, Res, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { plainToClass } from 'class-transformer';
 import { AuthService } from './auth.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -11,14 +12,16 @@ export class AuthController {
         private authService: AuthService
     ) {}
     
+    // @UseInterceptors(ClassSerializerInterceptor)
     @Post('/register')
-    registerUser(@Body() registerAuthDto: RegisterAuthDto) {
-        return this.authService.register(registerAuthDto);
+    async registerUser(@Body() registerAuthDto: RegisterAuthDto) {
+        // return plainToClass(UserSerializerRegister, await this.authService.register(registerAuthDto), { excludeExtraneousValues: true });
+        return await this.authService.register(registerAuthDto);
     }
     
     @Post('/login')
-    login(@Body() loginAuthDto: LoginAuthDto) {
-        return this.authService.login(loginAuthDto);
+    async login(@Body() loginAuthDto: LoginAuthDto) {
+        return await this.authService.login(loginAuthDto);
     }
 
     @Post('/forgot-password')
