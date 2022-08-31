@@ -108,12 +108,44 @@ export class UsersRepository extends AbstractRepository<Users> {
   async findUsersByFollowedSpaceId(followedSpaceId: string) {
     return await this.model.find({ followedThematicSpaces: followedSpaceId },
         {}, {lean: true})
+        .populate([
+            { path: "collections",
+                model: "Collection",
+
+                populate:[{
+                    path: "collectibles",
+                    model: "Collectible",
+                    select: "thematicSpace",
+                },
+                    {
+                        path: "thematicSpace",
+                        model: "ThematicSpace"
+                    }
+                ]
+            },
+        ])
         .then(data => data);
 
   }
   async findUserOwnerOfSpaceId(ownedSpaceId: string) {
     return await this.model.findOne({ ownedThematicSpaces: ownedSpaceId },
         {}, {lean: true})
+        .populate([
+            { path: "collections",
+                model: "Collection",
+
+                populate:[{
+                    path: "collectibles",
+                    model: "Collectible",
+                    select: "thematicSpace",
+                },
+                    {
+                        path: "thematicSpace",
+                        model: "ThematicSpace"
+                    }
+                ]
+            },
+        ])
         .then(data => data);
 
   }

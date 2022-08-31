@@ -16,11 +16,12 @@ export class UsersController {
     ) {}
 
     // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Post()
     async create(@Body() createUsersDto: CreateUsersDto) {
         return await this.usersService.create(createUsersDto);
     }
-
+    @UseGuards(JwtAuthGuard)
     @Post('create-collection')
     async createCollection(@Body() createCollectionDto: CreateCollectionDto) {
         return await this.usersService.createCollection(createCollectionDto);
@@ -66,25 +67,25 @@ export class UsersController {
         return this.usersService.findAll();
     }
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Patch(':id')
     updateById(@Param('id') id: string, @Body() updateUsersDto: UpdateUsersDto) {
         return this.usersService.update(id, updateUsersDto);
     }
 
     // Personal data management
-    
+    @UseGuards(JwtAuthGuard)
     @Post('add-avatar')
     @UseInterceptors(FileInterceptor('file'))
     async addAvatar(@Req() request: Request, @UploadedFile() file: Express.Multer.File) {
         return await this.usersService.addAvatar(request.body.userId, file);
     }
-
+    @UseGuards(JwtAuthGuard)
     @Delete('delete-avatar/:userId')
     async deleteAvatar(@Param('userId') userId: string){
         return await this.usersService.deleteAvatar(userId);
     }
-
+    @UseGuards(JwtAuthGuard)
     @Patch('/personal-data/:userId')
     async updatePersonalData(
         @Param('userId') userId: string,
@@ -104,7 +105,7 @@ export class UsersController {
     }
 
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     delete(@Param('id') userId: string) {
         console.log("ENTRO EN BORRAR")
@@ -112,6 +113,7 @@ export class UsersController {
         return this.usersService.deleteOne(userId);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('change-follow-user/:userId/:userIdToChange/:isFollowed')
     async changeFollowUser(
         @Param('userId') userId: string,

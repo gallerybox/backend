@@ -12,6 +12,7 @@ export class CollectibleController {
     private readonly collectibleService: CollectibleService
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post('create')
   @UseInterceptors(AnyFilesInterceptor())
   async createCollectible(@Req() request: Request, @UploadedFiles() files: Array<Express.Multer.File>) {
@@ -48,12 +49,12 @@ export class CollectibleController {
   async findAllByThematicSpaceId(@Param('thematicSpaceId') thematicSpaceId: string){
     return await this.collectibleService.findAllByThematicSpace(thematicSpaceId);
   }
-
+  @UseGuards(JwtAuthGuard)
   @Patch()
   async update( @Body() collectible: Collectible ) {
     return await this.collectibleService.update(collectible);
   }
-
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.collectibleService.remove(id);

@@ -1,4 +1,5 @@
-import {Body, Controller, Delete, Get, Inject, Param, Patch, Post, Req} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Inject, Param, Patch, Post, Req, UseGuards} from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ThematicSpacesService } from './thematic-spaces.service';
 import { Request } from 'express';
 import {CreateUsersDto} from "../users/dto/create-users.dto";
@@ -36,11 +37,13 @@ export class ThematicSpacesController {
     return await this.thematicSpacesService.findOneByName(name);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async upsert(@Body() thematicSpace: ThematicSpace) {
     return await this.thematicSpacesService.create(thematicSpace);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.thematicSpacesService.remove(id);

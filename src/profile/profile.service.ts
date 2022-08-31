@@ -190,9 +190,8 @@ export class ProfileService {
                 if ((collection as any)._id){
                     const collectionDB = userDB.collections.find(collectiondb => (collectiondb as any)._id == (collection as any)._id);
                     if (collectionDB){
-                        const toDelete = collectionDB.collectibles.filter(c1=>!collection.collectibles.find(c2=> c2._id=c1._id));
+                        const toDelete = collectionDB.collectibles.filter(c1=>!collection.collectibles.find(c2=> c2._id==c1._id));
                         for (const collectible of toDelete){
-
                             await this.collectibleService.remove(collectible._id.toString());
                         }
                     }
