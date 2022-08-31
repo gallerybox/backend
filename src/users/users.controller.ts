@@ -32,13 +32,11 @@ export class UsersController {
       return await this.usersService.findAllByCollectionId(collectionId);
     }
 
-    // @UseGuards(JwtAuthGuard) 
     @Get('/id/:id')
     findOneById(@Param('id') id: string) {
         return this.usersService.findOneById(id);
     }
 
-    // @UseGuards(JwtAuthGuard)
     @Get('/followed-user/:id')
     findUserByFollowedUserId(@Param('id') id: string) {
         return this.usersService.findUserByFollowedUserId(id);
@@ -50,7 +48,6 @@ export class UsersController {
         return this.usersService.findOneByNickname(nickname);
     }
 
-    // @UseGuards(JwtAuthGuard)
     @Get('/followed-space-id/:spaceId')
     findUsersByFollowedSpaceId(@Param('spaceId') spaceId: string) {
         return this.usersService.findUsersByFollowedSpaceId(spaceId);
@@ -61,7 +58,6 @@ export class UsersController {
         return this.usersService.findUserOwnerOfSpaceId( spaceId );
     }
 
-    @UseGuards(JwtAuthGuard)
     @Get('/all')
     findAll(){
         return this.usersService.findAll();
@@ -93,11 +89,6 @@ export class UsersController {
     ) {
         return await this.usersService.update(userId, updatePersonalDataDto);
     }
-
-
-
-
-    upsertDeleteCollectibles
     
     @Get("find-email/:email")
     async findEmail (@Param("email") email: string){
