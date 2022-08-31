@@ -1,9 +1,9 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
-import { FilesService } from 'src/files/files.service';
-import { MailService } from 'src/mail/mail.service';
+import { ChangePasswordDto } from '../auth/dto/change-password.dto';
+import { FilesService } from '../files/files.service';
+import { MailService } from '../mail/mail.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdatePersonalDataDto } from './dto/update-personaldata.dto';

@@ -1,8 +1,8 @@
 import { AbstractDocument } from "@app/common";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { Document } from 'mongoose';
-import { Collectible } from "src/collectible/models/Collectible";
-import { ThematicSpace } from "src/thematic-spaces/models/ThematicSpace";
+import { Collectible } from "../../collectible/models/Collectible";
+import { ThematicSpace } from "../../thematic-spaces/models/ThematicSpace";
 
 @Schema()
 export class Collection {
