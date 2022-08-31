@@ -3,7 +3,7 @@ import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Injectable, Logger } from "@nestjs/common";
 import { Collectible } from "../models/Collectible";
 import { AbstractRepository } from '@app/common';
-import { UsersRepository } from 'src/users/users.repository';
+import { UsersRepository } from '../../users/users.repository';
 
 
 @Injectable()

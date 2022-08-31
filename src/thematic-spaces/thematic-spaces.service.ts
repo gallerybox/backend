@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Document, Model, Types } from 'mongoose';
-import { CreateUsersDto } from 'src/users/dto/create-users.dto';
-import { UpdateUsersDto } from 'src/users/dto/update-users.dto';
-import { Users } from 'src/users/schema/users.schema';
-import { UsersService } from 'src/users/users.service';
+import { CreateUsersDto } from '../users/dto/create-users.dto';
+import { UpdateUsersDto } from '../users/dto/update-users.dto';
+import { Users } from '../users/schema/users.schema';
+import { UsersService } from '../users/users.service';
 import { Attribute } from './models/Attribute';
 import { Template } from './models/Template';
 import { ThematicSpace, ThematicSpaceDocument } from './models/ThematicSpace';
@@ -16,7 +16,7 @@ export class ThematicSpacesService {
   constructor(
     private readonly thematicSpaceRepository: ThematicSpaceRepository,
     private readonly userService: UsersService,
-    @InjectModel(ThematicSpace.name) private thematicSpaceModel: Model<ThematicSpaceDocument>,
+    //@InjectModel(ThematicSpace.name) private thematicSpaceModel: Model<ThematicSpaceDocument>,
   ) {}
 
   async getOwnedThematicSpaces(userId: string){
@@ -95,7 +95,7 @@ export class ThematicSpacesService {
   async removeByTag(tag: string) {
     // const query = this.thematicSpaceModel.find({ _id: '62daca441334ad9783770397' }).where()
     // return this.thematicSpaceRepository.find( { name: { "$regex": "Testing"} });
-    return this.thematicSpaceModel.find({}, { name: { "$regex": tag} }); 
+    return this.thematicSpaceRepository.removeByTag(tag);
     // return await this.thematicSpaceRepository.find({});
   }
 

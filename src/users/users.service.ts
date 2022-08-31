@@ -18,7 +18,7 @@ export class UsersService {
         private readonly usersRepository: UsersRepository,
         private readonly filesService: FilesService,
         private readonly mailService: MailService,
-        @InjectModel(Users.name) private usersModel: Model<UsersDocument>,
+       // @InjectModel(Users.name) private usersModel: Model<UsersDocument>,
     ) {}
 
     // Add a new user
