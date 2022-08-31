@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Document, Model, Types } from 'mongoose';
 import { CreateUsersDto } from 'src/users/dto/create-users.dto';
 import { UpdateUsersDto } from 'src/users/dto/update-users.dto';
+import { Users } from 'src/users/schema/users.schema';
 import { UsersService } from 'src/users/users.service';
 import { Attribute } from './models/Attribute';
 import { Template } from './models/Template';
@@ -38,6 +39,33 @@ export class ThematicSpacesService {
 
     // Paso 3: buscamos los espacios temáticos en la base de datos
     return await this.thematicSpaceRepository.getThematicSpacesByIds(thematicSpacesId);
+  }
+
+  async followSpaceByUserId(userId: string, thematicSpaceId: string) {
+    let user: Document<unknown, any, Users> & Users & Required<{ _id: Types.ObjectId; }>
+
+    // Comprobación: Espacio temático y Usuario existen
+    try {
+      user = await this.userService.findOneById(userId);
+      await this.findOneById(thematicSpaceId);
+    }
+    catch (error){
+      throw new BadRequestException("BAD_DATA")
+    }
+
+    if (user.followedThematicSpaces
+        .map((tSpace: ThematicSpace) => tSpace._id.toString())
+        .includes(thematicSpaceId))
+      throw new BadRequestException("SPACE_ALREADY_ADDED");
+    else if (user.ownedThematicSpaces
+        .map((tSpace: ThematicSpace) => tSpace._id.toString())
+        .includes(thematicSpaceId))
+      throw new BadRequestException("SPACE_BELONGS_USER")
+    else {
+      let updateUserDTO = await this.userService.getUpdateDTO(userId);
+      updateUserDTO.followedThematicSpaces.push(thematicSpaceId);
+      return this.userService.update(userId, updateUserDTO);
+    }
   }
 
   async create(thematicSpace: ThematicSpace) {

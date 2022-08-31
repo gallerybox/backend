@@ -22,6 +22,15 @@ export class ThematicSpacesController {
     return await this.thematicSpacesService.getFollowedThematicSpaces(userId);
   }
 
+  @Get('follow-space/:userId/:thematicSpaceId')
+  async followSpaceByUserId(
+      @Param('userId') userId: string,
+      @Param('thematicSpaceId') thematicSpaceId: string
+  ) {
+      return await this.thematicSpacesService.followSpaceByUserId(userId, thematicSpaceId);
+  }
+  
+
   @Get()
   async findAll() {
     return await this.thematicSpacesService.findAll();

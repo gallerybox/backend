@@ -68,7 +68,7 @@ export class UsersService {
 
         // Actualizamos el usuario con su nuevo avatar
         let updateUserDTO: UpdateUsersDto = {
-            ... await this.actualizarUsuarioDTO(userId),
+            ... await this.getUpdateDTO(userId),
             profilePhoto: decodeURI(uploadedFile.Location)
         }
 
@@ -92,7 +92,7 @@ export class UsersService {
         
         // Actualizamos el usuario borrando su avatar.
         let updateUserDTO: UpdateUsersDto = {
-            ... await this.actualizarUsuarioDTO(userId),
+            ... await this.getUpdateDTO(userId),
             profilePhoto: null
         }
 
@@ -109,7 +109,7 @@ export class UsersService {
             userDb.followedUsers = [...userDb.followedUsers, userDbToChange];
 
         let updateUserDTO: UpdateUsersDto = {
-            ...await this.actualizarUsuarioDTO(userId),
+            ...await this.getUpdateDTO(userId),
             followedUsers: userDb.followedUsers.map(user => user._id.toString())
         }
 
@@ -117,7 +117,7 @@ export class UsersService {
         return result;
     }
 
-    private async actualizarUsuarioDTO(userId: string) {
+    async getUpdateDTO(userId: string) {
         let userDb = await this.findOneById(userId);
 
         let updatedUserDto = new UpdateUsersDto();
