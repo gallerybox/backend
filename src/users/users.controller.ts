@@ -45,11 +45,13 @@ export class UsersController {
     async addAvatar(@Req() request: Request, @UploadedFile() file: Express.Multer.File) {
         return await this.usersService.addAvatar(request.body.userId, file);
     }
+
     @UseGuards(JwtAuthGuard)
     @Delete('delete-avatar/:userId')
     async deleteAvatar(@Param('userId') userId: string){
         return await this.usersService.deleteAvatar(userId);
     }
+    
     @UseGuards(JwtAuthGuard)
     @Patch('/personal-data/:userId')
     async updatePersonalData(

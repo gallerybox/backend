@@ -1,6 +1,4 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { ChangePasswordDto } from '../auth/dto/change-password.dto';
 import { FilesService } from '../files/files.service';
 import { MailService } from '../mail/mail.service';
@@ -8,7 +6,7 @@ import { CreateCollectionDto } from './dto/create-collection.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdatePersonalDataDto } from './dto/update-personaldata.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
-import { Collection, Users, UsersDocument } from './schema/users.schema';
+import { Collection, Users } from './schema/users.schema';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
@@ -18,7 +16,6 @@ export class UsersService {
         private readonly usersRepository: UsersRepository,
         private readonly filesService: FilesService,
         private readonly mailService: MailService,
-       // @InjectModel(Users.name) private usersModel: Model<UsersDocument>,
     ) {}
 
     // Add a new user

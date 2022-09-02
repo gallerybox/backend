@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { FilesService } from './files.service';
-import { FilesController } from './files.controller';
 import * as Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
 
@@ -18,7 +17,7 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: ".env"
   }),
   ],
-  controllers: [FilesController],
+  controllers: [],
   providers: [FilesService],
   exports: [FilesService]
 })
