@@ -29,7 +29,7 @@ export class AuthService {
     async register(registerAuthDto: RegisterAuthDto) {
         // Encriptamos la password
         const { password } = registerAuthDto;
-        const plainToHash = await hash(password, 10);
+        const plainToHash = await this.generateHash(password);
 
         // Sobrescribimos la password con su valor encriptado
         registerAuthDto = {...registerAuthDto, password: plainToHash };
@@ -131,12 +131,10 @@ export class AuthService {
 
 
     async resetPassword(userId: string, token: string, changePasswordDto: ChangePasswordDto) {
-        let tokenData: any; 
-
         // Verificación del token con el secret
 
         try {
-            tokenData = await this.jwtService.verify(token);
+            await this.jwtService.verify(token);
         } catch (err) {
             if (err.name === "JsonWebTokenError")
                 throw new BadRequestException('INVALID_SIGNATURE');
@@ -156,7 +154,11 @@ export class AuthService {
         // Actualizamos la contraseña en base de datos
         return await this.usersService.update(userId, {
             ...userDb,
-            password: await hash(changePasswordDto.password, 10)
+            password: await this.generateHash(changePasswordDto.password)
         });
+    }
+
+    private async generateHash(password: string) {
+        return await hash(password, 10);
     }
 }

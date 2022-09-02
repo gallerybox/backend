@@ -2,8 +2,6 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UploadedFile, U
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CreateCollectionDto } from './dto/create-collection.dto';
-import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdatePersonalDataDto } from './dto/update-personaldata.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
 import { UsersService } from './users.service';
@@ -14,18 +12,6 @@ export class UsersController {
     constructor(
         private readonly usersService: UsersService
     ) {}
-
-    // @UseGuards(JwtAuthGuard)
-    @UseGuards(JwtAuthGuard)
-    @Post()
-    async create(@Body() createUsersDto: CreateUsersDto) {
-        return await this.usersService.create(createUsersDto);
-    }
-    @UseGuards(JwtAuthGuard)
-    @Post('create-collection')
-    async createCollection(@Body() createCollectionDto: CreateCollectionDto) {
-        return await this.usersService.createCollection(createCollectionDto);
-    }
 
     @Get('collection/:collectionId')
     async findAllByCollectionId(@Param('collectionId') collectionId: string) {
@@ -42,12 +28,6 @@ export class UsersController {
         return this.usersService.findUserByFollowedUserId(id);
     }
 
-    // @UseGuards(JwtAuthGuard)
-    @Get('/nickname/:nickname')
-    findOneByNickname(@Param('nickname') nickname: string) {
-        return this.usersService.findOneByNickname(nickname);
-    }
-
     @Get('/followed-space-id/:spaceId')
     findUsersByFollowedSpaceId(@Param('spaceId') spaceId: string) {
         return this.usersService.findUsersByFollowedSpaceId(spaceId);
@@ -56,17 +36,6 @@ export class UsersController {
     findUserOwnerOfSpaceId(@Param('spaceId') spaceId: string){
         console.log(spaceId);
         return this.usersService.findUserOwnerOfSpaceId( spaceId );
-    }
-
-    @Get('/all')
-    findAll(){
-        return this.usersService.findAll();
-    }
-
-    @UseGuards(JwtAuthGuard)
-    @Patch(':id')
-    updateById(@Param('id') id: string, @Body() updateUsersDto: UpdateUsersDto) {
-        return this.usersService.update(id, updateUsersDto);
     }
 
     // Personal data management
@@ -88,11 +57,6 @@ export class UsersController {
         @Body() updatePersonalDataDto: UpdatePersonalDataDto
     ) {
         return await this.usersService.update(userId, updatePersonalDataDto);
-    }
-    
-    @Get("find-email/:email")
-    async findEmail (@Param("email") email: string){
-        return await this.usersService.findOneByEmail(email);
     }
 
 
