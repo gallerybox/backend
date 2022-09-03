@@ -160,6 +160,7 @@ export class UsersService {
 
     async findOneByEmail(email: string){
         return await this.usersRepository.findEmail(email);
+    
     }
 
     async findUsersByFollowedSpaceId(followedSpaceId: string){
@@ -172,5 +173,9 @@ export class UsersService {
 
     async findUserByFollowedUserId(ownedSpaceId: string) {
         return await this.usersRepository.findUserByFollowedUserId(ownedSpaceId);
+    }
+
+    async upsert(user: Users){
+        return await this.usersRepository.add(user);
     }
 }

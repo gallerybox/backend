@@ -31,8 +31,6 @@ describe('ThematicSpacesService', () => {
                 const Mock = moduleMocker.generateFromMetadata(mockMetadata);
                 return new Mock();
             }
-
-
         }).compile();
 
 

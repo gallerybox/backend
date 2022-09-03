@@ -9,9 +9,7 @@ import { UsersRepository } from "./users.repository";
 import { FilesService } from "../files/files.service";
 import { MailService } from "../mail/mail.service";
 import { CreateUsersDto } from './dto/create-users.dto';
-import { use } from 'passport';
 import { CreateCollectionDto } from './dto/create-collection.dto';
-import { ThematicSpace } from 'src/thematic-spaces/models/ThematicSpace';
 import { UpdateUsersDto } from './dto/update-users.dto';
 
 
