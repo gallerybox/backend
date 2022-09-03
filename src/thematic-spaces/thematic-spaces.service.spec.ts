@@ -103,7 +103,7 @@ describe('ThematicSpacesService', () => {
                 "nombre": 'Espacio de juan'
             } as unknown as Promise<Document<unknown, any, ThematicSpace> & ThematicSpace & Required<{ _id: ObjectId; }>>
 
-            jest.spyOn(thematicSpaceRepository, 'findOne').mockImplementation(() =>         result);
+            jest.spyOn(thematicSpaceRepository, 'findOne').mockImplementation(() => result);
             
             expect(await thematicSpacesService.findOneById("TEST_ID")).toBe(result);
         });
@@ -116,7 +116,7 @@ describe('ThematicSpacesService', () => {
                 "nombre": 'Espacio de juan'
             } as unknown as Promise<Document<unknown, any, ThematicSpace> & ThematicSpace & Required<{ _id: ObjectId; }>>
 
-            jest.spyOn(thematicSpaceRepository, 'findOne').mockImplementation(() =>         result);
+            jest.spyOn(thematicSpaceRepository, 'findOne').mockImplementation(() => result);
             
             expect(await thematicSpacesService.findOneById("TEST_ID")).toBe(result);
         });
