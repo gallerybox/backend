@@ -1,5 +1,5 @@
 import { DatabaseModule } from '@app/common/database/database.module';
-import { Module } from '@nestjs/common';
+import {MiddlewareConsumer, Module, RequestMethod} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
@@ -9,6 +9,7 @@ import { CollectibleModule } from './collectible/collectible.module';
 import { FilesModule as FilesModule } from './files/files.module';
 import { MailModule } from './mail/mail.module';
 import { ProfileModule } from './profile/profile.module';
+import {ErrorInterceptor} from "./middlewares";
 
 @Module({
   imports: [
@@ -44,4 +45,10 @@ import { ProfileModule } from './profile/profile.module';
   controllers: [],
   providers: []
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+        .apply(ErrorInterceptor)
+        .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
