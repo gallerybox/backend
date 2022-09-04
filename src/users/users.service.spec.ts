@@ -200,9 +200,11 @@ describe('UsersService', () => {
 
     describe('findUserByFollowedUserId', () => {
         it('It should return a user', async () => {
-            const userResult = new Users() as unknown as Promise<Document<unknown, any, Users> & Users & Required<{ _id: ObjectId; }>>;
+            const userResult = new Users();
 
-            jest.spyOn(usersRepository, 'findUserByFollowedUserId').mockImplementation(() => userResult);
+            jest.spyOn(usersRepository, 'findUserByFollowedUserId').mockImplementation(() => 
+                userResult as unknown as Promise<(Document<unknown, any, Users> & Users & Required<{ _id: ObjectId; }>)[]>
+            );
 
             expect(await usersService.findUserByFollowedUserId("USER_ID")).toBe(userResult);
         }); 

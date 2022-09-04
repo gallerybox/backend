@@ -34,11 +34,6 @@ export class CollectibleController {
     return await this.collectibleService.findOne(id);
   }
 
-  @Get('thematic-space/:thematicSpaceId')
-  async findAllByThematicSpaceId(@Param('thematicSpaceId') thematicSpaceId: string){
-    return await this.collectibleService.findAllByThematicSpace(thematicSpaceId);
-  }
-
   @UseGuards(JwtAuthGuard)
   @Patch()
   async update( @Body() collectible: Collectible ) {

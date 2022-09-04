@@ -41,8 +41,6 @@ export class CollectibleService {
           values[key] = body[key];
         }
       }
-
-
     });
 
     // Si hay ficheros, los sube a AWS S3 y guarda las URL en values(attributes)
@@ -84,10 +82,6 @@ export class CollectibleService {
       return collectible;
     }
 
-  }
-
-  async findAllByThematicSpace(id: string) {
-    return await this.collectibleRepository.find({ thematicSpace: id })
   }
 
   async findOne(id: string) {

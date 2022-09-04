@@ -51,68 +51,76 @@ describe('ThematicSpacesService', () => {
     // Create
     describe('create', () => {
         it('It should create a new collectible', async() => {
-            // let user = new Users();
+            let user = new Users();
 
-            // let thematicSpace = new ThematicSpace();
-            // thematicSpace.template = new Template();
+            let thematicSpace = new ThematicSpace();
+            thematicSpace.template = new Template();
 
-            // let attribute = new Attribute();
-            // attribute.representationOrder=1;
-            // attribute.showTag = true;
-            // attribute.showInReducedView = true;
-            // attribute.tag = "MyTag"
-            // attribute.type = new Type();
-            // attribute.type.category = Category.Text;
-            // attribute.type.representation = new TextRepresentation();
+            let attribute = new Attribute();
+            attribute.representationOrder=1;
+            attribute.showTag = true;
+            attribute.showInReducedView = true;
+            attribute.tag = "MyTag"
+            attribute.type = new Type();
+            attribute.type.category = Category.Text;
+            attribute.type.representation = new TextRepresentation();
 
-            // thematicSpace.template.attributes = [];
-            // thematicSpace.template.attributes.push(attribute);
+            thematicSpace.template.attributes = [];
+            thematicSpace.template.attributes.push(attribute);
 
-            // let resultCollectible = new Collectible(user as unknown as Users, thematicSpace, null);
-            // resultCollectible.name = "Mi coleccionable de prueba";
-            // resultCollectible.thematicSpace = thematicSpace;
-            // resultCollectible.user = user;
-            // resultCollectible.attributes = new Map<string, DynamicType>();
-            // let myValue: DynamicType = {
-            //     category: Category.Text,
-            //     representationOrder: 1,
-            //     showTag: true,
-            //     showInReducedView: true,
-            //     value: "Valor del tag",
-            //     representation: {
-            //         bold: true,
-            //         font: '"Roboto"',
-            //         color: '#111111',
-            //         italics: true,
-            //         underlined: false,
-            //         size: 20
-            //     },
-
-            //     represent: () => 0
-            // }
-
-            // resultCollectible.attributes.set("MyTag", myValue);
+            let values = { 
+                "MyTag": "Valor del tag" 
+            };
             
-            // console.log(resultCollectible.attributes.values())
+
+            let resultCollectible = new Collectible(user as unknown as Users, thematicSpace, values);
+            resultCollectible.name = "Mi coleccionable de prueba";
+            resultCollectible.thematicSpace = thematicSpace;
+            resultCollectible.user = user;
+            resultCollectible.attributes = new Map<string, DynamicType>();
+            let myValue: DynamicType = {
+                category: Category.Text,
+                representationOrder: 1,
+                showTag: true,
+                showInReducedView: true,
+                value: "Valor del tag",
+                representation: {
+                    bold: true,
+                    font: '"Roboto"',
+                    color: '#111111',
+                    italics: true,
+                    underlined: false,
+                    size: 20
+                },
+
+                represent: () => 0
+            }
+
+            resultCollectible.attributes.set("MyTag", myValue);
+            
+            console.log(resultCollectible.attributes.values())
 
 
-            // jest.spyOn(usersService, 'findOneById').mockImplementation(() => 
-            //     user as unknown as Promise<Document<unknown, any, Users> & Users & Required<{ _id: ObjectId; }>>);
-            // jest.spyOn(collectibleRepository, 'findOne').mockImplementation(() => 
-            //     resultCollectible as unknown as Promise<Collectible>
-            // )
-            // jest.spyOn(collectibleRepository, 'add').mockImplementation(() => 
-            //     resultCollectible as unknown as Promise<Collectible>
-            // )
-            // jest.spyOn(usersService, 'upsert').mockImplementation(() => 
-            //     user as unknown as  Promise<Users>
-            // );
+            jest.spyOn(usersService, 'findOneById').mockImplementation(() => 
+                user as unknown as Promise<Document<unknown, any, Users> & Users & Required<{ _id: ObjectId; }>>);
+            jest.spyOn(collectibleRepository, 'findOne').mockImplementation(() => 
+                resultCollectible as unknown as Promise<Collectible>
+            )
+            jest.spyOn(collectibleRepository, 'add').mockImplementation(() => 
+                resultCollectible as unknown as Promise<Collectible>
+            )
+            jest.spyOn(usersService, 'upsert').mockImplementation(() => 
+                user as unknown as  Promise<Users>
+            );
 
-            // expect(await collectibleService.create("TEST_ID", null)).toBe(resultCollectible);
+            let body = {
+                thematicSpaceId: "THEMATIC_SPACE_ID",
+                collectibleId: "COLLECTIBLE_ID",
+                userId: "USER_ID"
+            }
+            expect(await collectibleService.create(body, null)).toBe(resultCollectible);
         });
     });
-    
-    // FindAllByThematicSpace
 
     describe('findOne', () => {
         it('It should return a collectible', async () => {
@@ -129,8 +137,64 @@ describe('ThematicSpacesService', () => {
         });
     });
 
-    // GetTimeline
-    // getTimelineByThematicSpaceId
-    // Update
-    // Remove
+        
+    describe('getTimeline', () => {
+        it('It should return timeline from user', async () =>  {
+            let resultUser = new Users();
+
+            jest.spyOn(usersService, 'findOneById').mockImplementation(() =>{
+                return resultUser as unknown as Promise<Document<unknown, any, Users> & Users & Required<{ _id: ObjectId; }>>
+            });
+
+            jest.spyOn(collectibleRepository, 'getTimeline').mockImplementation(() =>{
+                return resultUser as unknown as Promise<Omit<Omit<Document<unknown, any, Collectible> & Collectible & Required<{ _id: ObjectId; }>, never>, never>[]>
+            });
+
+            expect(await collectibleService.getTimeline("USER_ID")).toBe(resultUser);
+        });
+    }); 
+
+    describe('getTimelineByThematicSpaceId', () => {
+        it('It should return timeline by thematicSpace', async () =>  {
+            let resultUser = new Users();
+
+            jest.spyOn(collectibleRepository, 'getTimelineByThematicSpaceId').mockImplementation(() =>{
+                return resultUser as unknown as Promise<Omit<Omit<Document<unknown, any, Collectible> & Collectible & Required<{ _id: ObjectId; }>, never>, never>[]>
+            });
+            expect(await collectibleService.getTimelineByThematicSpaceId("THEMATIC_SPACE_ID")).toBe(resultUser);
+        });
+    }); 
+    
+    describe('update', () => {
+        it('It should update a collectible', async () =>  {
+            let user = new Users();
+            let thematicSpace = new ThematicSpace();
+
+            thematicSpace.template = new Template();
+
+            let attribute = new Attribute();
+            attribute.representationOrder=1;
+            attribute.showTag = true;
+            attribute.showInReducedView = true;
+            attribute.tag = "MyTag"
+            attribute.type = new Type();
+            attribute.type.category = Category.Text;
+            attribute.type.representation = new TextRepresentation();
+
+            thematicSpace.template.attributes = [];
+            thematicSpace.template.attributes.push(attribute);
+
+            let values = { 
+                "MyTag": "Valor del tag" 
+            };
+
+            let resultCollectible = new Collectible(user, thematicSpace, values);
+
+            jest.spyOn(collectibleRepository, 'add').mockImplementation(() =>{
+                return resultCollectible as unknown as Promise<Collectible>
+            });
+
+            expect(await collectibleService.update(resultCollectible)).toBe(resultCollectible);
+        });
+    });
 });
