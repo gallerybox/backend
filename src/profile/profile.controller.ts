@@ -9,7 +9,7 @@ export class ProfileController {
         private readonly profileService: ProfileService
     ) {}
 
-
+    @UseGuards(JwtAuthGuard)
     @Get(":userId")
     async sendPersonalData(@Param("userId") userId: string) {
         return this.profileService.sendPersonalData(userId);

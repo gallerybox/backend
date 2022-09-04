@@ -1,6 +1,4 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { ChangePasswordDto } from '../auth/dto/change-password.dto';
 import { FilesService } from '../files/files.service';
 import { MailService } from '../mail/mail.service';
@@ -8,7 +6,7 @@ import { CreateCollectionDto } from './dto/create-collection.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdatePersonalDataDto } from './dto/update-personaldata.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
-import { Collection, Users, UsersDocument } from './schema/users.schema';
+import { Collection, Users } from './schema/users.schema';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
@@ -18,7 +16,6 @@ export class UsersService {
         private readonly usersRepository: UsersRepository,
         private readonly filesService: FilesService,
         private readonly mailService: MailService,
-       // @InjectModel(Users.name) private usersModel: Model<UsersDocument>,
     ) {}
 
     // Add a new user
@@ -132,10 +129,6 @@ export class UsersService {
 
         return updatedUserDto;
     }
-    
-    async findAll() {
-        return await this.usersRepository.find({});
-    }
 
     async findOneById(id: string) {
         return await this.usersRepository.getUserByIdCollectionsPopulate({ _id: id });
@@ -143,26 +136,6 @@ export class UsersService {
     
     async update(userId: string, updateUsersDto: UpdateUsersDto | UpdatePersonalDataDto | ChangePasswordDto) {
         return await this.usersRepository.findOneAndUpdate({ _id: userId }, updateUsersDto);
-    }
-
-    async upsertDeleteCollectibles(user: Users){
-        const userDB= await this.usersRepository.findOne({_id:user._id});
-        if (userDB){
-            for(const collection of user.collections){
-                if ((collection as any)._id){
-                    const collectionDB = userDB.collections.find(collectiondb => (collectiondb as any)._id == (collection as any)._id);
-                    if (collectionDB){
-                        const toDelete = collectionDB.collectibles.filter(c1=>!collection.collectibles.find(c2=> c2._id=c1._id));
-                        for (const collectible of toDelete){
-
-                            //await this.collectibleService.remove(collectible._id.toString());
-                        }
-                    }
-                }
-
-            }
-        }
-        return await this.usersRepository.add(user);
     }
 
     async deleteOne(id: string) {
@@ -189,7 +162,6 @@ export class UsersService {
         return await this.usersRepository.findEmail(email);
     
     }
-
 
     async findUsersByFollowedSpaceId(followedSpaceId: string){
         return await this.usersRepository.findUsersByFollowedSpaceId( followedSpaceId );

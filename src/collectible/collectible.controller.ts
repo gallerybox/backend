@@ -29,26 +29,16 @@ export class CollectibleController {
     return await this.collectibleService.getTimelineByThematicSpaceId(thematicSpaceId);
   }
   
-  @Get()
-  async findAll() {
-    return await this.collectibleService.findAll();
-  }
-  
-  //@UseGuards(JwtAuthGuard)
   @Get('id/:id')
   async findOne(@Param('id') id: string) {
     return await this.collectibleService.findOne(id);
-  }
-
-  @Get('userId/:id')
-  async findByUserId(@Param('id') userId: string){
-    return await this.collectibleService.findByUserId(userId);
   }
 
   @Get('thematic-space/:thematicSpaceId')
   async findAllByThematicSpaceId(@Param('thematicSpaceId') thematicSpaceId: string){
     return await this.collectibleService.findAllByThematicSpace(thematicSpaceId);
   }
+
   @UseGuards(JwtAuthGuard)
   @Patch()
   async update( @Body() collectible: Collectible ) {
@@ -64,6 +54,4 @@ export class CollectibleController {
   async populate() {
     return await this.collectibleService.populate()
   }
-
-
 }

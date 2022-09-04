@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import {Model, Schema} from 'mongoose';
 import { FilesService } from '../files/files.service';
 import { ThematicSpace } from '../thematic-spaces/models/ThematicSpace';
 import { ThematicSpacesService } from '../thematic-spaces/thematic-spaces.service';
 import { CreateCollectionDto } from '../users/dto/create-collection.dto';
 import { UpdateUsersDto } from '../users/dto/update-users.dto';
-import { Collection, Users } from '../users/schema/users.schema';
+import { Users } from '../users/schema/users.schema';
 import { UsersService } from '../users/users.service'
-import { Collectible, CollectibleDocument } from './models/Collectible';
+import { Collectible } from './models/Collectible';
 import { CollectibleRepository } from './repositories/collectible.repository';
 
 
@@ -19,8 +17,7 @@ export class CollectibleService {
     private readonly userService: UsersService,
     private readonly thematicSpaceService: ThematicSpacesService,
     private readonly filesService: FilesService,
-    private readonly collectibleRepository: CollectibleRepository,
-    //@InjectModel(Collectible.name) private collectibleModel: Model<CollectibleDocument>
+    private readonly collectibleRepository: CollectibleRepository
   ) {}
 
   async create(body: any, files: Express.Multer.File[]) {
@@ -93,10 +90,6 @@ export class CollectibleService {
 
   async findByUserId(userId: string) {
     return await this.collectibleRepository.find( { userId: userId })
-  }
-
-  async findAll() {
-    return await this.collectibleRepository.find({});
   }
 
   async findAllByThematicSpace(id: string) {

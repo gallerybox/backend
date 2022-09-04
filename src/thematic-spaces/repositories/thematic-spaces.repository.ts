@@ -23,12 +23,4 @@ export class ThematicSpaceRepository extends AbstractRepository<ThematicSpace>{
             },
         }, {}, { lean: true });
     }
-
-    async removeByTag(tag: string) {
-        // const query = this.thematicSpaceModel.find({ _id: '62daca441334ad9783770397' }).where()
-        // return this.thematicSpaceRepository.find( { name: { "$regex": "Testing"} });
-        return this.thematicSpaceModel.find({}, { name: { "$regex": tag} });
-        // return await this.thematicSpaceRepository.find({});
-    }
-
 }
