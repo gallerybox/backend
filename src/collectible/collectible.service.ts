@@ -86,12 +86,6 @@ export class CollectibleService {
 
   }
 
-
-
-  async findByUserId(userId: string) {
-    return await this.collectibleRepository.find( { userId: userId })
-  }
-
   async findAllByThematicSpace(id: string) {
     return await this.collectibleRepository.find({ thematicSpace: id })
   }
@@ -117,13 +111,8 @@ export class CollectibleService {
     return await this.collectibleRepository.getTimelineByThematicSpaceId(thematicSpaceId);
   }
 
-
   async update(collectible: Collectible) {
       return await this.collectibleRepository.add(collectible);
-  }
-
-  async findOneAndDelete(id: string){
-    return await this.collectibleRepository.findOneAndDelete( { _id: id });
   }
 
   async remove(id: string) {

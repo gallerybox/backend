@@ -1,5 +1,4 @@
-import {Multimedia} from "./Multimedia";
-import {Category, Representation, Type} from "../../thematic-spaces/models/Type";
+import {Category, Representation} from "../../thematic-spaces/models/Type";
 
 export type Value = string | boolean;
 
