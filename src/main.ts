@@ -2,9 +2,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import {HttpExceptionFilter} from "./middlewares";
 
 async function bootstrap() {
+
   const app = await NestFactory.create(AppModule);
+  app.useGlobalFilters(new HttpExceptionFilter());
   const configService = app.get(ConfigService);       // Contiene todas las variables de entorno
   app.useGlobalPipes(new ValidationPipe());           // La aplicación completa hará uso de Pipes
   app.enableCors();
@@ -14,6 +17,7 @@ async function bootstrap() {
     res.header("Access-Control-Allow-Methods", "*")
     next();
   });
+
   /*
   app.enableCors({
     origin: [
