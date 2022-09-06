@@ -346,26 +346,11 @@ export class CollectibleService {
     user2_db = await this.userService.createCollection(collection2CreateDto);
     
     let collection2_db = user2_db.collections.find(collection => collection.name === collection2CreateDto.name);
-    collection2_db.collectibles.push(collectible5_db, collectible6_db);
+    collection2_db.collectibles.push(collectible5_db, collectible6_db, collectible7_db, collectible8_db);
     
     let collection2UpdateDto = new UpdateUsersDto();
     collection2UpdateDto.collections = user2_db.collections;
     this.userService.update(user2_db._id.toString(), collection2UpdateDto);
-
-
-    // Coleccion: PS5 Collection; Espacio: Videojuegos; Propietario: pedrolo (user2_db)
-    let collection3CreateDto = new CreateCollectionDto();
-    collection3CreateDto.name = "PS5 Collection";
-    collection3CreateDto.thematicSpace = thematicSpaceVideojuegos;
-    collection3CreateDto.userId = user2_db._id.toString();
-    user2_db = await this.userService.createCollection(collection3CreateDto);
-    
-    let collection3_db = user2_db.collections.find(collection => collection.name === collection3CreateDto.name);
-    collection3_db.collectibles.push(collectible7_db, collectible8_db);
-    
-    let collection3UpdateDto = new UpdateUsersDto();
-    collection3UpdateDto.collections = user2_db.collections;
-    this.userService.update(user2_db._id.toString(), collection3UpdateDto);
 
 
     // Coleccion: Vinilos; Espacio: Mi musicon; Propietario: jesus (user3_db)

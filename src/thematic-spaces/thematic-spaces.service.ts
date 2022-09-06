@@ -131,7 +131,7 @@ export class ThematicSpacesService {
     user1.nombre = "Juan Carlos";
     user1.apellidos = "Utrilla Martín"
     user1.password = "$2b$10$0fqfaIvTTMk/jDJ.gzqHdOAiOdb/hMygWHrOY4o/cq/OEH8d8Z8ma" // 1234
-    user1.profilePhoto = "https://gallerybox-bucket.s3.eu-west-1.amazonaws.com/ea872f6d-fb36-4a4c-b3ec-215764c736cb-avatar-men.jpg"
+    user1.profilePhoto = "httj://gallerybox-bucket.s3.eu-west-1.amazonaws.com/ea872f6d-fb36-4a4c-b3ec-215764c736cb-avatar-men.jpg"
     user1.hasConsented = true;
     let user1_db = await this.userService.create(user1);
 
